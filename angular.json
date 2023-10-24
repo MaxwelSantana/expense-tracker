@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Modernize": {
+    "ExpenseTracker": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,17 +17,14 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Modernize",
+            "outputPath": "dist/ExpenseTracker",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "src/styles.scss",
-              "src/assets/scss/style.scss",
-            ],
+            "styles": ["src/styles.scss", "src/assets/scss/style.scss"],
             "scripts": []
           },
           "configurations": {
@@ -61,10 +58,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Modernize:build:production"
+              "browserTarget": "ExpenseTracker:build:production"
             },
             "development": {
-              "browserTarget": "Modernize:build:development"
+              "browserTarget": "ExpenseTracker:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +69,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Modernize:build"
+            "browserTarget": "ExpenseTracker:build"
           }
         },
         "test": {
