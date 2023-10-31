@@ -34,7 +34,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: deploy_dist
-          path: dist/ExpenseTracker
+          path: |
+            *
+            !ExpenseTrackerClient/*
+            ExpenseTrackerClient/dist
 
   deploy:
     runs-on: ubuntu-latest
