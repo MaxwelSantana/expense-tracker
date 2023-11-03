@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
+import { MyAccountModule } from './pages/my-account/my-account.module';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/extra/extra.module').then((m) => m.ExtraModule),
       },
+      {
+        path: 'myAccount',
+        loadChildren: () => (MyAccountModule)
+      }
     ],
   },
   {
