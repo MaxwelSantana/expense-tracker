@@ -1,8 +1,52 @@
 <mat-card class="cardWithShadow theme-card">
   <mat-card-header>
-    <mat-card-title class="m-b-0">Lists</mat-card-title>
+    <mat-card-title class="m-b-0">Transactions</mat-card-title>
   </mat-card-header>
   <mat-card-content class="b-t-1">
+
+
+    <ul class="transaction-list">
+      <li class="transaction-item transaction-header">
+        <a>
+          <div class="dateCreated">
+            Date
+          </div>
+
+          <div class="description">
+            Description
+          </div>
+
+          <div class="status">
+            Status
+          </div>
+
+          <div class="amount">
+            Amount
+          </div>
+        </a>
+      </li>
+
+      <li *ngFor="let transaction of transactions" class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">
+        <a routerLink="/transaction{{transaction.id}}">
+          <div class="dateCreated">
+            {{transaction.dateCreated | date: 'mediumDate'}}
+          </div>
+
+          <div class="description">
+            {{transaction.description}}
+          </div>
+
+          <div class="status">
+            {{transaction.status}}
+          </div>
+
+          <div [ngClass]="{ 'amount': true, 'negative': transaction.amount < 0 }">
+            {{transaction.amount | currency}}
+          </div>
+        </a>
+      </li>
+    </ul>
+
     <div class="row">
       <div class="col-lg-6">
         <!-- --------------------------------------------------- -->
@@ -21,6 +65,8 @@
           </mat-card-content>
         </mat-card>
       </div>
+
+
 
       <div class="col-lg-6">
         <!-- --------------------------------------------------- -->

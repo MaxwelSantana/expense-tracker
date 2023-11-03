@@ -1,0 +1,66 @@
+/* Style for the transaction list container */
+.transaction-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Style for each transaction item */
+.transaction-item {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+/* Style for the transaction header */
+.transaction-header {
+  font-weight: bold;
+  background-color: #f0f0f0; /* Add a background color to distinguish the header */
+}
+
+/* Style for the transaction item elements */
+.transaction-item a {
+  display: flex;
+  flex-grow: 1;
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+}
+
+/* Style for the dateCreated element */
+.dateCreated {
+  width: 20%; /* Define a specific width for the column */
+}
+
+/* Style for the description element */
+.description {
+  flex-grow: 2; /* Make this column take more space */
+}
+
+/* Style for the status element */
+.status {
+  width: 15%; /* Define a specific width for the column */
+}
+
+/* Style for the amount element */
+.amount {
+  width: 15%; /* Define a specific width for the column */
+  font-weight: bold;
+  color: #01060a; /* Blue color for positive amounts */
+}
+
+/* Style for negative amounts (e.g., expenses) */
+.amount.negative {
+  color: #ff0000; /* Red color for negative amounts */
+}
+
+/* Style for "Payment" transactions */
+.payment {
+  background-color: #f7c7c7; /* Light red background for Payment */
+}
+
+/* Style for "Received" transactions */
+.received {
+  background-color: #d9ffd9; /* Light green background for Received */
+}
