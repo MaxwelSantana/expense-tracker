@@ -27,6 +27,7 @@ mongoDB.once('open', () => {
 // define routers
 let incidents = require('../routes/incidents');
 let auth = require('../routes/auth');
+let myAccount = require('../routes/myAccount');
 
 let app = express();
 
@@ -63,6 +64,7 @@ passport.use(strategy);
 // route redirects
 app.use('/api/incidents', incidents);
 app.use('/api/auth', auth);
+app.use('/api/auth', myAccount);
 
 app.get('/*', (req, res) => {
   res.sendFile(process.cwd() + "/ExpenseTrackerClient/dist/ExpenseTracker/index.html")
