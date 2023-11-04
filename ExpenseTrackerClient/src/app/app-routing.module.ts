@@ -32,7 +32,7 @@ const routes: Routes = [
           import('./pages/extra/extra.module').then((m) => m.ExtraModule),
       },
       {
-        path: 'myAccount',
+        path:'myAccount',
         loadChildren: () => import('./pages/my-account/my-account-routing.module').then((m) => m.MyAccountRoutingModule)
       }
     ],

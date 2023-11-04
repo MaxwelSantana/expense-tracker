@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyAccountRoutingModule } from './my-account-routing.module';
+import {MyAccountRoutingModule } from './my-account-routing.module';
 import { SettingsComponent } from './settings/settings.component';
 import { CPasswordComponent } from './c-password/c-password.component';
 
@@ -12,7 +12,7 @@ import { CPasswordComponent } from './c-password/c-password.component';
   ],
   imports: [
     CommonModule,
-    MyAccountRoutingModule
+    MyAccountRoutingModule   
   ]
 })
 export class MyAccountModule { }
