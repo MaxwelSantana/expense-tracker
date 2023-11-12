@@ -16,6 +16,7 @@ import { AuthenticationRoutes } from './authentication.routing';
 
 import { AppSideLoginComponent } from './login/login.component';
 import { AppSideRegisterComponent } from './register/register.component';
+import { AuthGuard } from '../../app-auth.guard';
 
 @NgModule({
   imports: [
@@ -30,9 +31,6 @@ import { AppSideRegisterComponent } from './register/register.component';
     ReactiveFormsModule,
     TablerIconsModule.pick(TablerIcons),
   ],
-  declarations: [
-    AppSideLoginComponent,
-    AppSideRegisterComponent,
-  ],
+  declarations: [AppSideLoginComponent, AppSideRegisterComponent],
 })
 export class AuthenticationModule {}

@@ -23,6 +23,10 @@ import { SidebarComponent } from './layouts/full/sidebar/sidebar.component';
 import { HeaderComponent } from './layouts/full/header/header.component';
 import { BrandingComponent } from './layouts/full/sidebar/branding.component';
 import { AppNavItemComponent } from './layouts/full/sidebar/nav-item/nav-item.component';
+import { RestDataSource } from './services/rest.datasource';
+import { AuthService } from './services/auth.service';
+import { AuthenticationModule } from './pages/authentication/authentication.module';
+import { AuthGuard } from './app-auth.guard';
 
 @NgModule({
   declarations: [
@@ -43,8 +47,10 @@ import { AppNavItemComponent } from './layouts/full/sidebar/nav-item/nav-item.co
     ReactiveFormsModule,
     MaterialModule,
     TablerIconsModule.pick(TablerIcons),
+    AuthenticationModule,
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
+  providers: [RestDataSource, AuthService, AuthGuard],
 })
 export class AppModule {}
