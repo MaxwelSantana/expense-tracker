@@ -1,0 +1,72 @@
+/* Style for the transaction list container */
+.transaction-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Style for each transaction item */
+.transaction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Evenly space items along the container's main axis */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+  transition: background-color 0.3s; /* Add a smooth background color transition effect */
+}
+
+/* Style for the transaction header */
+.transaction-header {
+  font-weight: bold;
+  background-color: #f0f0f0; /* Add a background color to distinguish the header */
+}
+
+/* Style for the transaction item elements */
+.transaction-item a {
+  display: flex;
+  flex-grow: 1;
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+}
+
+/* Style for the dateCreated element */
+.dateCreated {
+  width: 15%;
+}
+
+/* Style for the description element */
+.description {
+  width: 20%;
+}
+
+/* Style for the category element */
+.category,
+.Subcategory,
+.status,
+.quantity,
+.amount {
+  width: 15%; /* Adjust the width based on your preference */
+}
+
+/* Style for negative amounts (e.g., expenses) */
+.amount.negative {
+  color: #ff0000; /* Red color for negative amounts */
+}
+
+/* Style for "Payment" transactions */
+.payment {
+  background-color: #f7c7c7; /* Light red background for Payment */
+}
+
+/* Style for "Received" transactions */
+.received {
+  background-color: #d9ffd9; /* Light green background for Received */
+}
+
+/* Hover effect for transaction items */
+.transaction-item:hover {
+  background-color: #e0e0e0; /* Light gray background on hover */
+}
+
+

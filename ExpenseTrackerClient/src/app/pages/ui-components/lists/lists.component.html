@@ -1,8 +1,101 @@
 <mat-card class="cardWithShadow theme-card">
   <mat-card-header>
-    <mat-card-title class="m-b-0">Lists</mat-card-title>
+    <mat-card-title class="m-b-0">Transactions</mat-card-title>
   </mat-card-header>
+
+
+  <label for="transactionCat">Category</label>
+  <input type="text" [(ngModel)]="enteredCateg" id="transactionCat"  placeholder="Enter the category">
+
+  <label for="transactionSubcat">Subcategory</label>
+  <input type="text" [(ngModel)]="enteredSubcat" id="transactionSubcat" placeholder="Enter the subcategory">
+
+  <label for="transactionQty">Quantity</label>
+  <input type="text" [(ngModel)]="enteredQty" id="transactionQty" placeholder="Enter the quantity.">
+
+  <label for="amount">Amount</label>
+  <input type="text" [(ngModel)]="enteredAmount" id="transactionAmount" placeholder="Enter the total.">
+
+  <label for="transactionName">Description</label>
+  <input type="text" [(ngModel)]="enteredDesc" id="transactionDesc" placeholder="Enter the description">
+
+  <label for="status">Status</label>
+  <input type="text" [(ngModel)]="enteredStatus" id="transactionStatus" placeholder="Status">
+
+  <label for="date">Date</label>
+  <input type="text" [(ngModel)]="enteredDate" id="transactionDate" placeholder="Date">
+
+    <button class = "btnSave" (click)="onAddTransaction()"> Save Transaction</button>
+
+
   <mat-card-content class="b-t-1">
+    <ul class="transaction-list">
+      <li class="transaction-item transaction-header">
+        <a>
+          <div class="dateCreated">
+            Date
+          </div>
+
+          <div class="description">
+            Description
+          </div>
+
+          <div class="category">
+            Category
+          </div>
+
+          <div class="Subcategory">
+            Subcategory
+          </div>
+
+
+          <div class="status">
+            Status
+          </div>
+
+          <div class="quantity">
+            Quantity
+          </div>
+
+          <div class="amount">
+            Amount
+          </div>
+        </a>
+      </li>
+
+      <li *ngFor="let transaction of transactions" class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">
+        <a routerLink="/transaction{{transaction.id}}">
+          <div class="dateCreated">
+            {{transaction.dateCreated | date: 'mediumDate'}}
+          </div>
+
+          <div class="description">
+            {{transaction.description}}
+          </div>
+
+          <div class="category">
+            {{transaction.category}}
+          </div>
+
+          <div class="Subcategory">
+            {{transaction.subcategory}}
+          </div>
+
+          <div class="status">
+            {{transaction.status}}
+          </div>
+
+          <div class="quantity">
+            {{transaction.quantity}}
+          </div>
+
+          <div [ngClass]="{ 'amount': true, 'negative': transaction.amount < 0 }">
+            {{transaction.amount | currency}}
+          </div>
+        </a>
+      </li>
+    </ul>
+
     <div class="row">
       <div class="col-lg-6">
         <!-- --------------------------------------------------- -->
@@ -21,6 +114,8 @@
           </mat-card-content>
         </mat-card>
       </div>
+
+
 
       <div class="col-lg-6">
         <!-- --------------------------------------------------- -->
