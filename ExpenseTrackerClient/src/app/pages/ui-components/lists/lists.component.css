@@ -8,9 +8,11 @@
 .transaction-item {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Evenly space items along the container's main axis */
   border: 1px solid #ccc;
   border-radius: 5px;
   margin: 10px 0;
+  transition: background-color 0.3s; /* Add a smooth background color transition effect */
 }
 
 /* Style for the transaction header */
@@ -30,24 +32,21 @@
 
 /* Style for the dateCreated element */
 .dateCreated {
-  width: 20%; /* Define a specific width for the column */
+  width: 15%;
 }
 
 /* Style for the description element */
 .description {
-  flex-grow: 2; /* Make this column take more space */
+  width: 20%;
 }
 
-/* Style for the status element */
-.status {
-  width: 15%; /* Define a specific width for the column */
-}
-
-/* Style for the amount element */
+/* Style for the category element */
+.category,
+.Subcategory,
+.status,
+.quantity,
 .amount {
-  width: 15%; /* Define a specific width for the column */
-  font-weight: bold;
-  color: #01060a; /* Blue color for positive amounts */
+  width: 15%; /* Adjust the width based on your preference */
 }
 
 /* Style for negative amounts (e.g., expenses) */
@@ -64,3 +63,10 @@
 .received {
   background-color: #d9ffd9; /* Light green background for Received */
 }
+
+/* Hover effect for transaction items */
+.transaction-item:hover {
+  background-color: #e0e0e0; /* Light gray background on hover */
+}
+
+

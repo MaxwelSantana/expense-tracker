@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { Transaction } from 'src/app/models/transaction';
 
@@ -13,11 +13,39 @@ export interface Section {
   styleUrls:['./lists.component.css']
 })
 export class AppListsComponent {
+  enteredCateg='';
+  enteredSubcat='';
+  enteredQty='';
+  enteredAmount='';
+  enteredDesc='';
+  enteredStatus='';
+  enteredDate='';
+  // newTransaction='No Content Yet.';
+
+  @Output() postCreated = new EventEmitter();
+
   transactions: Transaction[] = [];
 
   constructor(private TransactionService: TransactionService){
     this.transactions = TransactionService.getAll();
   }
+
+  onAddTransaction(){
+    const transaction = {
+      category: this.enteredCateg,
+      subcategory: this.enteredSubcat,
+      quantity: this.enteredQty,
+      amount: this.enteredAmount,
+      description: this.enteredDesc,
+      status: this.enteredStatus,
+      dateCreated: this.enteredDate,
+
+    };
+
+    this.postCreated.emit(transaction);
+  }
+
+
 
   typesOfShoes: string[] = ['Loafers', 'Sneakers'];
 
