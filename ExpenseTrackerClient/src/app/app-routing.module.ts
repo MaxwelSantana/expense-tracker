@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
 import { MyAccountModule } from './pages/my-account/my-account.module';
+import { AuthGuard } from './app-auth.guard';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const routes: Routes = [
         loadChildren: () => import('./pages/my-account/my-account-routing.module').then((m) => m.MyAccountRoutingModule)
       }
     ],
+    canActivate: [AuthGuard],
   },
   {
     path: '',
