@@ -2,11 +2,11 @@ let mongoose = require('mongoose');
 
 // create a model class
 let Transaction = mongoose.Schema({
-  Id: number,
+  Id: Number,
   Category: String,
   Subcateory: String,
-  Quantity: number,
-  Amount: number,
+  Quantity: Number,
+  Amount: Number,
   Description: String,
   Status: {
     type: String,

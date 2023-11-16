@@ -27,6 +27,7 @@ mongoDB.once('open', () => {
 
 // define routers
 let incidents = require('../routes/incidents');
+let transactions = require('../routes/transactions');
 let auth = require('../routes/auth');
 let myAccount = require('../routes/myAccount');
 
@@ -70,6 +71,7 @@ let strategy = new JWTStrategy(jwtOptions, (jwt_payload, done) => {
 passport.use(strategy);
 
 // route redirects
+app.use('/api/transactions', transactions);
 app.use('/api/incidents', incidents);
 app.use('/api/auth', auth);
 app.use('/api/myaccount', myAccount);
