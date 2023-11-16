@@ -49,6 +49,28 @@ export class RestDataSource {
         })
       );
   }
+
+  changePassword(
+    currentPassword: string | null,
+    newPassword: string | null,
+    newPassword2: string | null
+  ): Observable<boolean> {
+    return this.http
+      .post<any>(this.baseUrl + 'myaccount/changePassword', {
+        currentPassword,
+        newPassword,
+        newPassword2,
+      })
+      .pipe(
+        map((response) => {
+          console.log('myaccount/changePassword', { response });
+          this.auth_token = response.success ? response.token : null;
+          return response.success;
+        })
+      );
+  }
+
+
   private getOptions() {
     return {
       headers: new HttpHeaders({

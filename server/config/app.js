@@ -64,7 +64,7 @@ passport.use(strategy);
 // route redirects
 app.use('/api/incidents', incidents);
 app.use('/api/auth', auth);
-app.use('/api/auth', myAccount);
+app.use('/api/myaccount', myAccount);
 
 app.get('/*', (req, res) => {
   res.sendFile(process.cwd() + "/ExpenseTrackerClient/dist/ExpenseTracker/index.html")
