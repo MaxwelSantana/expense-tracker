@@ -51,25 +51,24 @@
 
           <div class="or-border m-t-30">or sign up with</div>
 
-          <form class="m-t-30" (ngSubmit)="submit()">
+          <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
-              >Name</mat-label
-            >
+              >Name</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput />
+              <input matInput formControlName="uname" />
             </mat-form-field>
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
               >Email Adddress</mat-label
             >
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="email" />
+              <input matInput type="email" formControlName="email" />
             </mat-form-field>
             <!-- password -->
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
               >Password</mat-label
             >
             <mat-form-field appearance="outline" class="w-100" color="primary">
-              <input matInput type="password" />
+              <input matInput type="password" formControlName="password" />
             </mat-form-field>
 
             <button type="submit" mat-flat-button color="primary" class="w-100">
