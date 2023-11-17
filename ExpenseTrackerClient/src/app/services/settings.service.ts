@@ -7,8 +7,8 @@ import { User } from './user.model';
 export class SettingsService {
   constructor(private datasource: RestDataSource) {}
 
-  cPassword(user: User,currentPassword:string, newPassword: string, newPassword2:string): Observable<boolean> {
-    return this.datasource.changePassword(user,currentPassword, newPassword,newPassword2);
+  cPassword(currentPassword:string, newPassword: string, newPassword2:string): Observable<boolean> {
+    return this.datasource.changePassword(currentPassword, newPassword,newPassword2);
   }
 
 }

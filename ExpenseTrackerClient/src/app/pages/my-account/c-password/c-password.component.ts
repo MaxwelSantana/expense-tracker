@@ -40,8 +40,7 @@ export class CPasswordComponent {
         this.userJ = JSON.parse(user) as User; 
         console.log(this.userJ);       
         this.settings
-          .cPassword(
-            this.userJ,
+          .cPassword(            
             currentPassword.value,
             newPassword.value,
             newPassword2.value

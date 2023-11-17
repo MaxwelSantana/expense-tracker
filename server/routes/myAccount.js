@@ -3,6 +3,7 @@ const router = express.Router();
 let DB = require('../config/db');
 let User = require('../models/user');
 const passport = require('passport');
+let jwt = require('jsonwebtoken');
 
 function requireAuth(req, res, next) {
   const authHeader = req.headers['authorization']

@@ -53,15 +53,13 @@ export class RestDataSource {
       );
   }
 
-  changePassword(
-    user: User | null,
+  changePassword(    
     currentPassword: string | null,
     newPassword: string | null,
     newPassword2: string | null
   ): Observable<boolean> {
     return this.http
-      .post<any>(this.baseUrl + 'myaccount/changePassword', {
-        user,
+      .post<any>(this.baseUrl + 'myaccount/changePassword', {        
         currentPassword,
         newPassword,
         newPassword2,
