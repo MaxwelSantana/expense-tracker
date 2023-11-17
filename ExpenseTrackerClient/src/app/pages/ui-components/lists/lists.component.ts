@@ -22,27 +22,66 @@ export class AppListsComponent {
   enteredDate = '';
   // newTransaction='No Content Yet.';
 
-  @Output() postCreated = new EventEmitter();
+  // @Output() postCreated = new EventEmitter();
+
+  showError: boolean = false;
 
   transactions: Transaction[] = [];
 
-  constructor(private TransactionService: TransactionService) {
-    this.transactions = TransactionService.getAll();
+  constructor(private transactionService: TransactionService){
+    this.transactions = transactionService.getAll();
   }
 
   onAddTransaction() {
-    const transaction = {
-      category: this.enteredCateg,
-      subcategory: this.enteredSubcat,
-      quantity: this.enteredQty,
-      amount: this.enteredAmount,
-      description: this.enteredDesc,
-      status: this.enteredStatus,
-      dateCreated: this.enteredDate,
-    };
+    if (this.isFormComplete()) {
+      const newTransaction: Transaction = {
+        id: new Date().getTime(),
+        category: this.enteredCateg,
+        subcategory: this.enteredSubcat,
+        quantity: +this.enteredQty,
+        amount: +this.enteredAmount,
+        description: this.enteredDesc,
+        status: this.enteredStatus,
+        dateCreated: new Date(this.enteredDate)
+      };
 
-    this.postCreated.emit(transaction);
+      this.transactions.push(newTransaction);
+      this.clearForm();
+    } else {
+      console.log('Please complete all fields.');
+      this.showError = true;
+    }
   }
+
+
+  clearForm() {
+    this.enteredCateg = '';
+    this.enteredSubcat = '';
+    this.enteredQty='';
+    this.enteredAmount = '';
+    this.enteredDesc = '';
+    this.enteredStatus = '';
+    this.enteredDate = '';
+
+  }
+
+  isFormComplete(): boolean {
+    return (
+      !!this.enteredCateg &&
+      !!this.enteredSubcat &&
+      !!this.enteredQty &&
+      !!this.enteredAmount &&
+      !!this.enteredDesc &&
+      !!this.enteredStatus &&
+      !!this.enteredDate
+    );
+  }
+  hideErrorMessage() {
+    this.showError = false;
+  }
+
+
+
 
   typesOfShoes: string[] = ['Loafers', 'Sneakers'];
 

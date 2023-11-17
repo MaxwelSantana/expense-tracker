@@ -9,7 +9,7 @@ import { sample_transactions } from 'src/data';
   providedIn: 'root',
 })
 
-//export the PostService class so that it can be imported and used in other parts of your application.
+
 
 export class TransactionService {
   constructor(){}

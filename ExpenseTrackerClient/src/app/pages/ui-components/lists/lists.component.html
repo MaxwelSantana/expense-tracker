@@ -5,27 +5,26 @@
 
 
   <label for="transactionCat">Category</label>
-  <input type="text" [(ngModel)]="enteredCateg" id="transactionCat"  placeholder="Enter the category">
+  <input type="text" [(ngModel)]="enteredCateg" id="transactionCat"  placeholder="Enter the category" (focus)="hideErrorMessage()" >
 
   <label for="transactionSubcat">Subcategory</label>
-  <input type="text" [(ngModel)]="enteredSubcat" id="transactionSubcat" placeholder="Enter the subcategory">
+  <input type="text" [(ngModel)]="enteredSubcat" id="transactionSubcat" placeholder="Enter the subcategory" (focus)="hideErrorMessage()" >
 
   <label for="transactionQty">Quantity</label>
-  <input type="text" [(ngModel)]="enteredQty" id="transactionQty" placeholder="Enter the quantity.">
+  <input type="text" [(ngModel)]="enteredQty" id="transactionQty" placeholder="Enter the quantity." (focus)="hideErrorMessage()" >
 
   <label for="amount">Amount</label>
-  <input type="text" [(ngModel)]="enteredAmount" id="transactionAmount" placeholder="Enter the total.">
+  <input type="text" [(ngModel)]="enteredAmount" id="transactionAmount" placeholder="Enter the total." (focus)="hideErrorMessage()" >
 
   <label for="transactionName">Description</label>
-  <input type="text" [(ngModel)]="enteredDesc" id="transactionDesc" placeholder="Enter the description">
+  <input type="text" [(ngModel)]="enteredDesc" id="transactionDesc" placeholder="Enter the description" (focus)="hideErrorMessage()" >
 
   <label for="status">Status</label>
-  <input type="text" [(ngModel)]="enteredStatus" id="transactionStatus" placeholder="Status">
+  <input type="text" [(ngModel)]="enteredStatus" id="transactionStatus" placeholder="Status" (focus)="hideErrorMessage()" >
 
   <label for="date">Date</label>
-  <input type="text" [(ngModel)]="enteredDate" id="transactionDate" placeholder="Date">
+  <input type="text" [(ngModel)]="enteredDate" id="transactionDate" placeholder="Date" (focus)="hideErrorMessage()" >
 
-    <button class = "btnSave" (click)="onAddTransaction()"> Save Transaction</button>
 
 
   <mat-card-content class="b-t-1">
