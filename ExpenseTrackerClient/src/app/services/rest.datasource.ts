@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
+import { User } from './user.model';
 
 const PROTOCOL = 'http';
 const PORT = 3000;
+
 
 @Injectable()
 export class RestDataSource {
   baseUrl: string;
   auth_token!: string;
+  user ?: User;
 
   constructor(private http: HttpClient) {
     this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/api/`;
@@ -51,12 +54,14 @@ export class RestDataSource {
   }
 
   changePassword(
+    user: User | null,
     currentPassword: string | null,
     newPassword: string | null,
     newPassword2: string | null
   ): Observable<boolean> {
     return this.http
       .post<any>(this.baseUrl + 'myaccount/changePassword', {
+        user,
         currentPassword,
         newPassword,
         newPassword2,
@@ -66,9 +71,22 @@ export class RestDataSource {
           console.log('myaccount/changePassword', { response });
           this.auth_token = response.success ? response.token : null;
           return response.success;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          // Log error details here
+          console.error('Change Password Error:', error);
+          // Rethrow the error or return a default value
+          return throwError('Change Password failed');
         })
-      );
+      );;
   }
+
+  storeUserData(token:any, user:User): void
+    {
+        this.user = user
+        localStorage.setItem('id_token', 'Bearer ' + token);
+        localStorage.setItem('user', JSON.stringify(user));             
+    }
 
 
   private getOptions() {

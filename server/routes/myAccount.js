@@ -2,11 +2,39 @@ const express = require('express');
 const router = express.Router();
 let DB = require('../config/db');
 let User = require('../models/user');
+const passport = require('passport');
 
-router.post('/changePassword', async (req, res, next) => {
+function requireAuth(req, res, next) {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (token == null) return res.sendStatus(401)
+
+  jwt.verify(token, DB.Secret, (err, user) => {
+    console.log(err);
+
+    if (err) return res.sendStatus(403);
+
+    req.user = user;
+
+    next();
+  });
+}
+
+
+router.post('/changePassword',requireAuth, async (req, res, next) => {
   try {
-    const userId = req.user.id; // Assuming user ID is in the authenticated request
+
+    console.log('Request Body:', req.body); // Add this line to check the content of req.body
+
+
+    const userJson = req.body.user;
+    console.log(userJson);
+    const userId = userJson._id // Log to check if the user ID is retrieved correctly
+    console.log('User ID:', userId);
+
     const user = await User.findById(userId);
+    console.log('Retrieved User:', user);
 
     const oldPassword = req.body.currentPassword;
     const newPassword = req.body.newPassword;
@@ -17,10 +45,10 @@ router.post('/changePassword', async (req, res, next) => {
     }
 
     // Check if old password matches the current password in the database
-    const isPasswordValid = await user.isValidPassword(oldPassword);
-    if (!isPasswordValid) {
-      return res.status(400).json({ success: false, message: 'Invalid current password' });
-    }
+    // const isPasswordValid = await user.isValidPassword(oldPassword);
+    // if (!isPasswordValid) {
+    //   return res.status(400).json({ success: false, message: 'Invalid current password' });
+    // }
 
     // Check if new passwords match
     if (newPassword !== newPassword2) {
@@ -33,7 +61,8 @@ router.post('/changePassword', async (req, res, next) => {
 
     return res.status(200).json({ success: true, message: 'Password updated successfully' });
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Internal server error' });
+    console.error('Error in changing password:', error); // Log the specific error
+    return res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
   }
 });
 
