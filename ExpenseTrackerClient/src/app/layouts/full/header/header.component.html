@@ -22,16 +22,7 @@
 
   <!-- --------------------------------------------------------------- -->
   <!-- profile Dropdown -->
-  <!-- --------------------------------------------------------------- -->
-  <a
-    mat-flat-button
-    color="primary"
-    href="https://adminmart.com/"
-    target="_blank"
-    class="d-flex justify-content-center"
-  >
-    Download Free
-  </a>
+  <!-- --------------------------------------------------------------- -->  
   <button
     mat-icon-button
     [matMenuTriggerFor]="profilemenu"
@@ -49,7 +40,7 @@
         ><i-tabler name="user" class="icon-18 d-flex"></i-tabler></mat-icon
       >My Profile
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item routerLink="/myAccount">
       <mat-icon class="d-flex align-items-center"
         ><i-tabler name="mail" class="icon-18 d-flex"></i-tabler></mat-icon
       >My Account
@@ -65,8 +56,7 @@
 
     <div class="p-x-12 m-t-12">
       <button
-      (click)="logout"
-        [routerLink]="['/authentication/login']"
+      (click)="logout()"        
         mat-stroked-button
         color="primary"
         class="w-100"

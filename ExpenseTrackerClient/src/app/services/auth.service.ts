@@ -20,9 +20,9 @@ export class AuthService {
 
   get authenticated(): boolean {
     return !!this.datasource.auth_token;
-  }
-  
-  logout(): Observable<any>
+  }  
+
+logout(): Observable<any>
     {
         return this.datasource.logout();
     }

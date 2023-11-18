@@ -86,20 +86,20 @@ export class RestDataSource {
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
-      
-    const options = this.httpOptions;
   
-    return this.http.delete<any>(this.baseUrl + 'myaccount/deleteMyAccount',options)
+    return this.http.delete<any>(this.baseUrl + 'myaccount/deleteMyAccount',this.httpOptions)
       
   } 
 
   logout(): Observable<any>
-    {
-        this.authToken = null!;        
-        localStorage.clear();
-        
-        return this.http.get<any>(this.baseUrl + 'logout', this.httpOptions);
+    {      
+      this.authToken = null!;        
+      localStorage.clear(); 
+      console.log("working from datasource");       
+      return this.http.get<any>(this.baseUrl + 'myaccount/logout',this.httpOptions)      
     }
+
+
 
   storeUserData(token:any): void
     {     

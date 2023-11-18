@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { SettingsService } from 'src/app/services/settings.service';
 
 
@@ -9,7 +10,7 @@ import { SettingsService } from 'src/app/services/settings.service';
 })
 export class SettingsComponent {
 
-  constructor(private settingsService: SettingsService) {}
+  constructor(private settingsService: SettingsService, private route:Router) {}
 
   deleteAccount() {
     this.settingsService.dAccount().subscribe(
@@ -22,5 +23,5 @@ export class SettingsComponent {
         // Handle error response, e.g., show an error message
         console.error('Failed to delete account', error);
       }
-    );}
+    );}  
 }

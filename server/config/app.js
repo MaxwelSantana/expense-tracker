@@ -10,6 +10,7 @@ let passportJWT = require('passport-jwt');
 let JWTStrategy = passportJWT.Strategy;
 let ExtractJWT = passportJWT.ExtractJwt;
 let passportLocal = require('passport-local');
+let session = require('express-session');
 
 // import "mongoose" - required for DB Access
 let mongoose = require('mongoose');
@@ -38,6 +39,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(process.cwd() + "/ExpenseTrackerClient/dist/ExpenseTracker/"));
+
+//setup express session
+app.use(session({
+  secret: 'SomeSecret',
+  saveUninitialized: false,
+  resave: false
+}));
 
 //initialize passport
 app.use(passport.initialize());

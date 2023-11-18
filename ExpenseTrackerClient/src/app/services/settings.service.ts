@@ -13,4 +13,10 @@ export class SettingsService {
 
   dAccount():Observable<boolean>{return this.datasource.deleteMyAccount()};
 
+  logout(): Observable<any>
+  {
+    console.log("working from settingservice");
+    return this.datasource.logout();
+  }
+
 }

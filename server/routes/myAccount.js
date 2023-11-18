@@ -16,8 +16,7 @@ function requireAuth(req, res, next) {
 
     if (err) return res.sendStatus(403);
 
-    req.user = user;
-
+    req.user = user;    
     next();
   });
 }
@@ -67,6 +66,19 @@ router.delete('/deleteMyAccount', requireAuth, async (req, res, next) => {
     return res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
   }
 });
+
+router.get('/logout',(req, res, next) => {  
+  if (req.session) {    
+    req.session.destroy();    
+    res.clearCookie('session-id');
+    return res.status(200).json({ success: true, message: 'Logged out successfully' });      
+  }
+  else {
+    var err = new Error('You are not logged in!');
+    err.status = 403;
+    next(err);
+  }
+ });
 
 
 module.exports = router;
