@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
-import { User } from './user.model';
 
 const PROTOCOL = 'http';
 const PORT = 3000;
@@ -13,7 +12,6 @@ const PORT = 3000;
 export class RestDataSource {
   baseUrl: string;
   auth_token!: string;
-  user ?: User;
 
   constructor(private http: HttpClient) {
     this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/api/`;
@@ -48,44 +46,39 @@ export class RestDataSource {
         map((response) => {
           console.log('auth/register', { response });
           this.auth_token = response.success ? response.token : null;
+          console.log(response.token);
           return response.success;
         })
       );
   }
 
-  changePassword(    
-    currentPassword: string | null,
-    newPassword: string | null,
-    newPassword2: string | null
-  ): Observable<boolean> {
-    return this.http
-      .post<any>(this.baseUrl + 'myaccount/changePassword', {        
-        currentPassword,
-        newPassword,
-        newPassword2,
-      })
-      .pipe(
-        map((response) => {
-          console.log('myaccount/changePassword', { response });
-          this.auth_token = response.success ? response.token : null;
-          return response.success;
-        }),
-        catchError((error: HttpErrorResponse) => {
-          // Log error details here
-          console.error('Change Password Error:', error);
-          // Rethrow the error or return a default value
-          return throwError('Change Password failed');
-        })
-      );;
-  }
-
-  storeUserData(token:any, user:User): void
-    {
-        this.user = user
-        localStorage.setItem('id_token', 'Bearer ' + token);
-        localStorage.setItem('user', JSON.stringify(user));             
+  changePassword(currentPassword: string | null, newPassword: string | null, newPassword2: string | null): Observable<boolean> {
+    console.log(this.auth_token);
+    if (!this.auth_token) {
+      return throwError('Authentication token missing');
     }
-
+  
+    const options = this.getOptions();
+  
+    return this.http.post<any>(
+      this.baseUrl + 'myaccount/changePassword',
+      { currentPassword, newPassword, newPassword2 },
+      options
+    ).pipe(
+      map((response) => {
+        console.log('myaccount/changePassword', { response });
+        this.auth_token = response.success ? response.token : null;
+        return response.success;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Change Password Error:', error);
+        return throwError('Change Password failed');
+      })
+    );
+  }
+  
+  
+  
 
   private getOptions() {
     return {

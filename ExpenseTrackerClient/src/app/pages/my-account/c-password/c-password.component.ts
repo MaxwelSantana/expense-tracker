@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { SettingsService } from 'src/app/services/settings.service';
-import { User } from 'src/app/services/user.model';
 
 @Component({
   selector: 'app-c-password',
@@ -13,7 +12,6 @@ import { User } from 'src/app/services/user.model';
 export class CPasswordComponent {
   
   errorMessage:string = "Form Data Invalid"
-  userJ ?: User;
   form = new FormGroup({
     currentPassword: new FormControl('',[Validators.required]),
     newPassword: new FormControl('', [Validators.required]),
@@ -30,15 +28,12 @@ export class CPasswordComponent {
     console.log('form submit');
     if (this.form.valid) {
       const { currentPassword, newPassword, newPassword2 } = this.f;
-      const user = localStorage.getItem('user');      
-      if (
-        user !== null &&
+          
+      if (        
         currentPassword.value !== null &&
         newPassword.value !== null &&
         newPassword2.value !== null
-      ) {
-        this.userJ = JSON.parse(user) as User; 
-        console.log(this.userJ);       
+      ) {           
         this.settings
           .cPassword(            
             currentPassword.value,

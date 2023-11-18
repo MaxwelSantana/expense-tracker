@@ -26,15 +26,14 @@ function requireAuth(req, res, next) {
 router.post('/changePassword',requireAuth, async (req, res, next) => {
   try {
 
-    console.log('Request Body:', req.body); // Add this line to check the content of req.body
+    console.log('Request Body: ', req.body); // Add this line to check the content of req.body
+    
+    const userJson = req.user;
+    console.log("user" + userJson);
+    const userEmail = userJson.email // Log to check if the user ID is retrieved correctly
+    console.log('User ID:', userEmail);
 
-
-    const userJson = req.body.user;
-    console.log(userJson);
-    const userId = userJson._id // Log to check if the user ID is retrieved correctly
-    console.log('User ID:', userId);
-
-    const user = await User.findById(userId);
+    const user = await User.findOne({ email: userEmail });
     console.log('Retrieved User:', user);
 
     const oldPassword = req.body.currentPassword;
@@ -46,8 +45,8 @@ router.post('/changePassword',requireAuth, async (req, res, next) => {
     }
 
     // Check if old password matches the current password in the database
-    // const isPasswordValid = await user.isValidPassword(oldPassword);
-    // if (!isPasswordValid) {
+    // console.log(user.password)
+    // if (user.password !== oldPassword) {
     //   return res.status(400).json({ success: false, message: 'Invalid current password' });
     // }
 
