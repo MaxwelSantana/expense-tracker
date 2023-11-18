@@ -64,17 +64,19 @@ export class RestDataSource {
       this.baseUrl + 'myaccount/changePassword',
       { currentPassword, newPassword, newPassword2 },
       options
-    ).pipe(
-      map((response) => {
-        console.log('myaccount/changePassword', { response });
-        this.auth_token = response.success ? response.token : null;
-        return response.success;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        console.error('Change Password Error:', error);
-        return throwError('Change Password failed');
-      })
-    );
+    )
+  }
+
+  deleteMyAccount(): Observable<boolean> {
+    console.log(this.auth_token);
+    if (!this.auth_token) {
+      return throwError('Authentication token missing');
+    }
+      
+    const options = this.getOptions();
+  
+    return this.http.post<any>(this.baseUrl + 'myaccount/deleteMyAccount',options)
+      
   }
   
   

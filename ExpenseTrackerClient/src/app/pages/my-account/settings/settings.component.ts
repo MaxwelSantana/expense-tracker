@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SettingsService } from 'src/app/services/settings.service';
+
 
 @Component({
   selector: 'app-settings',
@@ -7,4 +9,18 @@ import { Component } from '@angular/core';
 })
 export class SettingsComponent {
 
+  constructor(private settingsService: SettingsService) {}
+
+  deleteAccount() {
+    this.settingsService.dAccount().subscribe(
+      (response) => {
+        // Handle success response, e.g., redirecting to a different page
+        console.log('Account deleted successfully', response);
+        // Perform any other necessary actions after account deletion
+      },
+      (error) => {
+        // Handle error response, e.g., show an error message
+        console.error('Failed to delete account', error);
+      }
+    );}
 }

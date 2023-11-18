@@ -11,4 +11,6 @@ export class SettingsService {
     return this.datasource.changePassword(currentPassword, newPassword,newPassword2);
   }
 
+  dAccount():Observable<boolean>{return this.datasource.deleteMyAccount()};
+
 }
