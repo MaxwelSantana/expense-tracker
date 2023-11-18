@@ -22,9 +22,10 @@ export class AuthService {
     return !!this.datasource.auth_token;
   }
   
-  clear() {
-    this.datasource.auth_token = '';
-  }
+  logout(): Observable<any>
+    {
+        return this.datasource.logout();
+    }
 
   storeUserData(token:any){
     this.datasource.storeUserData(token);

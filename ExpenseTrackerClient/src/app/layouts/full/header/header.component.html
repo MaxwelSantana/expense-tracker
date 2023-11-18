@@ -64,12 +64,13 @@
     </button>
 
     <div class="p-x-12 m-t-12">
-      <a
+      <button
+      (click)="logout"
         [routerLink]="['/authentication/login']"
         mat-stroked-button
         color="primary"
         class="w-100"
-        >Logout</a
+        >Logout</button
       >
     </div>
   </mat-menu>

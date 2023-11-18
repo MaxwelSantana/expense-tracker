@@ -93,6 +93,14 @@ export class RestDataSource {
       
   } 
 
+  logout(): Observable<any>
+    {
+        this.authToken = null!;        
+        localStorage.clear();
+        
+        return this.http.get<any>(this.baseUrl + 'logout', this.httpOptions);
+    }
+
   storeUserData(token:any): void
     {     
         console.log("StoreUserData: "+ token);         
