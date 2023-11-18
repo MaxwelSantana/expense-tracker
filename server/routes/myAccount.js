@@ -35,6 +35,7 @@ router.post('/changePassword',requireAuth, async (req, res, next) => {
 
     const user = await User.findOne({ email: userEmail });
     console.log('Retrieved User:', user);
+    
 
     const oldPassword = req.body.currentPassword;
     const newPassword = req.body.newPassword;
@@ -44,21 +45,6 @@ router.post('/changePassword',requireAuth, async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    // Check if old password matches the current password in the database
-    // console.log(user.password)
-    // if (user.password !== oldPassword) {
-    //   return res.status(400).json({ success: false, message: 'Invalid current password' });
-    // }
-
-    // Check if new passwords match
-    if (newPassword !== newPassword2) {
-      return res.status(400).json({ success: false, message: 'New passwords do not match' });
-    }
-
-    // Update user's password
-    user.password = newPassword;
-    await user.save();
-
     return res.status(200).json({ success: true, message: 'Password updated successfully' });
   } catch (error) {
     console.error('Error in changing password:', error); // Log the specific error
@@ -67,9 +53,20 @@ router.post('/changePassword',requireAuth, async (req, res, next) => {
 });
 
   
-router.deleteMyAccount = (req, res, next) => {        
-          
-};
+router.delete('/deleteMyAccount', requireAuth, async (req, res, next) => {
+  try {
+    const userJson = req.user;
+    const userEmail = userJson.email;
+
+    // Find and delete the user account
+    await User.findOneAndDelete({ email: userEmail });
+
+    return res.status(200).json({ success: true, message: 'User account deleted successfully' });
+  } catch (error) {
+    console.error('Error in deleting account:', error);
+    return res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
+  }
+});
 
 
 module.exports = router;
