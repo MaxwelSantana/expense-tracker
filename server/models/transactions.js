@@ -4,7 +4,7 @@ let mongoose = require('mongoose');
 let Transaction = mongoose.Schema({
   Id: Number,
   Category: String,
-  Subcateory: String,
+  Subcategory: String,
   Quantity: Number,
   Amount: Number,
   Description: String,

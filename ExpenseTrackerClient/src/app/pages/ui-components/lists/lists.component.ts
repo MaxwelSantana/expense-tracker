@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { Transaction } from 'src/app/models/transaction';
+import { Observable } from 'rxjs';
 
 export interface Section {
   name: string;
@@ -12,41 +13,63 @@ export interface Section {
   templateUrl: './lists.component.html',
   styleUrls: ['./lists.component.css'],
 })
-export class AppListsComponent {
-  enteredCateg = '';
-  enteredSubcat = '';
-  enteredQty = '';
-  enteredAmount = '';
-  enteredDesc = '';
-  enteredStatus = '';
-  enteredDate = '';
-  // newTransaction='No Content Yet.';
+export class AppListsComponent implements OnInit{
+  enteredCateg='';
+  enteredSubcat='';
+  enteredQty='';
+  enteredAmount='';
+  enteredDesc='';
+  enteredStatus='';
+  enteredDate='';
 
-  // @Output() postCreated = new EventEmitter();
 
   showError: boolean = false;
 
   transactions: Transaction[] = [];
 
-  constructor(private transactionService: TransactionService){
-    this.transactions = transactionService.getAll();
+  constructor(private transactionService: TransactionService) {}
+
+
+  ngOnInit() {
+    this.fetchTransactions(); // Fetch transactions on component initialization
+  }
+
+  fetchTransactions() {
+    this.transactionService.getAll().subscribe(
+      (data: Transaction[]) => {
+        this.transactions = data; // Assign the retrieved data to this.transactions
+      },
+      (error) => {
+        console.error(error); // Handle any errors
+      }
+    );
   }
 
   onAddTransaction() {
     if (this.isFormComplete()) {
-      const newTransaction: Transaction = {
-        id: new Date().getTime(),
-        category: this.enteredCateg,
-        subcategory: this.enteredSubcat,
-        quantity: +this.enteredQty,
-        amount: +this.enteredAmount,
-        description: this.enteredDesc,
-        status: this.enteredStatus,
-        dateCreated: new Date(this.enteredDate)
-      };
+      const newTransaction: Transaction = new Transaction(); // Create a new instance of Transaction class
 
-      this.transactions.push(newTransaction);
-      this.clearForm();
+      // Assign values to the properties of the newTransaction object
+      newTransaction.id = new Date().getTime(); // Generate an ID
+      newTransaction.category = this.enteredCateg;
+      newTransaction.subcategory = this.enteredSubcat;
+      newTransaction.quantity = +this.enteredQty;
+      newTransaction.amount = +this.enteredAmount;
+      newTransaction.description = this.enteredDesc;
+      newTransaction.status = this.enteredStatus;
+      newTransaction.dateCreated = new Date(this.enteredDate);
+
+
+      this.transactionService.addTransaction(newTransaction).subscribe(
+        (response) => {
+          // If the addition was successful, update the local list
+          this.transactions.push(response);
+          this.clearForm();
+        },
+        (error) => {
+          console.error('Error adding transaction:', error);
+        }
+      );
     } else {
       console.log('Please complete all fields.');
       this.showError = true;

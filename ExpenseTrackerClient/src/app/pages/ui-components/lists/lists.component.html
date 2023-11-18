@@ -25,6 +25,10 @@
   <label for="date">Date</label>
   <input type="text" [(ngModel)]="enteredDate" id="transactionDate" placeholder="Date" (focus)="hideErrorMessage()" >
 
+  <button class="btnSave" (click)="onAddTransaction()">Save Transaction</button>
+
+
+  <p *ngIf="showError" class="error-message">Please complete all fields.</p>
 
 
   <mat-card-content class="b-t-1">
@@ -46,7 +50,6 @@
           <div class="Subcategory">
             Subcategory
           </div>
-
 
           <div class="status">
             Status

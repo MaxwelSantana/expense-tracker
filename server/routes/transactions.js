@@ -63,7 +63,7 @@ router.post('/', async (req, res, next) => {
   // Increment the last incident number and pad with leading zeros
   //let newTransactionNumber = (lastTransactionNumber + 1).toString().padStart(7, '0');
 
-  let newTransaction = Transaction({
+  let newTransaction = new Transaction({
     "Id": req.body.Id,
     "Category": req.body.Category,
     "Subcategory": req.body.Subcategory,
