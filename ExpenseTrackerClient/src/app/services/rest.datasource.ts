@@ -12,6 +12,15 @@ const PORT = 3000;
 export class RestDataSource {
   baseUrl: string;
   auth_token!: string;
+  authToken : string = '';
+  private httpOptions = 
+    {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+        })
+    };
 
   constructor(private http: HttpClient) {
     this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/api/`;
@@ -52,34 +61,55 @@ export class RestDataSource {
       );
   }
 
-  changePassword(currentPassword: string | null, newPassword: string | null, newPassword2: string | null): Observable<boolean> {
-    console.log(this.auth_token);
-    if (!this.auth_token) {
+  changePassword(
+    currentPassword: string | null,
+    newPassword: string | null,
+    newPassword2: string | null
+  ): Observable<boolean> {
+    this.loadToken();
+    console.log(this.authToken);
+    if (!this.authToken) {
       return throwError('Authentication token missing');
     }
-  
-    const options = this.getOptions();
   
     return this.http.post<any>(
       this.baseUrl + 'myaccount/changePassword',
       { currentPassword, newPassword, newPassword2 },
-      options
-    )
+      this.getOptions()
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Change Password Error:', error);
+        return throwError('Change Password failed');
+      })
+    );
   }
-
   deleteMyAccount(): Observable<boolean> {
-    console.log(this.auth_token);
-    if (!this.auth_token) {
+    this.loadToken();
+    console.log(this.authToken);
+    if (!this.authToken) {
       return throwError('Authentication token missing');
     }
       
     const options = this.getOptions();
   
-    return this.http.post<any>(this.baseUrl + 'myaccount/deleteMyAccount',options)
+    return this.http.delete<any>(this.baseUrl + 'myaccount/deleteMyAccount',options)
       
-  }
-  
-  
+  } 
+
+  storeUserData(token:any): void
+    {              
+        localStorage.setItem('id_token', token);              
+    }
+
+    private loadToken(): void {
+      const token = localStorage.getItem('id_token');        
+      this.authToken = token ? `${token}` : ''; // Include the "Bearer " prefix if the token exists
+      this.httpOptions.headers = this.httpOptions.headers.set(
+        'Authorization',
+        this.authToken
+      );
+    }
+    
   
 
   private getOptions() {
