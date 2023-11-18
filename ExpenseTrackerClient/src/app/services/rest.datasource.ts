@@ -26,7 +26,7 @@ export class RestDataSource {
     this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/api/`;
     //this.baseUrl = `/api/`;
   }
-  authenticate(email: string, pass: string): Observable<boolean> {
+  authenticate(email: string, pass: string): Observable<any> {
     return this.http
       .post<any>(this.baseUrl + 'auth/login', {
         email: email,
@@ -34,9 +34,8 @@ export class RestDataSource {
       })
       .pipe(
         map((response) => {
-          console.log('authenticate', { response });
-          this.auth_token = response.success ? response.token : null;
-          return response.success;
+          console.log('authenticate', { response });          
+          return response;
         })
       );
   }
@@ -44,7 +43,7 @@ export class RestDataSource {
     displayName: string | null,
     email: string | null,
     password: string | null
-  ): Observable<boolean> {
+  ): Observable<any> {
     return this.http
       .post<any>(this.baseUrl + 'auth/register', {
         displayName,
@@ -53,10 +52,8 @@ export class RestDataSource {
       })
       .pipe(
         map((response) => {
-          console.log('auth/register', { response });
-          this.auth_token = response.success ? response.token : null;
-          console.log(response.token);
-          return response.success;
+          console.log('auth/register', { response });          
+          return response;
         })
       );
   }
@@ -75,7 +72,7 @@ export class RestDataSource {
     return this.http.post<any>(
       this.baseUrl + 'myaccount/changePassword',
       { currentPassword, newPassword, newPassword2 },
-      this.getOptions()
+      this.httpOptions
     ).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Change Password Error:', error);
@@ -90,24 +87,25 @@ export class RestDataSource {
       return throwError('Authentication token missing');
     }
       
-    const options = this.getOptions();
+    const options = this.httpOptions;
   
     return this.http.delete<any>(this.baseUrl + 'myaccount/deleteMyAccount',options)
       
   } 
 
   storeUserData(token:any): void
-    {              
-        localStorage.setItem('id_token', token);              
+    {     
+        console.log("StoreUserData: "+ token);         
+        localStorage.setItem('id_token', 'Bearer ' + token);              
     }
 
     private loadToken(): void {
-      const token = localStorage.getItem('id_token');        
+      //const token = localStorage.getItem('id_token');   
+      const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTU2ZjlmOTdlY2I1MjZmMGE1MDczZSIsImRpc3BsYXlOYW1lIjoiTGVvbmFyZG8iLCJlbWFpbCI6Imxlb0B0ZXN0LmNhIiwiaWF0IjoxNzAwMjY5NDAzLCJleHAiOjE3MDA4NzQyMDN9.ddDGsam7hjpysxyObln6xytT2fNeAkMM9B5ylohwMn0';
+      console.log("loadToken: "+ token);     
       this.authToken = token ? `${token}` : ''; // Include the "Bearer " prefix if the token exists
       this.httpOptions.headers = this.httpOptions.headers.set(
-        'Authorization',
-        this.authToken
-      );
+        'Authorization', this.authToken );
     }
     
   
