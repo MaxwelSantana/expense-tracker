@@ -26,7 +26,7 @@ export class RestDataSource {
     this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/api/`;
     //this.baseUrl = `/api/`;
   }
-  authenticate(email: string, pass: string): Observable<any> {
+  authenticate(email: string, pass: string): Observable<any> {    
     return this.http
       .post<any>(this.baseUrl + 'auth/login', {
         email: email,
@@ -34,6 +34,7 @@ export class RestDataSource {
       })
       .pipe(
         map((response) => {
+          //this.loadToken();
           console.log('authenticate', { response });          
           return response;
         })
@@ -107,9 +108,9 @@ export class RestDataSource {
         localStorage.setItem('id_token', 'Bearer ' + token);              
     }
 
-    private loadToken(): void {
-      //const token = localStorage.getItem('id_token');   
-      const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTU2ZjlmOTdlY2I1MjZmMGE1MDczZSIsImRpc3BsYXlOYW1lIjoiTGVvbmFyZG8iLCJlbWFpbCI6Imxlb0B0ZXN0LmNhIiwiaWF0IjoxNzAwMjY5NDAzLCJleHAiOjE3MDA4NzQyMDN9.ddDGsam7hjpysxyObln6xytT2fNeAkMM9B5ylohwMn0';
+    loadToken(): void {
+      const token = localStorage.getItem('id_token');   
+      //const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTU2ZjlmOTdlY2I1MjZmMGE1MDczZSIsImRpc3BsYXlOYW1lIjoiTGVvbmFyZG8iLCJlbWFpbCI6Imxlb0B0ZXN0LmNhIiwiaWF0IjoxNzAwMjY5NDAzLCJleHAiOjE3MDA4NzQyMDN9.ddDGsam7hjpysxyObln6xytT2fNeAkMM9B5ylohwMn0';
       console.log("loadToken: "+ token);     
       this.authToken = token ? `${token}` : ''; // Include the "Bearer " prefix if the token exists
       this.httpOptions.headers = this.httpOptions.headers.set(

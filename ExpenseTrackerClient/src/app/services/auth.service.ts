@@ -19,7 +19,9 @@ export class AuthService {
   }
 
   get authenticated(): boolean {
-    return !!this.datasource.auth_token;
+    this.datasource.loadToken();
+    console.log(this.datasource.authToken);
+    return !!this.datasource.authToken;
   }  
 
 logout(): Observable<any>
