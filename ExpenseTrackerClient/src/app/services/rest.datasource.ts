@@ -33,8 +33,7 @@ export class RestDataSource {
         password: pass,
       })
       .pipe(
-        map((response) => {
-          //this.loadToken();
+        map((response) => {          
           console.log('authenticate', { response });          
           return response;
         })
@@ -99,8 +98,6 @@ export class RestDataSource {
       console.log("working from datasource");       
       return this.http.get<any>(this.baseUrl + 'myaccount/logout',this.httpOptions)      
     }
-
-
 
   storeUserData(token:any): void
     {     
