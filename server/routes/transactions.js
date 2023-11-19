@@ -6,25 +6,25 @@ const router = express.Router();
 const Transaction = require('../models/transactions');
 
 
-function requireAuth(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
+// function requireAuth(req, res, next) {
+//   const authHeader = req.headers['authorization']
+//   const token = authHeader && authHeader.split(' ')[1]
 
-  if (token == null) return res.sendStatus(401)
+//   if (token == null) return res.sendStatus(401)
 
-  jwt.verify(token, DB.Secret, (err, user) => {
-    console.log(err);
+//   jwt.verify(token, DB.Secret, (err, user) => {
+//     console.log(err);
 
-    if (err) return res.sendStatus(403);
+//     if (err) return res.sendStatus(403);
 
-    req.user = user;
+//     req.user = user;
 
-    next();
-  });
-}
+//     next();
+//   });
+// }
 
 /* GET incidents List page. READ */
-router.get('/', requireAuth, (req, res, next) => {
+router.get('/', (req, res, next) => {
   // find all incidents in the incidents collection
   Transaction.find((err, transactions) => {
     if (err) {
@@ -55,7 +55,7 @@ router.get('/:id', (req, res, next) => {
 router.post('/', async (req, res, next) => {
   //let currentDate = new Date();
   //let transactionDate = `${currentDate.getDate().toString().padStart(2, '0')}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear().toString().substr(-2)}`;
-
+  console.log(req.body);
   let lastTransaction = await Transaction.findOne().sort({ $natural: -1 }).exec();
   let lastTransactionNumber = lastTransaction ? await Transaction.countDocuments() : 0;
 
@@ -64,16 +64,15 @@ router.post('/', async (req, res, next) => {
   //let newTransactionNumber = (lastTransactionNumber + 1).toString().padStart(7, '0');
 
   let newTransaction = new Transaction({
-    "Id": req.body.Id,
-    "Category": req.body.Category,
-    "Subcategory": req.body.Subcategory,
-    "Quantity": req.body.Quantity,
-    "Amount": req.body.Amount,
-    "Description": req.body.Description,
-    "Status": req.body.Status,
-    "Date": req.body.Date
+    "category": req.body.category,
+    "subcategory": req.body.subcategory,
+    "quantity": req.body.quantity,
+    "amount": req.body.amount,
+    "description": req.body.description,
+    "status": req.body.status,
+    "date": req.body.date
   });
-
+  console.log(newTransaction);
   Transaction.create(newTransaction, (err, transaction) => {
     if (err) {
       console.log(err);
@@ -86,7 +85,7 @@ router.post('/', async (req, res, next) => {
 });
 
 // POST - process the information passed from the details form and update the document
-router.post('/:id', requireAuth, (req, res, next) => {
+router.post('/:id', (req, res, next) => {
   let id = req.params.id;
   Transaction.findById(id, (err, transaction) => {
     if (err) {
@@ -95,14 +94,13 @@ router.post('/:id', requireAuth, (req, res, next) => {
     }
 
     let updatedTransaction = Transaction({
-        "Id": req.body.Id,
-        "Category": req.body.Category,
-        "Subcategory": req.body.Subcategory,
-        "Quantity": req.body.Quantity,
-        "Amount": req.body.Amount,
-        "Description": req.body.Description,
-        "Status": req.body.Status,
-        "Date": req.body.Date
+        "category": req.body.Category,
+        "subcategory": req.body.Subcategory,
+        "quantity": req.body.Quantity,
+        "amount": req.body.Amount,
+        "description": req.body.Description,
+        "status": req.body.Status,
+        "date": req.body.Date
     });
 
     if (transaction.Status != updatedTransaction.Status) {

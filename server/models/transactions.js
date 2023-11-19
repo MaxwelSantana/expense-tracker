@@ -2,18 +2,18 @@ let mongoose = require('mongoose');
 
 // create a model class
 let Transaction = mongoose.Schema({
-  Id: Number,
-  Category: String,
-  Subcategory: String,
-  Quantity: Number,
-  Amount: Number,
-  Description: String,
-  Status: {
+
+  category: String,
+  subcategory: String,
+  quantity: Number,
+  amount: Number,
+  description: String,
+  status: {
     type: String,
     enum: ['Received','Payment']
   },
-  Date: Date,
-  ResolutionMessage: String
+  date: Date,
+  resolutionMessage: String
 }, {
   collection: "transactions"
 });
