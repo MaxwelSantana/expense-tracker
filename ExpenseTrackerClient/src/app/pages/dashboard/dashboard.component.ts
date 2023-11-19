@@ -141,10 +141,10 @@ export class AppDashboardComponent {
   dataSource = ELEMENT_DATA;
 
   months: month[] = [
-    { value: 'mar', viewValue: 'March 2023' },
-    { value: 'apr', viewValue: 'April 2023' },
-    { value: 'june', viewValue: 'June 2023' },
-  ];
+    { value: 'sep', viewValue: 'September 2023' },
+    { value: 'oct', viewValue: 'October 2023' },
+    { value: 'nov', viewValue: 'November 2023' },
+  ]; //updated months
 
   // recent transaction
   stats: stats[] = [
@@ -258,14 +258,14 @@ export class AppDashboardComponent {
       xaxis: {
         type: 'category',
         categories: [
-          '16/08',
-          '17/08',
-          '18/08',
-          '19/08',
-          '20/08',
-          '21/08',
-          '22/08',
-          '23/08',
+          '16/09',
+          '17/09',
+          '18/09',
+          '19/09',
+          '20/09',
+          '21/09',
+          '22/09',
+          '23/09',
         ],
         labels: {
           style: { cssClass: 'grey--text lighten-2--text fill-color' },
@@ -357,7 +357,7 @@ export class AppDashboardComponent {
       series: [
         {
           name: '',
-          color: '#A5CD90', //green
+          color: '#E96B46', //red
           data: [25, 66, 20, 40, 12, 58, 20],
         },
       ],
@@ -380,7 +380,7 @@ export class AppDashboardComponent {
         width: 2,
       },
       fill: {
-        colors: ['#E8F7FF'],
+        colors: ['#537D3D'],
         type: 'solid',
         opacity: 0.05,
       },
