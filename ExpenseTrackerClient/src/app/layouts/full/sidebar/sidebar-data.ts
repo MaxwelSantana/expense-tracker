@@ -9,6 +9,14 @@ export const navItems: NavItem[] = [
     iconName: 'layout-dashboard',
     route: '/dashboard',
   },
+  {
+    navCap: 'Transactions'
+  }
+  ,{
+    displayName: 'Transacions',
+    iconName: 'list',
+    route: '/ui-components/lists',
+  },
   { 
       navCap: 'Settings',
   },
@@ -29,11 +37,6 @@ export const navItems: NavItem[] = [
   //   displayName: 'Chips',
   //   iconName: 'poker-chip',
   //   route: '/ui-components/chips',
-  // },
-  // {
-  //   displayName: 'Lists',
-  //   iconName: 'list',
-  //   route: '/ui-components/lists',
   // },
   // {
   //   displayName: 'Menu',
