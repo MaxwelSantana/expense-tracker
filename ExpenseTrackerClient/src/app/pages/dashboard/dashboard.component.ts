@@ -169,7 +169,7 @@ export class AppDashboardComponent {
     },
     {
       id: 4,
-      time: '2.00 pm',
+      time: '4.20 pm',
       color: 'error',
       title: 'Payment made for Groceries of $11.24',
       //link: '#ML-3467',
@@ -222,12 +222,12 @@ export class AppDashboardComponent {
         {
           name: 'Eanings this month',
           data: [355, 390, 300, 350, 390, 180, 355, 390],
-          color: '#5D87FF',
+          color: '#537D3D',
         },
         {
           name: 'Expense this month',
           data: [280, 250, 325, 215, 250, 310, 280, 250],
-          color: '#49BEFF',
+          color: '#E96B46',
         },
       ],
 
@@ -248,7 +248,7 @@ export class AppDashboardComponent {
         height: 390,
         offsetX: -15,
         toolbar: { show: true },
-        foreColor: '#adb0bb',
+        foreColor: '#252525',
         fontFamily: 'inherit',
         sparkline: { enabled: false },
       },
@@ -317,7 +317,7 @@ export class AppDashboardComponent {
         },
         height: 130,
       },
-      colors: ['#5D87FF', '#ECF2FF', '#F9F9FD'],
+      colors: ['#537D3D', '#ECF2FF', '#F9F9FD'],
       plotOptions: {
         pie: {
           startAngle: 0,
