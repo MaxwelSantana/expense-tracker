@@ -10,21 +10,29 @@ export const navItems: NavItem[] = [
     route: '/dashboard',
   },
   {
-    navCap: 'Transactions'
-  }
-  ,{
-    displayName: 'Transacions',
+    navCap: 'Transactions',
+  },
+  {
+    displayName: 'Transactions',
     iconName: 'list',
     route: '/ui-components/lists',
   },
-  { 
-      navCap: 'Settings',
+  {
+    navCap: 'Budget',
+  },
+  {
+    displayName: 'Budget',
+    iconName: 'list',
+    route: '/ui-components/budget',
+  },
+  {
+    navCap: 'Settings',
   },
   {
     displayName: 'Settings',
     iconName: 'user-plus',
     route: '/myAccount/settings',
-  }
+  },
   // {
   //   navCap: 'Ui Components',
   // },
@@ -48,30 +56,30 @@ export const navItems: NavItem[] = [
   //   iconName: 'tooltip',
   //   route: '/ui-components/tooltips',
   // },
-//   {
-//     navCap: 'Auth',
-//   },
-//   {
-//     displayName: 'Login',
-//     iconName: 'lock',
-//     route: '/authentication/login',
-//   },
-//   {
-//     displayName: 'Register',
-//     iconName: 'user-plus',
-//     route: '/authentication/register',
-//   },
-//   {
-//     navCap: 'Extra',
-//   },
-//   {
-//     displayName: 'Icons',
-//     iconName: 'mood-smile',
-//     route: '/extra/icons',
-//   },
-//   {
-//     displayName: 'Sample Page',
-//     iconName: 'aperture',
-//     route: '/extra/sample-page',
-//   },
-   ];
+  //   {
+  //     navCap: 'Auth',
+  //   },
+  //   {
+  //     displayName: 'Login',
+  //     iconName: 'lock',
+  //     route: '/authentication/login',
+  //   },
+  //   {
+  //     displayName: 'Register',
+  //     iconName: 'user-plus',
+  //     route: '/authentication/register',
+  //   },
+  //   {
+  //     navCap: 'Extra',
+  //   },
+  //   {
+  //     displayName: 'Icons',
+  //     iconName: 'mood-smile',
+  //     route: '/extra/icons',
+  //   },
+  //   {
+  //     displayName: 'Sample Page',
+  //     iconName: 'aperture',
+  //     route: '/extra/sample-page',
+  //   },
+];

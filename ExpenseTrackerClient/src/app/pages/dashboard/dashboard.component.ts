@@ -141,51 +141,45 @@ export class AppDashboardComponent {
   dataSource = ELEMENT_DATA;
 
   months: month[] = [
-    { value: 'mar', viewValue: 'March 2023' },
-    { value: 'apr', viewValue: 'April 2023' },
-    { value: 'june', viewValue: 'June 2023' },
-  ];
+    { value: 'sep', viewValue: 'September 2023' },
+    { value: 'oct', viewValue: 'October 2023' },
+    { value: 'nov', viewValue: 'November 2023' },
+  ]; //updated months
 
   // recent transaction
   stats: stats[] = [
     {
       id: 1,
-      time: '09.30 am',
-      color: 'primary',
-      subtext: 'Payment received from John Doe of $385.90',
+      time: '2.00 pm',
+      color: 'error',
+      subtext: 'Payment made for Freedom Mobile of $30.00',
     },
     {
       id: 2,
-      time: '10.30 am',
-      color: 'accent',
-      title: 'New sale recorded',
-      link: '#ML-3467',
+      time: '00.00 am',
+      color: 'success',
+      title: 'Weekly Salary of $385.75 from CompanyX',
+      //link: '#ML-3467',
     },
     {
       id: 3,
       time: '12.30 pm',
-      color: 'success',
-      subtext: 'Payment was made of $64.95 to Michael',
+      color: 'error',
+      subtext: 'TTC Student Monthly Pass of $128.30',
     },
     {
       id: 4,
-      time: '12.30 pm',
-      color: 'warning',
-      title: 'New sale recorded',
-      link: '#ML-3467',
+      time: '4.20 pm',
+      color: 'error',
+      title: 'Payment made for Groceries of $11.24',
+      //link: '#ML-3467',
     },
     {
       id: 5,
-      time: '12.30 pm',
-      color: 'error',
-      title: 'New arrival recorded',
-      link: '#ML-3467',
-    },
-    {
-      id: 6,
-      time: '12.30 pm',
+      time: '00.00 am',
       color: 'success',
-      subtext: 'Payment Done',
+      title: 'Weekly Salary of $450.00 from CompanyX',
+      //link: '#ML-3467',
     },
   ];
 
@@ -228,12 +222,12 @@ export class AppDashboardComponent {
         {
           name: 'Eanings this month',
           data: [355, 390, 300, 350, 390, 180, 355, 390],
-          color: '#5D87FF',
+          color: '#537D3D',
         },
         {
           name: 'Expense this month',
           data: [280, 250, 325, 215, 250, 310, 280, 250],
-          color: '#49BEFF',
+          color: '#E96B46',
         },
       ],
 
@@ -254,7 +248,7 @@ export class AppDashboardComponent {
         height: 390,
         offsetX: -15,
         toolbar: { show: true },
-        foreColor: '#adb0bb',
+        foreColor: '#252525',
         fontFamily: 'inherit',
         sparkline: { enabled: false },
       },
@@ -264,14 +258,14 @@ export class AppDashboardComponent {
       xaxis: {
         type: 'category',
         categories: [
-          '16/08',
-          '17/08',
-          '18/08',
-          '19/08',
-          '20/08',
-          '21/08',
-          '22/08',
-          '23/08',
+          '16/09',
+          '17/09',
+          '18/09',
+          '19/09',
+          '20/09',
+          '21/09',
+          '22/09',
+          '23/09',
         ],
         labels: {
           style: { cssClass: 'grey--text lighten-2--text fill-color' },
@@ -323,7 +317,7 @@ export class AppDashboardComponent {
         },
         height: 130,
       },
-      colors: ['#5D87FF', '#ECF2FF', '#F9F9FD'],
+      colors: ['#537D3D', '#ECF2FF', '#F9F9FD'],
       plotOptions: {
         pie: {
           startAngle: 0,
@@ -363,7 +357,7 @@ export class AppDashboardComponent {
       series: [
         {
           name: '',
-          color: '#49BEFF',
+          color: '#E96B46', //red
           data: [25, 66, 20, 40, 12, 58, 20],
         },
       ],
@@ -386,7 +380,7 @@ export class AppDashboardComponent {
         width: 2,
       },
       fill: {
-        colors: ['#E8F7FF'],
+        colors: ['#537D3D'],
         type: 'solid',
         opacity: 0.05,
       },
