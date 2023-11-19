@@ -18,6 +18,14 @@ export const navItems: NavItem[] = [
     route: '/ui-components/lists',
   },
   {
+    navCap: 'Budget',
+  },
+  {
+    displayName: 'Budget',
+    iconName: 'list',
+    route: '/ui-components/budget',
+  },
+  {
     navCap: 'Settings',
   },
   {

@@ -10,27 +10,27 @@ export interface Section {
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.component.html',
-  styleUrls:['./lists.component.css']
+  styleUrls: ['./lists.component.css'],
 })
 export class AppListsComponent {
-  enteredCateg='';
-  enteredSubcat='';
-  enteredQty='';
-  enteredAmount='';
-  enteredDesc='';
-  enteredStatus='';
-  enteredDate='';
+  enteredCateg = '';
+  enteredSubcat = '';
+  enteredQty = '';
+  enteredAmount = '';
+  enteredDesc = '';
+  enteredStatus = '';
+  enteredDate = '';
   // newTransaction='No Content Yet.';
 
   @Output() postCreated = new EventEmitter();
 
   transactions: Transaction[] = [];
 
-  constructor(private TransactionService: TransactionService){
+  constructor(private TransactionService: TransactionService) {
     this.transactions = TransactionService.getAll();
   }
 
-  onAddTransaction(){
+  onAddTransaction() {
     const transaction = {
       category: this.enteredCateg,
       subcategory: this.enteredSubcat,
@@ -39,13 +39,10 @@ export class AppListsComponent {
       description: this.enteredDesc,
       status: this.enteredStatus,
       dateCreated: this.enteredDate,
-
     };
 
     this.postCreated.emit(transaction);
   }
-
-
 
   typesOfShoes: string[] = ['Loafers', 'Sneakers'];
 
