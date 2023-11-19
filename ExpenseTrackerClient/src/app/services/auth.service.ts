@@ -5,20 +5,31 @@ import { RestDataSource } from './rest.datasource';
 @Injectable()
 export class AuthService {
   constructor(private datasource: RestDataSource) {}
-  authenticate(email: string, password: string): Observable<boolean> {
+
+  authenticate(email: string, password: string): Observable<any> {
     return this.datasource.authenticate(email, password);
   }
+
   signup(
     displayName: string | null,
     email: string | null,
     password: string | null
-  ): Observable<boolean> {
+  ): Observable<any> {
     return this.datasource.signup(displayName, email, password);
   }
+
   get authenticated(): boolean {
-    return !!this.datasource.auth_token;
-  }
-  clear() {
-    this.datasource.auth_token = '';
+    this.datasource.loadToken();
+    console.log(this.datasource.authToken);
+    return !!this.datasource.authToken;
+  }  
+
+logout(): Observable<any>
+    {
+        return this.datasource.logout();
+    }
+
+  storeUserData(token:any){
+    this.datasource.storeUserData(token);
   }
 }

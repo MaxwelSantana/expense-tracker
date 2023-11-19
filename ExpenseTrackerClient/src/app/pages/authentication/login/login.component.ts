@@ -18,14 +18,14 @@ export class AppSideLoginComponent {
     this.router.navigateByUrl('/');
   }
 
-  authenticate(form: NgForm) {
+  authenticate(form: NgForm):void
+   {
     console.log('form submit');
     if (form.valid) {
-      this.auth
-        .authenticate(this.email, this.password)
-        .subscribe((response) => {
-          console.log(response);
-          if (response) {
+      this.auth.authenticate(this.email, this.password).subscribe(response => {
+          console.log("Response from login: " + response.token);
+          if(response.success) {
+            this.auth.storeUserData(response.token);
             this.router.navigateByUrl('/dashboard');
           }
           this.errorMessage = 'Authentication Failed';

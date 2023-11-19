@@ -30,7 +30,8 @@ export class AppSideRegisterComponent {
         .signup(uname.value, email.value, password.value)
         .subscribe((response) => {
           console.log(response);
-          if (response) {
+          if (response.success) {
+            this.auth.storeUserData(response.token)
             this.router.navigateByUrl('/dashboard');
           }
           this.errorMessage = 'User Registration Failed';

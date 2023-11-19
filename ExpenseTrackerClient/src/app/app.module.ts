@@ -27,6 +27,8 @@ import { RestDataSource } from './services/rest.datasource';
 import { AuthService } from './services/auth.service';
 import { AuthenticationModule } from './pages/authentication/authentication.module';
 import { AuthGuard } from './app-auth.guard';
+import { SettingsService } from './services/settings.service';
+import { User } from './services/user.model';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,6 @@ import { AuthGuard } from './app-auth.guard';
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
-  providers: [RestDataSource, AuthService, AuthGuard],
+  providers: [RestDataSource, AuthService, AuthGuard,SettingsService, User],
 })
 export class AppModule {}
