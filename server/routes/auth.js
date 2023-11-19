@@ -46,10 +46,10 @@ router.post('/register', (req, res, next) => {
 		displayName: req.body.displayName
 	});
 
-	User.register(newUser, req.body.password, (err) => {
-		if (err) {
+	User.register(newUser, req.body.password, (error) => {
+		if (error) {
 			console.log("Error: inserting New User");
-			return res.json({ success: false, error: JSON.stringify(err) });
+			return res.json({ success: false, error });
 		}
 		else {
 			const payload = {

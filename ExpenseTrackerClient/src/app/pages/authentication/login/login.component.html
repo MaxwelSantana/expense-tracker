@@ -50,7 +50,13 @@
           </div>
 
           <div class="or-border m-t-30">or sign in with</div>
-
+          <div class="alert alert-light" role="alert">
+            For testing the app use:
+            <p class="m-b-0">
+              <strong>username:</strong> test@test.com
+              <strong>password:</strong> 123456
+            </p>
+          </div>
           <form
             class="m-t-30"
             #myForm="ngForm"
@@ -81,7 +87,9 @@
                 required
               />
             </mat-form-field>
-
+            <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+              {{ errorMessage }}
+            </div>
             <div class="d-flex align-items-center m-b-12">
               <mat-checkbox color="primary">Remember this Device</mat-checkbox>
               <a

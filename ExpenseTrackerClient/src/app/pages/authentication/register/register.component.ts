@@ -14,7 +14,7 @@ export class AppSideRegisterComponent {
   public errorMessage: string = '';
 
   form = new FormGroup({
-    uname: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    uname: new FormControl('', [Validators.required, Validators.minLength(3)]),
     email: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
@@ -32,13 +32,14 @@ export class AppSideRegisterComponent {
         .subscribe((response) => {
           console.log(response);
           if (response.success) {
-            this.auth.storeUserData(response.token, response.user)
+            this.auth.storeUserData(response.token)
             this.router.navigateByUrl('/dashboard');
           }
-          this.errorMessage = 'User Registration Failed';
+          this.errorMessage = response.error.message;
         });
     } else {
-      this.errorMessage = 'Form Data Invalid';
+      this.errorMessage =
+        "We're sorry, but the form is incomplete. Please ensure all fields are filled out before proceeding";
     }
   }
 }

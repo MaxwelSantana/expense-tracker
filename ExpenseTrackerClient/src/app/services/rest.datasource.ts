@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -9,13 +9,12 @@ import { User } from './user.model';
 const PROTOCOL = 'http';
 const PORT = 3000;
 
-
 @Injectable()
 export class RestDataSource {
   baseUrl: string;
   auth_token!: string;
   authToken : string = '';
-  private httpOptions =
+  private httpOptions = 
     {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -25,8 +24,11 @@ export class RestDataSource {
     };
 
   constructor(private http: HttpClient) {
-    this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/api/`;
-    //this.baseUrl = `/api/`;
+    if (isDevMode()) {
+      this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/api/`;
+    } else {
+      this.baseUrl = `/api/`;
+    }
   }
   authenticate(email: string, pass: string): Observable<any> {
     return this.http
@@ -72,7 +74,7 @@ export class RestDataSource {
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
-
+  
     return this.http.post<any>(
       this.baseUrl + 'myaccount/changePassword',
       { currentPassword, newPassword, newPassword2 },
@@ -90,37 +92,35 @@ export class RestDataSource {
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
-
+  
     return this.http.delete<any>(this.baseUrl + 'myaccount/deleteMyAccount',this.httpOptions)
-
-  }
+      
+  } 
 
   logout(): Observable<any>
-    {
-      this.authToken = null!;
-      localStorage.clear();
-      console.log("working from datasource");
-      return this.http.get<any>(this.baseUrl + 'myaccount/logout',this.httpOptions)
+    {      
+      this.authToken = null!;        
+      localStorage.clear(); 
+      console.log("working from datasource");       
+      return this.http.get<any>(this.baseUrl + 'myaccount/logout',this.httpOptions)      
     }
 
-  storeUserData(token:any, user: String[]): void
-    {
-        console.log("StoreUserData: "+ token);
-        localStorage.setItem('id_token', 'Bearer ' + token);
-        localStorage.setItem('user', JSON.stringify(user));
-        console.log('localStorage', user)
+  storeUserData(token:any): void
+    {     
+        console.log("StoreUserData: "+ token);         
+        localStorage.setItem('id_token', 'Bearer ' + token);              
     }
 
     loadToken(): void {
-      const token = localStorage.getItem('id_token');
+      const token = localStorage.getItem('id_token');   
       //const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTU2ZjlmOTdlY2I1MjZmMGE1MDczZSIsImRpc3BsYXlOYW1lIjoiTGVvbmFyZG8iLCJlbWFpbCI6Imxlb0B0ZXN0LmNhIiwiaWF0IjoxNzAwMjY5NDAzLCJleHAiOjE3MDA4NzQyMDN9.ddDGsam7hjpysxyObln6xytT2fNeAkMM9B5ylohwMn0';
-      console.log("loadToken: "+ token);
+      console.log("loadToken: "+ token);     
       this.authToken = token ? `${token}` : ''; // Include the "Bearer " prefix if the token exists
       this.httpOptions.headers = this.httpOptions.headers.set(
         'Authorization', this.authToken );
     }
-
-
+    
+  
 
   private getOptions() {
     return {
