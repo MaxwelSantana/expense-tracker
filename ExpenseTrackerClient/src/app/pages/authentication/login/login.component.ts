@@ -18,20 +18,20 @@ export class AppSideLoginComponent {
     this.router.navigateByUrl('/');
   }
 
-  authenticate(form: NgForm):void
-   {
-    console.log('form submit');
+  authenticate(form: NgForm): void {
     if (form.valid) {
-      this.auth.authenticate(this.email, this.password).subscribe(response => {
-          console.log("Response from login: " + response.token);
-          if(response.success) {
+      this.auth
+        .authenticate(this.email, this.password)
+        .subscribe((response) => {
+          if (response.success) {
             this.auth.storeUserData(response.token);
             this.router.navigateByUrl('/dashboard');
           }
-          this.errorMessage = 'Authentication Failed';
+          this.errorMessage = 'Authentication Failed. Please review your credentials and try again.';
         });
     } else {
-      this.errorMessage = 'Form Data Invalid';
+      this.errorMessage =
+        "We're sorry, but the form is incomplete. Please ensure all fields are filled out before proceeding";
     }
   }
 }
