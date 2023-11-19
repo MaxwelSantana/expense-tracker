@@ -1,31 +1,58 @@
 <mat-card class="cardWithShadow theme-card">
+
+<mat-card class="cardWithShadow theme-card">
   <mat-card-header>
     <mat-card-title class="m-b-0">Transactions</mat-card-title>
   </mat-card-header>
 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <input type="text" [(ngModel)]="enteredCateg" id="transactionCat" class="form-control" placeholder="Category" (focus)="hideErrorMessage()">
+        </div>
 
-  <label for="transactionCat">Category</label>
-  <input type="text" [(ngModel)]="enteredCateg" id="transactionCat"  placeholder="Enter the category" (focus)="hideErrorMessage()" >
+        <div class="form-group">
+          <input type="text" [(ngModel)]="enteredSubcat" id="transactionSubcat" class="form-control"  placeholder="Enter the subcategory" (focus)="hideErrorMessage()" >
+        </div>
 
-  <label for="transactionSubcat">Subcategory</label>
-  <input type="text" [(ngModel)]="enteredSubcat" id="transactionSubcat" placeholder="Enter the subcategory" (focus)="hideErrorMessage()" >
+        <div class="form-group">
+          <input type="text" [(ngModel)]="enteredQty" id="transactionQty" class="form-control" placeholder="Enter the quantity." (focus)="hideErrorMessage()" >
+        </div>
 
-  <label for="transactionQty">Quantity</label>
-  <input type="text" [(ngModel)]="enteredQty" id="transactionQty" placeholder="Enter the quantity." (focus)="hideErrorMessage()" >
+        <div class="form-group">
+          <input type="text" [(ngModel)]="enteredAmount" id="transactionAmount"  class="form-control" placeholder="Enter the total." (focus)="hideErrorMessage()" >
+        </div>
 
-  <label for="amount">Amount</label>
-  <input type="text" [(ngModel)]="enteredAmount" id="transactionAmount" placeholder="Enter the total." (focus)="hideErrorMessage()" >
+        <div class="form-group">
+          <input type="text" [(ngModel)]="enteredDesc" id="transactionDesc"  class="form-control" placeholder="Enter the description" (focus)="hideErrorMessage()" >
+        </div>
 
-  <label for="transactionName">Description</label>
-  <input type="text" [(ngModel)]="enteredDesc" id="transactionDesc" placeholder="Enter the description" (focus)="hideErrorMessage()" >
+        <div class="form-group">
+          <label for="statusSelect">Status:</label>
+          <select [(ngModel)]="enteredStatus" id="statusSelect" class="form-control" aria-label="Transaction Status" (focus)="hideErrorMessage()">
+            <option value="Payment">Payment</option>
+            <option value="Received">Received</option>
+          </select>
+        </div>
 
-  <label for="status">Status</label>
-  <input type="text" [(ngModel)]="enteredStatus" id="transactionStatus" placeholder="Status" (focus)="hideErrorMessage()" >
 
-  <label for="date">Date</label>
-  <input type="text" [(ngModel)]="enteredDate" id="transactionDate" placeholder="Date" (focus)="hideErrorMessage()" >
 
-  <button class="btnSave" (click)="onAddTransaction()">Save Transaction</button>
+        <mat-form-field class="col-md-12">
+          <input matInput [matDatepicker]="picker" [(ngModel)]="enteredDate" name="enteredDate" placeholder="Choose a date" (focus)="hideErrorMessage()">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <button class="btn btn-primary btnSave" (click)="onAddTransaction()">Save Transaction</button>
+      </div>
+    </div>
+  </div>
+</mat-card>
 
 
   <p *ngIf="showError" class="error-message">Please complete all fields.</p>

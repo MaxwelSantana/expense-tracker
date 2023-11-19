@@ -69,4 +69,7 @@
   background-color: #e0e0e0; /* Light gray background on hover */
 }
 
-
+/* Increase or decrease the space between fields */
+.form-group {
+  margin-bottom: 15px;
+}
