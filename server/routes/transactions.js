@@ -136,13 +136,18 @@ router.post('/:id', (req, res, next) => {
 // GET - process the delete by user id
 router.delete('/:id', (req, res, next) => {
   let id = req.params.id;
+  
+  // Check if the provided ID is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid ID' });
+  }
+
   Transaction.remove({ _id: id }, (err) => {
     if (err) {
       console.log(err);
-      res.end(err);
-    }
-    else {
-      res.json(id);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      return res.json(id);
     }
   });
 });

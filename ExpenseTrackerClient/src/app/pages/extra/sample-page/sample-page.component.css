@@ -1,0 +1,5 @@
+
+/* Increase or decrease the space between fields */
+.form-group {
+  margin-bottom: 15px;
+}

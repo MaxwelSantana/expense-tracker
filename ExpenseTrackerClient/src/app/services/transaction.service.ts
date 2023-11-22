@@ -24,9 +24,8 @@ export class TransactionService {
     return this.http.post<Transaction>(url, updatedTransaction); // Perform POST request to update a transaction by ID
   }
 
-  deleteTransaction(id: number): Observable<number> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<number>(url); // Perform DELETE request to delete a transaction by ID
+  deleteTransaction(transactionId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${transactionId}`);
   }
 }
 

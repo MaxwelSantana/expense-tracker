@@ -18,6 +18,11 @@ export const navItems: NavItem[] = [
     route: '/ui-components/lists',
   },
   {
+    displayName: 'Add Transaction',
+    iconName: 'aperture',
+    route: '/extra/sample-page',
+  },
+  {
     navCap: 'Budget',
   },
   {
@@ -77,9 +82,5 @@ export const navItems: NavItem[] = [
   //     iconName: 'mood-smile',
   //     route: '/extra/icons',
   //   },
-  //   {
-  //     displayName: 'Sample Page',
-  //     iconName: 'aperture',
-  //     route: '/extra/sample-page',
-  //   },
+
 ];

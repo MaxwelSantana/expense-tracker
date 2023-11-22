@@ -61,7 +61,7 @@
 
 /* Style for "Received" transactions */
 .received {
-  background-color: #d9ffd9; /* Light green background for Received */
+  background-color: #caedca; /* Light green background for Received */
 }
 
 /* Hover effect for transaction items */
@@ -69,7 +69,10 @@
   background-color: #e0e0e0; /* Light gray background on hover */
 }
 
-/* Increase or decrease the space between fields */
-.form-group {
-  margin-bottom: 15px;
+.btnAdd {
+  display: block;
+  margin: 0 auto;
+  padding: 8px 16px; /* Adjust padding as needed */
+  font-size: 14px; /* Adjust font size as needed */
 }
+
