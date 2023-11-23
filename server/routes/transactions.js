@@ -64,6 +64,7 @@ router.post('/', async (req, res, next) => {
   //let newTransactionNumber = (lastTransactionNumber + 1).toString().padStart(7, '0');
 
   let newTransaction = new Transaction({
+    "id": req.body.id,
     "category": req.body.category,
     "subcategory": req.body.subcategory,
     "quantity": req.body.quantity,
@@ -73,6 +74,8 @@ router.post('/', async (req, res, next) => {
     "date": req.body.date
   });
   console.log(newTransaction);
+
+
   Transaction.create(newTransaction, (err, transaction) => {
     if (err) {
       console.log(err);
@@ -94,13 +97,13 @@ router.post('/:id', (req, res, next) => {
     }
 
     let updatedTransaction = Transaction({
-        "category": req.body.Category,
-        "subcategory": req.body.Subcategory,
-        "quantity": req.body.Quantity,
-        "amount": req.body.Amount,
-        "description": req.body.Description,
-        "status": req.body.Status,
-        "date": req.body.Date
+        "category": req.body.category,
+        "subcategory": req.body.subcategory,
+        "quantity": req.body.quantity,
+        "amount": req.body.amount,
+        "description": req.body.description,
+        "status": req.body.status,
+        "date": req.body.date
     });
 
     if (transaction.Status != updatedTransaction.Status) {
@@ -136,17 +139,20 @@ router.post('/:id', (req, res, next) => {
 // GET - process the delete by user id
 router.delete('/:id', (req, res, next) => {
   let id = req.params.id;
-  
+  console.log(id);
   // Check if the provided ID is a valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ error: 'Invalid ID' });
   }
 
-  Transaction.remove({ _id: id }, (err) => {
+  Transaction.deleteOne({ _id: id }, (err, result) => {
     if (err) {
       console.log(err);
       return res.status(500).json({ error: 'Internal Server Error' });
     } else {
+      if (result.deletedCount === 0) {
+        return res.status(404).json({ error: 'Transaction not found' });
+      }
       return res.json(id);
     }
   });

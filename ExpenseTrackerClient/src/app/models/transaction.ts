@@ -1,6 +1,5 @@
 export class Transaction{
-  id!: string;
-  userId!: number;
+  id: string;
   category: string | undefined;
   subcategory: string | undefined;
   quantity!: number ;

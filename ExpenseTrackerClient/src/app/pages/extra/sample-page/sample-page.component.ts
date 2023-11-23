@@ -40,7 +40,7 @@ export class AppSamplePageComponent implements OnInit {
       newTransaction.status = this.enteredStatus;
       newTransaction.dateCreated = new Date(this.enteredDate);
 
-
+      // Send the transaction to the service
       this.transactionService.addTransaction(newTransaction).subscribe(
         (response) => {
           // If the addition was successful, update the local list
