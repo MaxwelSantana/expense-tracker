@@ -24,9 +24,9 @@ export class AppSideLoginComponent {
     if (form.valid) {
       this.auth.authenticate(this.email, this.password).subscribe(response => {
           console.log("Response from login: " + response.token);
-          console.log("Response transaction " + response.user.transactions);
+          console.log("Response transaction " + response.user);
           if(response.success) {
-            this.auth.storeUserData(response.token, response.user.transactions);
+            this.auth.storeUserData(response.token, response.user);
             this.router.navigateByUrl('/dashboard');
           }
           this.errorMessage = 'Authentication Failed';

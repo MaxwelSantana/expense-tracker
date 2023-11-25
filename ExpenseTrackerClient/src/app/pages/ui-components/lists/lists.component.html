@@ -39,8 +39,7 @@
         </a>
       </li>
 
-      <li *ngFor="let transaction of transactions" class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">
-        <a routerLink="/transaction{{transaction.id}}">
+      <li *ngFor="let transaction of transactions" class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">        
           <div class="dateCreated">
             {{transaction.dateCreated | date: 'mediumDate'}}
           </div>
@@ -70,10 +69,8 @@
           </div>
 
           <div>
-            <button class="btn btn-secondary btnDelete" (click)="onDeleteTransaction(transaction.id)">Delete</button>
-          </div>
-
-        </a>
+            <button class="btn btn-secondary btnDelete" (click)="onDeleteTransaction(transaction._id)">Delete</button>
+          </div>        
       </li>
     </ul>
 

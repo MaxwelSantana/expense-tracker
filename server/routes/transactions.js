@@ -25,32 +25,26 @@ function requireAuth(req, res, next) {
   });
 }
 
-/* GET incidents List page. READ */
-// router.get('/', (req, res, next) => {
-//   // find all incidents in the incidents collection
-//   Transaction.find((err, transactions) => {
-//     if (err) {
-//       return console.error(err);
-//     }
-//     else {
-//       res.json(transactions);
-//     }
-//   });
-
-// });
-
 // GET the Incident Details page in order to edit an existing Incident
-router.get('/:id', (req, res, next) => {
-  let id = req.params.id;
-  Transaction.findById(id, (err, transactionToEdit) => {
-    if (err) {
-      console.log(err);
-      res.end(err);
-    }
-    else {
-      res.json(transactionToEdit);
-    }
-  });
+router.get('/getTransactions',requireAuth,async (req, res, next) => {
+  try{
+  let user = req.user;
+  console.log("User:" , user);
+  console.log("User ID", user.id);
+  const userTransactions = await User.findById(user.id);
+  
+  console.log("User Transactions: " , userTransactions);
+  const transactions = userTransactions.transactions;
+  return res.json(transactions);
+  //return res.status(200).json({success:true, message:"Transaction has been displayed", transactions})
+  }
+  catch(error){
+    console.error('Error adding transaction to user:', error);
+
+    return res.status(500).json({success:false, message:"Transaction has not been displayed"})
+  }   
+    
+  
 });
 
 // POST process the Incident Details page and create a new Incident - CREATE
@@ -171,17 +165,35 @@ router.post('/:id', (req, res, next) => {
 });
 
 // GET - process the delete by user id
-router.delete('/:id', (req, res, next) => {
-  let id = req.params.id;
-  Transaction.remove({ _id: id }, (err) => {
-    if (err) {
-      console.log(err);
-      res.end(err);
+router.delete('/deleteTransaction/:id',requireAuth, async (req, res, next) => {
+  const userId = req.user.id; // Assuming you have access to the user's ID
+  const transactionId = req.params.id;
+  console.log("transactions", transactionId);
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
-    else {
-      res.json(id);
+
+    const transactionIndex = user.transactions.findIndex(
+      (transaction) => String(transaction._id) === transactionId
+    );
+
+    if (transactionIndex === -1) {
+      return res.status(404).json({ message: 'Transaction not found' });
     }
-  });
+
+    user.transactions.splice(transactionIndex, 1); // Remove the transaction from the array
+
+    await user.save(); // Save the updated user object back to the database
+
+    res.status(200).json({ message: 'Transaction deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 

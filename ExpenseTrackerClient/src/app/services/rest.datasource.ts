@@ -44,15 +44,14 @@ export class RestDataSource {
   signup(
     displayName: string | null,
     email: string | null,
-    password: string | null,
-    transactions : Transaction | null
+    password: string | null
+    
   ): Observable<any> {
     return this.http
       .post<any>(this.baseUrl + 'auth/register', {
         displayName,
         email,
-        password,
-        transactions
+        password        
       })
       .pipe(
         map((response) => {
@@ -61,6 +60,7 @@ export class RestDataSource {
         })
       );
   }
+
 
   changePassword(
     currentPassword: string | null,
@@ -103,12 +103,12 @@ export class RestDataSource {
       return this.http.get<any>(this.baseUrl + 'myaccount/logout',this.httpOptions)
     }
 
-  storeUserData(token:any, transaction: Transaction): void
+  storeUserData(token:any, user: String[]): void
     {
         console.log("StoreUserData: "+ token);
         localStorage.setItem('id_token', 'Bearer ' + token);
-        localStorage.setItem('transaction', JSON.stringify(transaction));
-        console.log('localStorage', transaction)
+        localStorage.setItem('user', JSON.stringify(user));
+        console.log('localStorage', user)
     }
 
     loadToken(): void {
@@ -129,7 +129,28 @@ export class RestDataSource {
       }),
     };
   }
+
+  /**********************TRANSACTIONS**************************/
+
+  addTransaction(newTransaction: Transaction): Observable<Transaction> 
+  {
+    this.loadToken();
+    return this.http.post<Transaction>(this.baseUrl + 'transactions/newTransaction', newTransaction, this.httpOptions); // Perform POST request to add a new transaction
+  }
+
+  getTransactions(): Observable<Transaction[]> 
+  {
+    this.loadToken();
+    return this.http.get<Transaction[]>(this.baseUrl + 'transactions/getTransactions', this.httpOptions); // Perform GET request to add a new transaction
+  }
+
+  deleteTransaction(transactionId: string): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + 'transactions/deleteTransaction/' + transactionId, this.httpOptions);
+  }
+
+
+
 }
 
-/**********************TRANSACTIONS**************************/
+
 

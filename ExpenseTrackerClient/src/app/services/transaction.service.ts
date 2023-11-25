@@ -15,12 +15,10 @@ export class TransactionService {
     return this.http.get<Transaction[]>(this.apiUrl); // Perform GET request to fetch all transactions
   }
 
-  addTransaction(newTransaction: Transaction): Observable<Transaction> {
-    return this.http.post<Transaction>(this.apiUrl, newTransaction); // Perform POST request to add a new transaction
-  }
+  
 
   editTransaction(updatedTransaction: Transaction): Observable<Transaction> {
-    const url = `${this.apiUrl}/${updatedTransaction.id}`;
+    const url = `${this.apiUrl}/${updatedTransaction._id}`;
     return this.http.post<Transaction>(url, updatedTransaction); // Perform POST request to update a transaction by ID
   }
 

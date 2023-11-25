@@ -2,84 +2,78 @@
   <div class="row">
     <div class="col-md-6">
 
-      <div class="form-group">
-        <label for="statusSelect" class="visually-hidden">Category</label>
-        <select [(ngModel)]="enteredCateg" id="transactionCat" class="form-control" aria-label="Transaction Category" placeholder="Select Category" (focus)="hideErrorMessage()" onchange="showSubcategories()">
-          <option value="" disabled selected>Select Category</option>
-          <option value="Food">Food</option>
-          <option value="Gifts & donations">Gifts & donations</option>
-          <option value="Groceries">Groceries</option>
-          <option value="Health">Health</option>
-          <option value="Leisure">Leisure</option>
-          <option value="Pets">Pets</option>
-          <option value="Rent">Rent</option>
-          <option value="Salary">Salary</option>
-          <option value="Subscription & services">Subscription & services</option>
-          <option value="Transportation">Transportation</option>
-          <option value="Travel">Travel</option>
-        </select>
-      </div>
+      <form #form="ngForm" (ngSubmit)="onAddTransaction(form)">
+        <div class="form-group">
+          <label for="statusSelect" class="visually-hidden">Category</label>
+          <select [(ngModel)]="newTransaction.category" id="transactionCat" name="category" class="form-control" aria-label="Transaction Category" placeholder="Select Category"  onchange="showSubcategories()">
+            <option value="" disabled selected>Select Category</option>
+            <option value="Food">Food</option>
+            <option value="Gifts & donations">Gifts & donations</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Health">Health</option>
+            <option value="Leisure">Leisure</option>
+            <option value="Pets">Pets</option>
+            <option value="Rent">Rent</option>
+            <option value="Salary">Salary</option>
+            <option value="Subscription & services">Subscription & services</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Travel">Travel</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="statusSelect" class="visually-hidden">Subcategory</label>
+          <select [(ngModel)]="newTransaction.subcategory" id="transactionSubcat" name="subcategory" class="form-control" aria-label="Transaction Subcategory" placeholder="Enter the subcategory">
+            <option value="" disabled selected>Select Subcategory</option>
+            <option value="Restaurants">Restaurants</option>
+            <option value="Beverage">Beverage</option>
+            <option value="Bread/Bakery">Bread/Bakery</option>
+            <option value="Cleaners">Cleaners</option>
+            <option value="Canned/Jarred Goods">Canned/Jarred Goods</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Eletronics">Eletronics</option>
+            <option value="Frozen Foods">Frozen Foods</option>
+            <option value="Laundry">Laundry</option>
+            <option value="Meat & Fish">Meat & Fish</option>
+            <option value="Snacks">Snacks</option>
+            <option value="Travel">Travel</option>
+            <option value="Vegetables and fruit">Vegetables and fruit</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input type="text" [(ngModel)]="newTransaction.quantity" id="transactionQty" name="quantity" class="form-control" placeholder="Enter the quantity." >
+        </div>
+        <div class="form-group">
+          <input type="text" [(ngModel)]="newTransaction.amount" id="transactionAmount" name="amount"  class="form-control" placeholder="Enter the total.">
+        </div>
+        <div class="form-group">
+          <input type="text" [(ngModel)]="newTransaction.description" id="transactionDesc" name="description"  class="form-control" placeholder="Enter the description" >
+        </div>
+        <div class="form-group">
+          <label for="statusSelect" class="visually-hidden">Status</label>
+          <select [(ngModel)]="newTransaction.status" id="statusSelect" class="form-control" name="status" aria-label="Transaction Status" placeholder="Select status">
+            <option value="" disabled selected>Select status</option>
+            <option value="Payment">Payment</option>
+            <option value="Received">Received</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <mat-form-field class="col-md-12">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="newTransaction.dateCreated" name="dateCreated" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
 
-      <div class="form-group">
-        <label for="statusSelect" class="visually-hidden">Subcategory</label>
-        <select [(ngModel)]="enteredSubcat" id="transactionSubcat" class="form-control" aria-label="Transaction Subcategory" placeholder="Enter the subcategory" (focus)="hideErrorMessage()">
-          <option value="" disabled selected>Select Subcategory</option>
-          <option value="Restaurants">Restaurants</option>
-          <option value="Beverage">Beverage</option>
-          <option value="Bread/Bakery">Bread/Bakery</option>
-          <option value="Cleaners">Cleaners</option>
-          <option value="Canned/Jarred Goods">Canned/Jarred Goods</option>
-          <option value="Dairy">Dairy</option>
-          <option value="Eletronics">Eletronics</option>
-          <option value="Frozen Foods">Frozen Foods</option>
-          <option value="Laundry">Laundry</option>
-          <option value="Meat & Fish">Meat & Fish</option>
-          <option value="Snacks">Snacks</option>
-          <option value="Travel">Travel</option>
-          <option value="Vegetables and fruit">Vegetables and fruit</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <input type="text" [(ngModel)]="enteredQty" id="transactionQty" class="form-control" placeholder="Enter the quantity." (focus)="hideErrorMessage()" >
-      </div>
-
-      <div class="form-group">
-        <input type="text" [(ngModel)]="enteredAmount" id="transactionAmount"  class="form-control" placeholder="Enter the total." (focus)="hideErrorMessage()" >
-      </div>
-
-      <div class="form-group">
-        <input type="text" [(ngModel)]="enteredDesc" id="transactionDesc"  class="form-control" placeholder="Enter the description" (focus)="hideErrorMessage()" >
-      </div>
-
-      <div class="form-group">
-        <label for="statusSelect" class="visually-hidden">Status</label>
-        <select [(ngModel)]="enteredStatus" id="statusSelect" class="form-control" aria-label="Transaction Status" (focus)="hideErrorMessage()" placeholder="Select status">
-          <option value="" disabled selected>Select status</option>
-          <option value="Payment">Payment</option>
-          <option value="Received">Received</option>
-        </select>
-      </div>
-
-      <mat-form-field class="col-md-12">
-        <input matInput [matDatepicker]="picker" [(ngModel)]="enteredDate" name="enteredDate" placeholder="Choose a date" (focus)="hideErrorMessage()">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+        <div class="row">
+          <div class="col-md-6">
+            <button class="btn btn-primary btnSave" type="submit" routerLink="/ui-components/lists" >Save Transaction</button>
+          </div>
+        </div>
+      </form>
 
     </div>
   </div>
-
-
-  <div class="row">
-    <div class="col-md-6">
-      <button class="btn btn-primary btnSave" (click)="onAddTransaction()" >Save Transaction</button>
-    </div>
-  </div>
+ 
 </div>
-
-
-
-<p *ngIf="showError" class="error-message">Please complete all fields.</p>
 
