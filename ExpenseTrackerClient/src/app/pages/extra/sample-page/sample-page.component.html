@@ -5,7 +5,7 @@
       <form #form="ngForm" (ngSubmit)="onAddTransaction(form)">
         <div class="form-group">
           <label for="statusSelect" class="visually-hidden">Category</label>
-          <select [(ngModel)]="newTransaction.category" id="transactionCat" name="category" class="form-control" aria-label="Transaction Category" placeholder="Select Category"  onchange="showSubcategories()">
+          <select [(ngModel)]="newTransaction.category" id="transactionCat" name="category" class="form-control" aria-label="Transaction Category"  onchange="showSubcategories()">
             <option value="" disabled selected>Select Category</option>
             <option value="Food">Food</option>
             <option value="Gifts & donations">Gifts & donations</option>
@@ -37,6 +37,7 @@
             <option value="Snacks">Snacks</option>
             <option value="Travel">Travel</option>
             <option value="Vegetables and fruit">Vegetables and fruit</option>
+            <option value="Other">Company X</option>
             <option value="Other">Other</option>
           </select>
         </div>

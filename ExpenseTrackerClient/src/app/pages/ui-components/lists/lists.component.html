@@ -1,8 +1,10 @@
 <mat-card class="cardWithShadow theme-card">
 
+  <app-transactions-summary></app-transactions-summary>
+
 <mat-card class="cardWithShadow theme-card">
   <mat-card-header>
-    <mat-card-title class="m-b-0">Transactions</mat-card-title>
+    <mat-card-title class="m-b-0">All Transactions</mat-card-title>
   </mat-card-header>
 
   <mat-card-content class="b-t-1">
@@ -39,7 +41,7 @@
         </a>
       </li>
 
-      <li *ngFor="let transaction of transactions" class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">        
+      <li *ngFor="let transaction of transactions" class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">
           <div class="dateCreated">
             {{transaction.dateCreated | date: 'mediumDate'}}
           </div>
@@ -70,7 +72,7 @@
 
           <div>
             <button class="btn btn-secondary btnDelete" (click)="onDeleteTransaction(transaction._id)">Delete</button>
-          </div>        
+          </div>
       </li>
     </ul>
 

@@ -1,0 +1,75 @@
+body, h1, h3, p {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.col-md-6 {
+  flex-basis: calc(33.3333% - 20px);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.income {
+  background-color: #77dd77; /* Pastel Green */
+}
+
+.payments {
+  background-color: #ff6961; /* Pastel Red */
+}
+
+.my-balance {
+  background-color: #add8e6; /* Pastel Blue */
+}
+
+.col-md-6:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+h3 {
+  display: flex;
+  align-items: center; /* Center the icon vertically */
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+i.bi {
+  margin-right: 5px; /* Add some space between the icon and text */
+}
+
+p {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 0;
+}

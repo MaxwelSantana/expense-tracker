@@ -76,3 +76,9 @@
   font-size: 14px; /* Adjust font size as needed */
 }
 
+.m-b-0{
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
