@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Transaction } from 'src/app/models/transaction';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -27,11 +28,11 @@ export class AppSideRegisterComponent {
     if (this.form.valid) {
       const { uname, email, password } = this.f;
       this.auth
-        .signup(uname.value, email.value, password.value)
+        .signup(uname.value, email.value, password.value, null)
         .subscribe((response) => {
           console.log(response);
           if (response.success) {
-            this.auth.storeUserData(response.token)
+            this.auth.storeUserData(response.token, response.transaction)
             this.router.navigateByUrl('/dashboard');
           }
           this.errorMessage = 'User Registration Failed';

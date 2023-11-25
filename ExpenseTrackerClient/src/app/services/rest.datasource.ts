@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
+import { Transaction } from '../models/transaction';
+import { User } from './user.model';
 
 const PROTOCOL = 'http';
 const PORT = 3000;
@@ -13,7 +15,7 @@ export class RestDataSource {
   baseUrl: string;
   auth_token!: string;
   authToken : string = '';
-  private httpOptions = 
+  private httpOptions =
     {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -26,15 +28,15 @@ export class RestDataSource {
     this.baseUrl = `${PROTOCOL}://${location.hostname}:${PORT}/api/`;
     //this.baseUrl = `/api/`;
   }
-  authenticate(email: string, pass: string): Observable<any> {    
+  authenticate(email: string, pass: string): Observable<any> {
     return this.http
       .post<any>(this.baseUrl + 'auth/login', {
         email: email,
         password: pass,
       })
       .pipe(
-        map((response) => {          
-          console.log('authenticate', { response });          
+        map((response) => {
+          console.log('authenticate', { response });
           return response;
         })
       );
@@ -42,17 +44,19 @@ export class RestDataSource {
   signup(
     displayName: string | null,
     email: string | null,
-    password: string | null
+    password: string | null,
+    transactions : Transaction | null
   ): Observable<any> {
     return this.http
       .post<any>(this.baseUrl + 'auth/register', {
         displayName,
         email,
         password,
+        transactions
       })
       .pipe(
         map((response) => {
-          console.log('auth/register', { response });          
+          console.log('auth/register', { response });
           return response;
         })
       );
@@ -68,7 +72,7 @@ export class RestDataSource {
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
-  
+
     return this.http.post<any>(
       this.baseUrl + 'myaccount/changePassword',
       { currentPassword, newPassword, newPassword2 },
@@ -86,35 +90,37 @@ export class RestDataSource {
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
-  
+
     return this.http.delete<any>(this.baseUrl + 'myaccount/deleteMyAccount',this.httpOptions)
-      
-  } 
+
+  }
 
   logout(): Observable<any>
-    {      
-      this.authToken = null!;        
-      localStorage.clear(); 
-      console.log("working from datasource");       
-      return this.http.get<any>(this.baseUrl + 'myaccount/logout',this.httpOptions)      
+    {
+      this.authToken = null!;
+      localStorage.clear();
+      console.log("working from datasource");
+      return this.http.get<any>(this.baseUrl + 'myaccount/logout',this.httpOptions)
     }
 
-  storeUserData(token:any): void
-    {     
-        console.log("StoreUserData: "+ token);         
-        localStorage.setItem('id_token', 'Bearer ' + token);              
+  storeUserData(token:any, transaction: Transaction): void
+    {
+        console.log("StoreUserData: "+ token);
+        localStorage.setItem('id_token', 'Bearer ' + token);
+        localStorage.setItem('transaction', JSON.stringify(transaction));
+        console.log('localStorage', transaction)
     }
 
     loadToken(): void {
-      const token = localStorage.getItem('id_token');   
+      const token = localStorage.getItem('id_token');
       //const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NTU2ZjlmOTdlY2I1MjZmMGE1MDczZSIsImRpc3BsYXlOYW1lIjoiTGVvbmFyZG8iLCJlbWFpbCI6Imxlb0B0ZXN0LmNhIiwiaWF0IjoxNzAwMjY5NDAzLCJleHAiOjE3MDA4NzQyMDN9.ddDGsam7hjpysxyObln6xytT2fNeAkMM9B5ylohwMn0';
-      console.log("loadToken: "+ token);     
+      console.log("loadToken: "+ token);
       this.authToken = token ? `${token}` : ''; // Include the "Bearer " prefix if the token exists
       this.httpOptions.headers = this.httpOptions.headers.set(
         'Authorization', this.authToken );
     }
-    
-  
+
+
 
   private getOptions() {
     return {
@@ -124,3 +130,6 @@ export class RestDataSource {
     };
   }
 }
+
+/**********************TRANSACTIONS**************************/
+

@@ -27,7 +27,21 @@ let user = mongoose.Schema
 			{
 				type: Date,
 				default: Date.now
-			}
+			},
+			transactions:[{
+				category: String,
+				subcategory: String,
+				quantity: Number,
+				amount: Number,
+				description: String,
+				status: {
+				  type: String,
+				  enum: ['Received','Payment']
+				},
+				date: Date,
+				resolutionMessage: String
+			}]
+
 		},
 		{
 			collection: "users"

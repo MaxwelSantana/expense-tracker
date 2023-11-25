@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RestDataSource } from './rest.datasource';
+import { User } from './user.model';
+import { Transaction } from '../models/transaction';
 
 @Injectable()
 export class AuthService {
@@ -13,23 +15,24 @@ export class AuthService {
   signup(
     displayName: string | null,
     email: string | null,
-    password: string | null
+    password: string | null,
+    transaction: Transaction | null
   ): Observable<any> {
-    return this.datasource.signup(displayName, email, password);
+    return this.datasource.signup(displayName, email, password, transaction);
   }
 
   get authenticated(): boolean {
     this.datasource.loadToken();
     console.log(this.datasource.authToken);
     return !!this.datasource.authToken;
-  }  
+  }
 
 logout(): Observable<any>
     {
         return this.datasource.logout();
     }
 
-  storeUserData(token:any){
-    this.datasource.storeUserData(token);
+  storeUserData(token:any, transaction: Transaction){
+    this.datasource.storeUserData(token, transaction);
   }
 }
