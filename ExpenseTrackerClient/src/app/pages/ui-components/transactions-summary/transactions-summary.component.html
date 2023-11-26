@@ -6,20 +6,20 @@
 
 </head>
 <body>
-  <div class="container mt-5" >
+  <div class="container mt-5" *ngIf="transactions">
     <h1>Transaction Summary</h1>
     <div class="row mt-4">
-      <div class="col-md-6 income" *ngIf="transactions">
+      <div class="col-md-6 income" >
         <h3>Income </h3>
-        <p>{{ sumIncome(transactions) }}</p>
+        <p>{{ sumIncome(transactions) | currency}}</p>
       </div>
-      <div class="col-md-6 payments" *ngIf="transactions">
+      <div class="col-md-6 payments" >
         <h3>Payments </h3>
-        <p>{{ sumPayment(transactions) }}</p>
+        <p>{{ sumPayment(transactions) | currency}}</p>
       </div>
       <div class="col-md-6 my-balance">
         <h3>My Balance</h3>
-        <p>$2500</p>
+        <p>{{ myBalance(transactions) | currency}}</p>
       </div>
     </div>
   </div>

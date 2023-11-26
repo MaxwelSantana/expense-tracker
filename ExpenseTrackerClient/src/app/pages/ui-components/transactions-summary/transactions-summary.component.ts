@@ -44,4 +44,11 @@ export class TransactionsSummaryComponent {
     return sumPayment;
   }
 
+  myBalance(transactions: Transaction[]): number {
+    let balance = 0;
+
+    balance = this.sumIncome(transactions) - this.sumPayment(transactions) ;
+    return balance;
+  }
+
 }
