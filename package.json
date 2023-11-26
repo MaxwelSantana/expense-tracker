@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "start-dev": "nodemon server.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
@@ -44,7 +45,8 @@
     "@types/node": "^10.17.31",
     "@types/passport": "^1.0.4",
     "@types/passport-local": "^1.0.33",
-    "@types/passport-local-mongoose": "^4.0.13"
+    "@types/passport-local-mongoose": "^4.0.13",
+    "nodemon": "^3.0.1"
   },
   "repository": {
     "type": "git",

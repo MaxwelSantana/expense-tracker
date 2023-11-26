@@ -23,7 +23,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Budget',
     iconName: 'list',
-    route: '/ui-components/budget',
+    route: '/budget',
   },
   {
     navCap: 'Settings',
