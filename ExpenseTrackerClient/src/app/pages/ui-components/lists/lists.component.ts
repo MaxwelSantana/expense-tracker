@@ -41,13 +41,13 @@ export class AppListsComponent implements OnInit{
     // console.log("FetchTransactions: " + userTransactions);
     // if (typeof userTransactions === 'string') {
     //   const userObject = JSON.parse(userTransactions);
-    //   this.user = userObject as User; 
+    //   this.user = userObject as User;
     //   this.transactions = this.user.transactions
     //   return this.transactions || []; // Return the transaction or an empty array
     // }
     // return []; // Return an empty array in case the condition doesn't match
   //}
-  
+
 
 
   // fetchTransactions() {
@@ -65,7 +65,7 @@ export class AppListsComponent implements OnInit{
     console.log('Deleting transaction with ID:', transactionId);
 
     this.dataSource.deleteTransaction(transactionId).subscribe(
-      
+
       (response) => {
         console.log('Transaction deleted:', response);
         // Optionally, update your UI or perform other actions after successful deletion
@@ -77,4 +77,20 @@ export class AppListsComponent implements OnInit{
       }
     );
   }
+
+
+  calculateSubtotal(transaction: Transaction): number {
+    return transaction.quantity * transaction.amount;
+  }
+
+  // sumIncome(transactions: Transaction[]): number {
+  //   let sumIncome = 0;
+
+  //     for(let i =0; i++; i<transactions.length){
+  //       if(transactions[i].status === "Received"){
+  //         sumIncome = sumIncome + this.calculateSubtotal(transactions[i])
+  //     }
+  //     }
+  //   return sumIncome;
+  // }
 }

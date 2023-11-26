@@ -6,16 +6,16 @@
 
 </head>
 <body>
-  <div class="container mt-5">
+  <div class="container mt-5" >
     <h1>Transaction Summary</h1>
     <div class="row mt-4">
-      <div class="col-md-6 income">
-        <h3>Income <i class="bi bi-arrow-bar-up"></i></h3>
-        <p>$5000</p>
+      <div class="col-md-6 income" *ngIf="transactions">
+        <h3>Income </h3>
+        <p>{{ sumIncome(transactions) }}</p>
       </div>
-      <div class="col-md-6 payments">
-        <h3>Payments <i class="bi bi-arrow-bar-down"></i></h3>
-        <p>$5000</p>
+      <div class="col-md-6 payments" *ngIf="transactions">
+        <h3>Payments </h3>
+        <p>{{ sumPayment(transactions) }}</p>
       </div>
       <div class="col-md-6 my-balance">
         <h3>My Balance</h3>

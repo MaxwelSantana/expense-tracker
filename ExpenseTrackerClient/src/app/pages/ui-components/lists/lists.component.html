@@ -27,9 +27,9 @@
             Subcategory
           </div>
 
-          <div class="status">
+          <!-- <div class="status">
             Status
-          </div>
+          </div> -->
 
           <div class="quantity">
             Quantity
@@ -37,6 +37,10 @@
 
           <div class="amount">
             Amount
+          </div>
+
+          <div class="subtotal">
+            Subtotal
           </div>
         </a>
       </li>
@@ -58,9 +62,9 @@
             {{transaction.subcategory}}
           </div>
 
-          <div class="status">
+          <!-- <div class="status">
             {{transaction.status}}
-          </div>
+          </div> -->
 
           <div class="quantity">
             {{transaction.quantity}}
@@ -68,6 +72,10 @@
 
           <div [ngClass]="{ 'amount': true, 'negative': transaction.amount < 0 }">
             {{transaction.amount | currency}}
+          </div>
+
+          <div class="Subtotal">
+            {{ calculateSubtotal(transaction) }}
           </div>
 
           <div>
