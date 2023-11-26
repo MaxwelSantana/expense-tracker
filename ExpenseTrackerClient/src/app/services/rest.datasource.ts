@@ -63,7 +63,6 @@ export class RestDataSource {
       );
   }
 
-
   changePassword(
     currentPassword: string | null,
     newPassword: string | null,
@@ -92,10 +91,12 @@ export class RestDataSource {
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
-  
-    return this.http.delete<any>(this.baseUrl + 'myaccount/deleteMyAccount',this.httpOptions)
-      
-  } 
+
+    return this.http.delete<any>(
+      this.baseUrl + 'myaccount/deleteMyAccount',
+      this.httpOptions
+    );
+  }
 
   logout(): Observable<any>
     {      
@@ -122,12 +123,16 @@ export class RestDataSource {
     
   
 
-  private getOptions() {
-    return {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${this.auth_token}`,
-      }),
-    };
+  get(path: string): Observable<any> {
+    return this.http.get<any>(this.baseUrl + path, this.httpOptions);
+  }
+
+  post(path: string, data: any): Observable<any> {
+    return this.http.post<any>(this.baseUrl + path, data, this.httpOptions);
+  }
+
+  put(path: string, data: any): Observable<any> {
+    return this.http.put<any>(this.baseUrl + path, data, this.httpOptions);
   }
 
   /**********************TRANSACTIONS**************************/

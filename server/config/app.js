@@ -30,6 +30,7 @@ let incidents = require('../routes/incidents');
 let transactions = require('../routes/transactions');
 let auth = require('../routes/auth');
 let myAccount = require('../routes/myAccount');
+let budget = require('../routes/budget');
 
 let app = express();
 
@@ -73,8 +74,9 @@ passport.use(strategy);
 // route redirects
 app.use('/api/transactions', transactions);
 app.use('/api/incidents', incidents);
-app.use('/api/auth', auth);
+app.use('/api/auth', auth.router);
 app.use('/api/myaccount', myAccount);
+app.use('/api/budget', budget);
 
 app.get('/*', (req, res) => {
   res.sendFile(process.cwd() + "/ExpenseTrackerClient/dist/ExpenseTracker/index.html")
