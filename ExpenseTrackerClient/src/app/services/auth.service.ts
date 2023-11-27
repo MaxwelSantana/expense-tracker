@@ -15,7 +15,7 @@ export class AuthService {
   signup(
     displayName: string | null,
     email: string | null,
-    password: string | null    
+    password: string | null
   ): Observable<any> {
     return this.datasource.signup(displayName, email, password);
   }
@@ -31,7 +31,7 @@ logout(): Observable<any>
         return this.datasource.logout();
     }
 
-  storeUserData(token:any, user: String[]){
-    this.datasource.storeUserData(token, user);
+  storeUserData(token:any){
+    this.datasource.storeUserData(token);
   }
 }
