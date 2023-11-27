@@ -28,7 +28,7 @@ import { AuthService } from './services/auth.service';
 import { AuthenticationModule } from './pages/authentication/authentication.module';
 import { AuthGuard } from './app-auth.guard';
 import { SettingsService } from './services/settings.service';
-import { User } from './services/user.model';
+import { BudgetRepository } from './repository/budget.repository';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
@@ -57,6 +57,12 @@ import { MatNativeDateModule } from '@angular/material/core';
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
-  providers: [RestDataSource, AuthService, AuthGuard,SettingsService, User],
+  providers: [
+    RestDataSource,
+    AuthService,
+    AuthGuard,
+    SettingsService,
+    BudgetRepository,
+  ],
 })
 export class AppModule {}

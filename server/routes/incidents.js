@@ -5,23 +5,7 @@ const DB = require('../config/db');
 const router = express.Router();
 const Incident = require('../models/incidents');
 const { sortIncidents } = require('../helper/incidents-helper');
-
-function requireAuth(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-
-  if (token == null) return res.sendStatus(401)
-
-  jwt.verify(token, DB.Secret, (err, user) => {
-    console.log(err);
-
-    if (err) return res.sendStatus(403);
-
-    req.user = user;
-
-    next();
-  });
-}
+const { requireAuth } = require('./auth');
 
 /* GET incidents List page. READ */
 router.get('/', requireAuth, (req, res, next) => {

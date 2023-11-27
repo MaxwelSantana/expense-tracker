@@ -46,10 +46,10 @@ router.post('/register', (req, res, next) => {
 		displayName: req.body.displayName
 	});
 
-	User.register(newUser, req.body.password, (err) => {
-		if (err) {
+	User.register(newUser, req.body.password, (error) => {
+		if (error) {
 			console.log("Error: inserting New User");
-			return res.json({ success: false, error: JSON.stringify(err) });
+			return res.json({ success: false, error });
 		}
 		else {
 			const payload = {
@@ -66,5 +66,25 @@ router.post('/register', (req, res, next) => {
 	});
 });
 
+function requireAuth(req, res, next) {
+	const authHeader = req.headers['authorization']
+	const token = authHeader && authHeader.split(' ')[1]
 
-module.exports = router;
+	if (token == null) return res.sendStatus(401)
+
+	jwt.verify(token, DB.Secret, (err, user) => {
+		console.log(err);
+
+		if (err) return res.sendStatus(403);
+
+		req.user = user;
+		req.userId = user.id;
+
+		next();
+	});
+}
+
+module.exports = {
+	router,
+	requireAuth
+};

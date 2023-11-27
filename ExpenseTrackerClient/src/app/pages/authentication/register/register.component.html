@@ -70,7 +70,9 @@
             <mat-form-field appearance="outline" class="w-100" color="primary">
               <input matInput type="password" formControlName="password" />
             </mat-form-field>
-
+            <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
+              {{errorMessage}}
+            </div>
             <button type="submit" mat-flat-button color="primary" class="w-100">
               Sign Up
             </button>
