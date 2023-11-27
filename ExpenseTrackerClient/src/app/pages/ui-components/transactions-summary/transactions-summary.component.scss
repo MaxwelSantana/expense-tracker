@@ -5,13 +5,13 @@ body, h1, h3, p {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f4f4;
+
   color: #333;
   line-height: 1.6;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -40,15 +40,15 @@ h1 {
 }
 
 .income {
-  background-color: #77dd77; /* Pastel Green */
+  background-color: #55aaaa /* Pastel Green */
 }
 
 .payments {
-  background-color: #ff6961; /* Pastel Red */
+  background-color: #55aaaa /* Pastel Red */
 }
 
 .my-balance {
-  background-color: #add8e6; /* Pastel Blue */
+  background-color: 		#226666 /* Pastel Blue */
 }
 
 .col-md-6:hover {

@@ -43,22 +43,12 @@ router.get('/getTransactions',requireAuth,async (req, res, next) => {
 
     return res.status(500).json({success:false, message:"Transaction has not been displayed"})
   }   
-    
-  
 });
 
 // POST process the Incident Details page and create a new Incident - CREATE
 router.post('/newTransaction', requireAuth, async (req, res, next) => {
-  //let currentDate = new Date();
-  //let transactionDate = `${currentDate.getDate().toString().padStart(2, '0')}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getFullYear().toString().substr(-2)}`;
+ 
   console.log(req.body);
-  // let lastTransaction = await Transaction.findOne().sort({ $natural: -1 }).exec();
-  // let lastTransactionNumber = lastTransaction ? await Transaction.countDocuments() : 0;
-
-
-  // Increment the last incident number and pad with leading zeros
-  //let newTransactionNumber = (lastTransactionNumber + 1).toString().padStart(7, '0');
-
   let newTransaction = new Transaction({
     "id": req.body._id,
     "category": req.body.category,
@@ -93,82 +83,54 @@ return res.status(200).json({success:true, message:"Transaction added successful
     return res.status(500).json({success:false, message:"Transaction added successfully"})
   }
 
-
-
-// try{
-//   await AddTransactionToUSer.save();
-//   console.log(AddTransactionToUSer);
-// }
-// catch(err){
-//   console.log(err);
-//   res.status(500).json({error:'An error occured while fetching transaction'});
-// }
-
-  // Transaction.create(newTransaction, (err, transaction) => {
-  //   if (err) {
-  //     console.log(err);
-  //     res.end(err);
-  //   }
-  //   else {
-  //     res.json(transaction);
-  //   }
-  // });
 });
 
 // POST - process the information passed from the details form and update the document
-router.post('/:id', (req, res, next) => {
-  let id = req.params.id;
-  Transaction.findById(id, (err, transaction) => {
-    if (err) {
-      console.log(err);
-      res.end(err);
+router.patch('/editTransaction/:id', requireAuth, async (req, res, next) => {
+  const userId = req.user.id;
+  const transactionId = req.params.id;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    let updatedTransaction = Transaction({
-        "category": req.body.category,
-        "subcategory": req.body.subcategory,
-        "quantity": req.body.quantity,
-        "amount": req.body.amount,
-        "description": req.body.description,
-        "status": req.body.status,
-        "date": req.body.date
-    });
+    const transactionToUpdate = user.transactions.find(
+      (transaction) => String(transaction._id) === transactionId
+    );
 
-    if (transaction.Status != updatedTransaction.Status) {
-      const narrative = req.body.Narrative;
-      const log = {
-        User: req.user.displayName,
-        From: transaction.Status,
-        To: updatedTransaction.Status,
-        Narrative: narrative,
-        Date: new Date(),
-      };
-      let logHistory = transaction.LogHistory || [];
-      logHistory.push(log);
-      updatedTransaction.LogHistory = logHistory;
-
-      if (updatedTransaction.Status == "Close") {
-        updatedTransaction.ResolutionMessage = narrative;
-      }
+    if (!transactionToUpdate) {
+      return res.status(404).json({ message: 'Transaction not found' });
     }
 
-    Transaction.updateOne({ _id: id }, updatedTransaction, {}, (err) => {
-      if (err) {
-        console.log(err);
-        res.end(err);
-      }
-      else {
-        res.json(updatedTransaction);
-      }
-    });
-  });
+    // Update transaction fields
+    transactionToUpdate.category = req.body.category;
+    transactionToUpdate.subcategory = req.body.subcategory;
+    transactionToUpdate.quantity = req.body.quantity;
+    transactionToUpdate.amount = req.body.amount;
+    transactionToUpdate.description = req.body.description;
+    transactionToUpdate.status = req.body.status;
+    transactionToUpdate.date = req.body.date;
+
+    await user.save(); // Save the updated user document
+
+    res.json(transactionToUpdate); // Return the updated transaction
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error' });
+  }
 });
+
+
 
 // GET - process the delete by user id
 router.delete('/deleteTransaction/:id',requireAuth, async (req, res, next) => {
   const userId = req.user.id; // Assuming you have access to the user's ID
   const transactionId = req.params.id;
-  console.log("transactions", transactionId);
+  console.log("transactions ID", transactionId);
 
   try {
     const user = await User.findById(userId);

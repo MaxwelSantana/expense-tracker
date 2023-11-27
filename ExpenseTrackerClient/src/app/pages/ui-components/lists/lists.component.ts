@@ -15,51 +15,15 @@ export class AppListsComponent implements OnInit{
  transactions ?: Transaction[] | null ;
  user ?: User;
 
+
  constructor(private dataSource: RestDataSource) {
-    // const fetchedTransactions = this.fetchTransactions; // Call the method to execute it
-    // console.log("Fetched Transactions: ", fetchedTransactions);
     this.dataSource.getTransactions().subscribe(t=> {
     this.transactions = t;
     console.log(this.transactions);
     })
 }
 
-
-  ngOnInit() {
-    // this.transactions;
-
-    //  this.fetchTransactions(); // Fetch transactions on component initialization
-    //  console.log(this.transactions)
-  }
-
-  // get fetchTransactions(): Transaction[] {
-  //   this.dataSource.getTransactions().subscribe(t =>{
-  //     this.transactions = t.transactions;
-  //     return this.transactions;
-  //   })
-    // const userTransactions = localStorage.getItem('user');
-    // console.log("FetchTransactions: " + userTransactions);
-    // if (typeof userTransactions === 'string') {
-    //   const userObject = JSON.parse(userTransactions);
-    //   this.user = userObject as User;
-    //   this.transactions = this.user.transactions
-    //   return this.transactions || []; // Return the transaction or an empty array
-    // }
-    // return []; // Return an empty array in case the condition doesn't match
-  //}
-
-
-
-  // fetchTransactions() {
-  //   this.transactionService.getAll().subscribe(
-  //     (data: Transaction[]) => {
-  //       this.transactions = data; // Assign the retrieved data to this.transactions
-  //     },
-  //     (error) => {
-  //       console.error(error); // Handle any errors
-  //     }
-  //   );
-  // }
+  ngOnInit() {}
 
   onDeleteTransaction(transactionId: string) {
     console.log('Deleting transaction with ID:', transactionId);
@@ -78,19 +42,46 @@ export class AppListsComponent implements OnInit{
     );
   }
 
-
   calculateSubtotal(transaction: Transaction): number {
     return transaction.quantity * transaction.amount;
   }
 
-  // sumIncome(transactions: Transaction[]): number {
-  //   let sumIncome = 0;
 
-  //     for(let i =0; i++; i<transactions.length){
-  //       if(transactions[i].status === "Received"){
-  //         sumIncome = sumIncome + this.calculateSubtotal(transactions[i])
-  //     }
-  //     }
-  //   return sumIncome;
-  // }
+  enableEdit(transaction: Transaction): void {
+    transaction.editable = true;
+
+  }
+
+  cancelChanges( transaction: Transaction){
+    transaction.editable = false;
+  }
+
+
+  saveChanges(transactionId: string, transaction: Transaction): void {
+    this.dataSource.editTransaction(transactionId, transaction).subscribe(
+
+      (response) => {
+        console.log('Transaction edited:', response);
+        window.location.reload(); // Reload the page
+      },
+      (error) => {
+        console.error('Error editing transaction:', error);
+      }
+    );
+
+    this.calculateSubtotal(transaction);
+
+    transaction.editable = false;
+  }
+
+  toggleDetails(event: any, transactionId: any) {
+    const details = document.getElementById('details-' + transactionId);
+    if (details) {
+      if (details.style.display === 'none') {
+        details.style.display = 'block';
+      } else {
+        details.style.display = 'none';
+      }
+    }
+  }
 }

@@ -15,15 +15,15 @@ export class TransactionService {
     return this.http.get<Transaction[]>(this.apiUrl); // Perform GET request to fetch all transactions
   }
 
-  
-
-  editTransaction(updatedTransaction: Transaction): Observable<Transaction> {
-    const url = `${this.apiUrl}/${updatedTransaction._id}`;
-    return this.http.post<Transaction>(url, updatedTransaction); // Perform POST request to update a transaction by ID
+  editTransaction(transactionId: string, updatedTransaction: Transaction): Observable<any> {
+    const url = `${this.apiUrl}/${transactionId}`;
+    return this.http.patch<any>(url, updatedTransaction);
   }
 
   deleteTransaction(transactionId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${transactionId}`);
   }
+
+
 }
 

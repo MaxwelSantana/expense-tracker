@@ -10,6 +10,8 @@ export class Transaction{
   status!:string;
   dateCreated!:Date;
 
+  editable?: boolean;
+
   constructor(){};
 
   clearForm(): void {

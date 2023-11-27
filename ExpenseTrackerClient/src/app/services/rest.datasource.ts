@@ -45,13 +45,13 @@ export class RestDataSource {
     displayName: string | null,
     email: string | null,
     password: string | null
-    
+
   ): Observable<any> {
     return this.http
       .post<any>(this.baseUrl + 'auth/register', {
         displayName,
         email,
-        password        
+        password
       })
       .pipe(
         map((response) => {
@@ -132,13 +132,13 @@ export class RestDataSource {
 
   /**********************TRANSACTIONS**************************/
 
-  addTransaction(newTransaction: Transaction): Observable<Transaction> 
+  addTransaction(newTransaction: Transaction): Observable<Transaction>
   {
     this.loadToken();
     return this.http.post<Transaction>(this.baseUrl + 'transactions/newTransaction', newTransaction, this.httpOptions); // Perform POST request to add a new transaction
   }
 
-  getTransactions(): Observable<Transaction[]> 
+  getTransactions(): Observable<Transaction[]>
   {
     this.loadToken();
     return this.http.get<Transaction[]>(this.baseUrl + 'transactions/getTransactions', this.httpOptions); // Perform GET request to add a new transaction
@@ -148,8 +148,10 @@ export class RestDataSource {
     return this.http.delete<any>(this.baseUrl + 'transactions/deleteTransaction/' + transactionId, this.httpOptions);
   }
 
-
-
+  editTransaction(transactionId: string, updatedTransaction: Transaction): Observable<any> {
+    const url = `${this.baseUrl}transactions/editTransaction/${transactionId}`;
+    return this.http.patch<any>(url, updatedTransaction);
+  }
 }
 
 
