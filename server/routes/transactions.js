@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const DB = require('../config/db');
 const router = express.Router();
 const Transaction = require('../models/transactions');
+const Categories =  require('../models/categories')
 let User = require('../models/user');
 
 
@@ -158,5 +159,18 @@ router.delete('/deleteTransaction/:id',requireAuth, async (req, res, next) => {
   }
 });
 
+router.get('/getCategories', requireAuth, async(req, res, next) =>{
+  try{
+    const categories = await Categories.find();
+    res.json(categories);
+  }  
+  catch (err) {
+    console.error(err);
+    // Handle the error appropriately (e.g., send an error response)
+    res.status(500).json({ error: 'An error occurred while fetching the list.' });
+  }
+})
+
+//zcxzcx
 
 module.exports = router;
