@@ -29,6 +29,8 @@ import { AuthenticationModule } from './pages/authentication/authentication.modu
 import { AuthGuard } from './app-auth.guard';
 import { SettingsService } from './services/settings.service';
 import { BudgetRepository } from './repository/budget.repository';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { BudgetRepository } from './repository/budget.repository';
     MaterialModule,
     TablerIconsModule.pick(TablerIcons),
     AuthenticationModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],

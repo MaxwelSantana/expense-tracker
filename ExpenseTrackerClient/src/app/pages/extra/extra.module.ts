@@ -11,6 +11,8 @@ import * as TablerIcons from 'angular-tabler-icons/icons';
 import { ExtraRoutes } from './extra.routing';
 import { AppIconsComponent } from './icons/icons.component';
 import { AppSamplePageComponent } from './sample-page/sample-page.component';
+import { RestDataSource } from 'src/app/services/rest.datasource';
+import { Transaction } from 'src/app/models/transaction';
 
 
 @NgModule({
@@ -26,5 +28,6 @@ import { AppSamplePageComponent } from './sample-page/sample-page.component';
     AppIconsComponent,
     AppSamplePageComponent
   ],
+  providers:[Transaction]
 })
 export class ExtraModule {}

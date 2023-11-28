@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RestDataSource } from './rest.datasource';
+import { User } from './user.model';
+import { Transaction } from '../models/transaction';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +24,7 @@ export class AuthService {
     this.datasource.loadToken();
     console.log(this.datasource.authToken);
     return !!this.datasource.authToken;
-  }  
+  }
 
 logout(): Observable<any>
     {

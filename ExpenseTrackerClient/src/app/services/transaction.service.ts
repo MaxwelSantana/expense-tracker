@@ -1,22 +1,29 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'; // Import HttpClient to perform HTTP requests
+import { Observable } from 'rxjs';
 import { Transaction } from '../models/transaction';
-import { sample_transactions } from 'src/data';
-
-
-// @Injectable decorator. This decorator tells Angular that this class can be injected into other components or services.
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-
-//export the PostService class so that it can be imported and used in other parts of your application.
-
 export class TransactionService {
-  constructor(){}
+  private apiUrl = 'http://localhost:3000/api/transactions';
 
-    getAll(): Transaction[]{
+  constructor(private http: HttpClient) {}
 
-      return sample_transactions;
- }
+  getAll(): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(this.apiUrl); // Perform GET request to fetch all transactions
+  }
+
+  // editTransaction(transactionId: string, updatedTransaction: Transaction): Observable<any> {
+  //   const url = `${this.apiUrl}/${transactionId}`;
+  //   return this.http.patch<any>(url, updatedTransaction);
+  // }
+
+  deleteTransaction(transactionId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${transactionId}`);
+  }
+
 
 }
+

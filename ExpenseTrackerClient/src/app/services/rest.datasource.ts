@@ -3,6 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
+import { Transaction } from '../models/transaction';
+import { User } from './user.model';
+import { Categories } from '../models/categories';
 
 const PROTOCOL = 'http';
 const PORT = 3000;
@@ -45,12 +48,13 @@ export class RestDataSource {
     displayName: string | null,
     email: string | null,
     password: string | null
+
   ): Observable<any> {
     return this.http
       .post<any>(this.baseUrl + 'auth/register', {
         displayName,
         email,
-        password,
+        password
       })
       .pipe(
         map((response) => {
@@ -131,4 +135,36 @@ export class RestDataSource {
   put(path: string, data: any): Observable<any> {
     return this.http.put<any>(this.baseUrl + path, data, this.httpOptions);
   }
+
+  /**********************TRANSACTIONS**************************/
+
+  addTransaction(newTransaction: Transaction): Observable<Transaction>
+  {
+    this.loadToken();
+    return this.http.post<Transaction>(this.baseUrl + 'transactions/newTransaction', newTransaction, this.httpOptions); // Perform POST request to add a new transaction
+  }
+
+  getTransactions(): Observable<Transaction[]>
+  {
+    this.loadToken();
+    return this.http.get<Transaction[]>(this.baseUrl + 'transactions/getTransactions', this.httpOptions); // Perform GET request to add a new transaction
+  }
+
+  deleteTransaction(transactionId: string): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + 'transactions/deleteTransaction/' + transactionId, this.httpOptions);
+  }
+
+  editTransaction(transactionId: string, updatedTransaction: Transaction): Observable<any> {
+    this.loadToken();
+    const url = `${this.baseUrl}transactions/editTransaction/${transactionId}`;
+    return this.http.patch<any>(url, updatedTransaction , this.httpOptions);
+  }
+
+
+  getCategories(): Observable<Categories[]> {
+    return this.http.get<Categories[]>(this.baseUrl + 'transactions/getCategories', this.httpOptions);
+  }
 }
+
+
+

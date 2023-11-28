@@ -1,13 +1,28 @@
-/* Style for the transaction list container */
-.transaction-list {
-  list-style: none;
-  padding: 0;
+/* Style for the table */
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transaction-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Evenly space items along the container's main axis */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+  text-align: left;
+}
+
+/* Style for the table header row */
+.transaction-header th{
+  font-weight: bold;
+  padding: 8px;
 }
 
 /* Style for each transaction item */
 .transaction-item {
   display: flex;
-  align-items: center;
   justify-content: space-between; /* Evenly space items along the container's main axis */
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -15,11 +30,6 @@
   transition: background-color 0.3s; /* Add a smooth background color transition effect */
 }
 
-/* Style for the transaction header */
-.transaction-header {
-  font-weight: bold;
-  background-color: #f0f0f0; /* Add a background color to distinguish the header */
-}
 
 /* Style for the transaction item elements */
 .transaction-item a {
@@ -30,24 +40,40 @@
   padding: 10px;
 }
 
-/* Style for the dateCreated element */
-.dateCreated {
-  width: 15%;
+/* Style for transaction item cells */
+.transaction-item td {
+  padding: 8px;
 }
 
-/* Style for the description element */
-.description {
-  width: 20%;
+/* Style for the button column */
+.transaction-item td:last-child {
+  width: 100px; /* Adjust the width as needed */
+  text-align: center;
 }
 
-/* Style for the category element */
-.category,
-.Subcategory,
-.status,
-.quantity,
-.amount {
-  width: 15%; /* Adjust the width based on your preference */
+/* Style for the collapse div */
+.collapse {
+  display: none;
 }
+
+/* Style for the details section */
+.details {
+  margin-top: 10px;
+}
+
+
+/* Style for buttons */
+.btn {
+  margin-right: 5px;
+  /* Add any other button styles as needed */
+}
+
+/* Style for the transaction list container */
+.transaction-list {
+  list-style: none;
+  padding: 0;
+}
+
 
 /* Style for negative amounts (e.g., expenses) */
 .amount.negative {
@@ -61,7 +87,7 @@
 
 /* Style for "Received" transactions */
 .received {
-  background-color: #d9ffd9; /* Light green background for Received */
+  background-color: #caedca; /* Light green background for Received */
 }
 
 /* Hover effect for transaction items */
@@ -69,4 +95,23 @@
   background-color: #e0e0e0; /* Light gray background on hover */
 }
 
+.date-column {
+  width: 15%; /* Adjust the width based on your preference */
+}
+
+.desc-column {
+  width: 35%; /* Adjust the width based on your preference */
+}
+
+.amt-column {
+  width: 20%; /* Adjust the width based on your preference */
+}
+
+.subt-column {
+  width: 20%; /* Adjust the width based on your preference */
+}
+
+.btn-column {
+  width: 10%; /* Adjust the width based on your preference */
+}
 

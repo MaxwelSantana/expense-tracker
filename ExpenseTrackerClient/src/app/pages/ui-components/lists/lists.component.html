@@ -1,279 +1,119 @@
 <mat-card class="cardWithShadow theme-card">
-  <mat-card-header>
-    <mat-card-title class="m-b-0">Transactions</mat-card-title>
-  </mat-card-header>
+  <app-transactions-summary></app-transactions-summary>
+</mat-card>
 
-
-  <label for="transactionCat">Category</label>
-  <input type="text" [(ngModel)]="enteredCateg" id="transactionCat"  placeholder="Enter the category">
-
-  <label for="transactionSubcat">Subcategory</label>
-  <input type="text" [(ngModel)]="enteredSubcat" id="transactionSubcat" placeholder="Enter the subcategory">
-
-  <label for="transactionQty">Quantity</label>
-  <input type="text" [(ngModel)]="enteredQty" id="transactionQty" placeholder="Enter the quantity.">
-
-  <label for="amount">Amount</label>
-  <input type="text" [(ngModel)]="enteredAmount" id="transactionAmount" placeholder="Enter the total.">
-
-  <label for="transactionName">Description</label>
-  <input type="text" [(ngModel)]="enteredDesc" id="transactionDesc" placeholder="Enter the description">
-
-  <label for="status">Status</label>
-  <input type="text" [(ngModel)]="enteredStatus" id="transactionStatus" placeholder="Status">
-
-  <label for="date">Date</label>
-  <input type="text" [(ngModel)]="enteredDate" id="transactionDate" placeholder="Date">
-
-    <button class = "btnSave" (click)="onAddTransaction()"> Save Transaction</button>
-
-
+<mat-card class="cardWithShadow theme-card">
   <mat-card-content class="b-t-1">
-    <ul class="transaction-list">
-      <li class="transaction-item transaction-header">
-        <a>
-          <div class="dateCreated">
-            Date
-          </div>
-
-          <div class="description">
-            Description
-          </div>
-
-          <div class="category">
-            Category
-          </div>
-
-          <div class="Subcategory">
-            Subcategory
-          </div>
-
-
-          <div class="status">
-            Status
-          </div>
-
-          <div class="quantity">
-            Quantity
-          </div>
-
-          <div class="amount">
-            Amount
-          </div>
-        </a>
-      </li>
-
-      <li *ngFor="let transaction of transactions" class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">
-        <a routerLink="/transaction{{transaction.id}}">
-          <div class="dateCreated">
-            {{transaction.dateCreated | date: 'mediumDate'}}
-          </div>
-
-          <div class="description">
-            {{transaction.description}}
-          </div>
-
-          <div class="category">
-            {{transaction.category}}
-          </div>
-
-          <div class="Subcategory">
-            {{transaction.subcategory}}
-          </div>
-
-          <div class="status">
-            {{transaction.status}}
-          </div>
-
-          <div class="quantity">
-            {{transaction.quantity}}
-          </div>
-
-          <div [ngClass]="{ 'amount': true, 'negative': transaction.amount < 0 }">
-            {{transaction.amount | currency}}
-          </div>
-        </a>
-      </li>
-    </ul>
-
-    <div class="row">
-      <div class="col-lg-6">
-        <!-- --------------------------------------------------- -->
-        <!-- basic -->
-        <!-- --------------------------------------------------- -->
-        <mat-card class="b-1 shadow-none">
-          <mat-card-header>
-            <mat-card-title>Basic</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="b-t-1">
-            <mat-list role="list">
-              <mat-list-item role="listitem">Item 1</mat-list-item>
-              <mat-list-item role="listitem">Item 2</mat-list-item>
-              <mat-list-item role="listitem">Item 3</mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
+    <table class="transaction-table">
+      <thead>
+        <tr class="transaction-header">
+          <th class="date-column">Date</th>
+          <th class="desc-column">Description</th>
+          <th class="subt-column">Subtotal</th>
+          <th class="btn-column"></th> <!-- Empty header for buttons -->
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let transaction of transactions">
+          <tr class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">
+            <td class="date-column">
+              <ng-container *ngIf="!transaction.editable; else editableDateField">
+                {{ transaction.date | date: 'yyyy/MM/dd':"+0000" }}
+              </ng-container>
+              <ng-template #editableDateField>
+                <input type="date" [(ngModel)]="transaction.date">
+              </ng-template>
+            </td>
 
 
+            <td class="desc-column">
+              <ng-container *ngIf="!transaction.editable; else editableDescriptionField">
+                {{ transaction.description }}
+              </ng-container>
+              <ng-template #editableDescriptionField>
+                <input type="text" [(ngModel)]="transaction.description">
+              </ng-template>
+            </td>
 
-      <div class="col-lg-6">
-        <!-- --------------------------------------------------- -->
-        <!-- two line -->
-        <!-- --------------------------------------------------- -->
-        <mat-card class="b-1 shadow-none">
-          <mat-card-header>
-            <mat-card-title>Two Line</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="b-t-1">
-            <mat-list>
-              <mat-list-item>
-                <span matListItemTitle class="f-s-16 f-w-600">Title</span>
-                <span matListItemLine class="mat-body-1">Second line</span>
-              </mat-list-item>
-              <mat-list-item>
-                <span matListItemTitle class="f-s-16 f-w-600">Title</span>
-                <span matListItemLine class="mat-body-1">Second line</span>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
+            <td class="subt-column">{{ calculateSubtotal(transaction) | currency }}</td>
+            <td class="btn-column" rowspan="2">
 
-      <div class="col-lg-6">
-        <!-- --------------------------------------------------- -->
-        <!-- two line -->
-        <!-- --------------------------------------------------- -->
-        <mat-card class="b-1 shadow-none">
-          <mat-card-header>
-            <mat-card-title>Three Line</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="b-t-1">
-            <mat-list>
-              <mat-list-item>
-                <span matListItemTitle class="f-s-16 f-w-600">Title</span>
-                <span matListItemLine class="mat-body-1">Second line</span>
-                <span matListItemLine class="mat-body-1">Third line</span>
-              </mat-list-item>
-              <mat-list-item>
-                <span matListItemTitle class="f-s-16 f-w-600">Title</span>
-                <span matListItemLine class="mat-body-1"
-                  >Second line. This line will truncate.</span
-                >
-                <span class="mat-body-1">Third line</span>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
+              <button (click)="toggleDetails($event, transaction._id)" >
+                <i class="fa-solid fa-caret-down"></i>
+              </button>
 
-      <div class="col-lg-6">
-        <!-- --------------------------------------------------- -->
-        <!-- two line -->
-        <!-- --------------------------------------------------- -->
-        <mat-card class="b-1 shadow-none">
-          <mat-card-header>
-            <mat-card-title>Three Line with Text wrapping</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="b-t-1">
-            <mat-list style="max-width: 500px">
-              <mat-list-item lines="3">
-                <span matListItemTitle class="f-s-16 f-w-600">Title</span>
-                <span class="mat-body-1"
-                  >Secondary line that will wrap because the list lines is
-                  explicitly set to 3 lines. Text inside of a `matListItemTitle`
-                  or `matListItemLine` will never wrap.
-                </span>
-              </mat-list-item>
-              <mat-list-item lines="3" class="mat-body-1">
-                <span matListItemTitle class="f-s-16 f-w-600">Title</span>
-                <span class="mat-body-1"
-                  >Secondary line that will wrap because the list lines is
-                  explicitly set to 3 lines. Text inside of a `matListItemTitle`
-                  or `matListItemLine` will never wrap.
-                </span>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="3"> <!-- colspan to span three columns -->
+              <div [id]="'details-' + transaction._id" class="collapse">
+                <!-- Details -->
 
-      <div class="col-lg-6">
-        <!-- --------------------------------------------------- -->
-        <!-- List with Selection -->
-        <!-- --------------------------------------------------- -->
-        <mat-card class="b-1 shadow-none">
-          <mat-card-header>
-            <mat-card-title>List with Selection</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="b-t-1">
-            <mat-selection-list #shoes>
-              <mat-list-option *ngFor="let shoe of typesOfShoes">
-                {{ shoe }}
-              </mat-list-option>
-            </mat-selection-list>
+                <div class="details">
+                  <table class="transaction-table-details">
+                    <tr>
+                      <td>Category: </td>
+                      <td>
+                        <ng-container *ngIf="!transaction.editable; else editableCategoryField">
+                          {{ transaction.category }}
+                        </ng-container>
+                        <ng-template #editableCategoryField>
+                          <input type="text" [(ngModel)]="transaction.category">
+                        </ng-template>
+                      </td>
+                    </tr>
 
-            <p class="mat-subtitle-2 f-w-600 p-16 bg-light-primary rounded">
-              Options selected: {{ shoes.selectedOptions.selected.length }}
-            </p>
-          </mat-card-content>
-        </mat-card>
-      </div>
+                    <td>Subcategory: </td>
+                      <td>
+                        <ng-container *ngIf="!transaction.editable; else editableSubCategoryField">
+                          {{ transaction.subcategory }}
+                        </ng-container>
+                        <ng-template #editableSubCategoryField>
+                          <input type="text" [(ngModel)]="transaction.subcategory">
+                        </ng-template>
+                      </td>
+                    <tr>
 
-      <div class="col-lg-6">
-        <!-- --------------------------------------------------- -->
-        <!-- List with single Selection -->
-        <!-- --------------------------------------------------- -->
-        <mat-card class="b-1 shadow-none">
-          <mat-card-header>
-            <mat-card-title>List with single Selection</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="b-t-1">
-            <mat-selection-list #shoes2 [multiple]="false">
-              <mat-list-option *ngFor="let shoe of typesOfShoes" [value]="shoe">
-                {{ shoe }}
-              </mat-list-option>
-            </mat-selection-list>
+                      <td>Amount: </td>
+                      <td>
+                        <ng-container *ngIf="!transaction.editable; else editableAmountField">
+                          {{ transaction.amount }}
+                        </ng-container>
+                        <ng-template #editableAmountField>
+                          <input type="text" [(ngModel)]="transaction.amount">
+                        </ng-template>
+                      </td>
+                    <tr>
+                      <td>Quantity: </td>
+                      <td>
+                        <ng-container *ngIf="!transaction.editable; else editableQuantityField">
+                          {{ transaction.quantity }}
+                        </ng-container>
+                        <ng-template #editableQuantityField>
+                          <input type="text" [(ngModel)]="transaction.quantity">
+                        </ng-template>
+                      </td>
+                    <tr>
+                    </tr>
+                  </table>
 
-            <p class="mat-subtitle-2 f-w-600 p-16 bg-light-primary rounded">
-              Option selected:
-              {{
-                shoes2.selectedOptions.hasValue()
-                  ? shoes2.selectedOptions.selected[0].value
-                  : "None"
-              }}
-            </p>
-          </mat-card-content>
-        </mat-card>
-      </div>
 
-      <div class="col-12">
-        <!-- --------------------------------------------------- -->
-        <!-- List with sections -->
-        <!-- --------------------------------------------------- -->
-        <mat-card class="b-1 shadow-none">
-          <mat-card-header>
-            <mat-card-title>List with sections</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="b-t-1">
-            <mat-list>
-              <div mat-subheader class="mat-body-2 m-b-16 f-w-600">Folders</div>
-              <mat-list-item *ngFor="let folder of folders">
-                <mat-icon matListItemIcon>folder</mat-icon>
-                <div matListItemTitle class="mat-body-2 f-w-600">{{ folder.name }}</div>
-                <div matListItemLine class="f-s-14 mat-body-1">{{ folder.updated | date }}</div>
-              </mat-list-item>
-              <mat-divider></mat-divider>
-              <div mat-subheader class="mat-body-2 m-y-16 f-w-600">Notes</div>
-              <mat-list-item *ngFor="let note of notes">
-                <mat-icon matListItemIcon>note</mat-icon>
-                <div matListItemTitle class="mat-body-2 f-w-600">{{ note.name }}</div>
-                <div matListItemLine class="f-s-14 mat-body-1">{{ note.updated | date }}</div>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
+                  <!-- <p>Subcategory: {{ transaction.subcategory }}</p>
+                  <p>Amount: {{ transaction.amount | currency }}</p>
+                  <p>Quantity: {{ transaction.quantity }}</p> -->
+                  <button *ngIf="transaction.editable" class="btn btn-primary" (click)="saveChanges(transaction._id, transaction)">Save</button>
+                  <button *ngIf="transaction.editable" class="btn btn-secondary" (click)="cancelChanges(transaction)">Cancel</button>
+                  <button *ngIf="!transaction.editable" class="btn btn-info" (click)="enableEdit(transaction)">Edit</button>
+                  <button class="btn btn-danger" (click)="onDeleteTransaction(transaction._id)">
+                    <!-- <i class="material-icons">&#xe872;</i> -->
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
   </mat-card-content>
 </mat-card>

@@ -32,7 +32,8 @@ router.post('/login', (req, res, next) => {
 				success: true, msg: 'user Logged in Successfully', user: {
 					id: user._id,
 					displayName: user.displayName,
-					email: user.email
+					email: user.email,
+					transactions:user.transactions
 				}, token: authToken
 			});
 		});
