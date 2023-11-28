@@ -13,15 +13,15 @@ const PORT = 3000;
 export class RestDataSource {
   baseUrl: string;
   auth_token!: string;
-  authToken : string = '';
-  private httpOptions = 
-    {
-        headers: new HttpHeaders({
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-        })
-    };
+  authToken: string = '';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-control-Allow-Headers':
+        'Origin, X-Requested-With, Content-Type, Accept',
+    }),
+  };
 
   constructor(private http: HttpClient) {
     if (isDevMode()) {
@@ -62,7 +62,6 @@ export class RestDataSource {
         })
       );
   }
-
   changePassword(
     currentPassword: string | null,
     newPassword: string | null,
@@ -73,17 +72,19 @@ export class RestDataSource {
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
-  
-    return this.http.post<any>(
-      this.baseUrl + 'myaccount/changePassword',
-      { currentPassword, newPassword, newPassword2 },
-      this.httpOptions
-    ).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error('Change Password Error:', error);
-        return throwError('Change Password failed');
-      })
-    );
+
+    return this.http
+      .post<any>(
+        this.baseUrl + 'myaccount/changePassword',
+        { currentPassword, newPassword, newPassword2 },
+        this.httpOptions
+      )
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          console.error('Change Password Error:', error);
+          return throwError('Change Password failed');
+        })
+      );
   }
   deleteMyAccount(): Observable<boolean> {
     this.loadToken();
@@ -91,26 +92,25 @@ export class RestDataSource {
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
+  
+    return this.http.delete<any>(this.baseUrl + 'myaccount/deleteMyAccount',this.httpOptions)
+      
+  } 
 
-    return this.http.delete<any>(
-      this.baseUrl + 'myaccount/deleteMyAccount',
+  logout(): Observable<any> {
+    this.authToken = null!;
+    localStorage.clear();
+    console.log('working from datasource');
+    return this.http.get<any>(
+      this.baseUrl + 'myaccount/logout',
       this.httpOptions
     );
   }
 
-  logout(): Observable<any>
-    {      
-      this.authToken = null!;        
-      localStorage.clear(); 
-      console.log("working from datasource");       
-      return this.http.get<any>(this.baseUrl + 'myaccount/logout',this.httpOptions)      
-    }
-
-  storeUserData(token:any): void
-    {     
-        console.log("StoreUserData: "+ token);         
-        localStorage.setItem('id_token', 'Bearer ' + token);              
-    }
+  storeUserData(token: any): void {
+    console.log('StoreUserData: ' + token);
+    localStorage.setItem('id_token', 'Bearer ' + token);
+  }
 
     loadToken(): void {
       const token = localStorage.getItem('id_token');   
@@ -123,34 +123,12 @@ export class RestDataSource {
     
   
 
-  get(path: string): Observable<any> {
-    return this.http.get<any>(this.baseUrl + path, this.httpOptions);
-  }
-
-  post(path: string, data: any): Observable<any> {
-    return this.http.post<any>(this.baseUrl + path, data, this.httpOptions);
-  }
-
-  put(path: string, data: any): Observable<any> {
-    return this.http.put<any>(this.baseUrl + path, data, this.httpOptions);
-  }
-
-  /**********************TRANSACTIONS**************************/
-
-  addTransaction(newTransaction: Transaction): Observable<Transaction> 
-  {
-    this.loadToken();
-    return this.http.post<Transaction>(this.baseUrl + 'transactions/newTransaction', newTransaction, this.httpOptions); // Perform POST request to add a new transaction
-  }
-
-  getTransactions(): Observable<Transaction[]> 
-  {
-    this.loadToken();
-    return this.http.get<Transaction[]>(this.baseUrl + 'transactions/getTransactions', this.httpOptions); // Perform GET request to add a new transaction
-  }
-
-  deleteTransaction(transactionId: string): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + 'transactions/deleteTransaction/' + transactionId, this.httpOptions);
+  private getOptions() {
+    return {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.auth_token}`,
+      }),
+    };
   }
 
 
