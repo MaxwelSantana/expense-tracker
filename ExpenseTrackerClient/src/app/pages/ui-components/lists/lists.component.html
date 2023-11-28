@@ -36,26 +36,74 @@
             </td>
 
             <td class="subt-column">{{ calculateSubtotal(transaction) | currency }}</td>
-            <td class="btn-column" rowspan="2"> <!-- rowspan to span two rows -->
-              <button (click)="toggleDetails($event, transaction._id)" class="d-flex justify-content-between align-items-center">
-                <i class="bi bi-chevron-compact-down"></i>
+            <td class="btn-column" rowspan="2">
+
+              <button (click)="toggleDetails($event, transaction._id)" >
+                <i class="fa-solid fa-caret-down"></i>
               </button>
+
             </td>
           </tr>
           <tr>
             <td colspan="3"> <!-- colspan to span three columns -->
               <div [id]="'details-' + transaction._id" class="collapse">
                 <!-- Details -->
+
                 <div class="details">
-                  <p>Category: {{ transaction.category }}</p>
-                  <p>Subcategory: {{ transaction.subcategory }}</p>
+                  <table class="transaction-table-details">
+                    <tr>
+                      <td>Category: </td>
+                      <td>
+                        <ng-container *ngIf="!transaction.editable; else editableField">
+                          {{ transaction.category }}
+                        </ng-container>
+                        <ng-template #editableField>
+                          <input type="text" [(ngModel)]="transaction.category">
+                        </ng-template>
+                      </td>
+                    </tr>
+
+                    <td>Subcategory: </td>
+                      <td>
+                        <ng-container *ngIf="!transaction.editable; else editableField">
+                          {{ transaction.subcategory }}
+                        </ng-container>
+                        <ng-template #editableField>
+                          <input type="text" [(ngModel)]="transaction.subcategory">
+                        </ng-template>
+                      </td>
+                    <tr>
+
+                      <td>Amount: </td>
+                      <td>
+                        <ng-container *ngIf="!transaction.editable; else editableField">
+                          {{ transaction.amount }}
+                        </ng-container>
+                        <ng-template #editableField>
+                          <input type="text" [(ngModel)]="transaction.amount">
+                        </ng-template>
+                      </td>
+                    <tr>
+                      <td>Quantity: </td>
+                      <td>
+                        <ng-container *ngIf="!transaction.editable; else editableField">
+                          {{ transaction.quantity }}
+                        </ng-container>
+                        <ng-template #editableField>
+                          <input type="text" [(ngModel)]="transaction.quantity">
+                        </ng-template>
+                      </td>
+                    <tr>
+                    </tr>
+                  </table>
+
+
+                  <!-- <p>Subcategory: {{ transaction.subcategory }}</p>
                   <p>Amount: {{ transaction.amount | currency }}</p>
-                  <p>Quantity: {{ transaction.quantity }}</p>
+                  <p>Quantity: {{ transaction.quantity }}</p> -->
                   <button *ngIf="transaction.editable" class="btn btn-primary" (click)="saveChanges(transaction._id, transaction)">Save</button>
                   <button *ngIf="transaction.editable" class="btn btn-secondary" (click)="cancelChanges(transaction)">Cancel</button>
-                  <button *ngIf="!transaction.editable" class="btn btn-info" (click)="enableEdit(transaction)">
-                    Edit
-                  </button>
+                  <button *ngIf="!transaction.editable" class="btn btn-info" (click)="enableEdit(transaction)">Edit</button>
                   <button class="btn btn-danger" (click)="onDeleteTransaction(transaction._id)">
                     <!-- <i class="material-icons">&#xe872;</i> -->
                     Delete

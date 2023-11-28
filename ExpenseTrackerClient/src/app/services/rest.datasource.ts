@@ -154,8 +154,9 @@ export class RestDataSource {
   }
 
   editTransaction(transactionId: string, updatedTransaction: Transaction): Observable<any> {
+    this.loadToken();
     const url = `${this.baseUrl}transactions/editTransaction/${transactionId}`;
-    return this.http.patch<any>(url, updatedTransaction);
+    return this.http.patch<any>(url, updatedTransaction , this.httpOptions);
   }
 }
 
