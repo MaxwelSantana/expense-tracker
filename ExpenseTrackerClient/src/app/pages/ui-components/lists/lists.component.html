@@ -17,20 +17,20 @@
         <ng-container *ngFor="let transaction of transactions">
           <tr class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">
             <td class="date-column">
-              <ng-container *ngIf="!transaction.editable; else editableField">
+              <ng-container *ngIf="!transaction.editable; else editableDateField">
                 {{ transaction.dateCreated | date: 'mediumDate' }}
               </ng-container>
-              <ng-template #editableField>
+              <ng-template #editableDateField>
                 <input type="text" [(ngModel)]="transaction.dateCreated">
               </ng-template>
             </td>
 
 
             <td class="desc-column">
-              <ng-container *ngIf="!transaction.editable; else editableField">
+              <ng-container *ngIf="!transaction.editable; else editableDescriptionField">
                 {{ transaction.description }}
               </ng-container>
-              <ng-template #editableField>
+              <ng-template #editableDescriptionField>
                 <input type="text" [(ngModel)]="transaction.description">
               </ng-template>
             </td>
@@ -54,10 +54,10 @@
                     <tr>
                       <td>Category: </td>
                       <td>
-                        <ng-container *ngIf="!transaction.editable; else editableField">
+                        <ng-container *ngIf="!transaction.editable; else editableCategoryField">
                           {{ transaction.category }}
                         </ng-container>
-                        <ng-template #editableField>
+                        <ng-template #editableCategoryField>
                           <input type="text" [(ngModel)]="transaction.category">
                         </ng-template>
                       </td>
@@ -65,10 +65,10 @@
 
                     <td>Subcategory: </td>
                       <td>
-                        <ng-container *ngIf="!transaction.editable; else editableField">
+                        <ng-container *ngIf="!transaction.editable; else editableSubCategoryField">
                           {{ transaction.subcategory }}
                         </ng-container>
-                        <ng-template #editableField>
+                        <ng-template #editableSubCategoryField>
                           <input type="text" [(ngModel)]="transaction.subcategory">
                         </ng-template>
                       </td>
@@ -76,20 +76,20 @@
 
                       <td>Amount: </td>
                       <td>
-                        <ng-container *ngIf="!transaction.editable; else editableField">
+                        <ng-container *ngIf="!transaction.editable; else editableAmountField">
                           {{ transaction.amount }}
                         </ng-container>
-                        <ng-template #editableField>
+                        <ng-template #editableAmountField>
                           <input type="text" [(ngModel)]="transaction.amount">
                         </ng-template>
                       </td>
                     <tr>
                       <td>Quantity: </td>
                       <td>
-                        <ng-container *ngIf="!transaction.editable; else editableField">
+                        <ng-container *ngIf="!transaction.editable; else editableQuantityField">
                           {{ transaction.quantity }}
                         </ng-container>
-                        <ng-template #editableField>
+                        <ng-template #editableQuantityField>
                           <input type="text" [(ngModel)]="transaction.quantity">
                         </ng-template>
                       </td>
