@@ -4,6 +4,7 @@ import { Transaction } from 'src/app/models/transaction';
 import { Observable } from 'rxjs';
 import { RestDataSource } from 'src/app/services/rest.datasource';
 import { User } from 'src/app/services/user.model';
+import { BudgetRepository } from 'src/app/repository/budget.repository';
 
 @Component({
   selector: 'app-lists',
@@ -19,11 +20,13 @@ export class AppListsComponent implements OnInit{
  constructor(private dataSource: RestDataSource) {
     this.dataSource.getTransactions().subscribe(t=> {
     this.transactions = t;
-    console.log(this.transactions);
-    })
+
+  })
+
 }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   onDeleteTransaction(transactionId: string) {
     console.log('Deleting transaction with ID:', transactionId);
@@ -84,4 +87,5 @@ export class AppListsComponent implements OnInit{
       }
     }
   }
+
 }

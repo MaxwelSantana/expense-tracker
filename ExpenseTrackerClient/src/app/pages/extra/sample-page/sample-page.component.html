@@ -7,7 +7,8 @@
           <label for="statusSelect" class="visually-hidden">Category</label>
           <select [(ngModel)]="newTransaction.category" id="transactionCat" name="category" class="form-control" aria-label="Transaction Category"  onchange="showSubcategories()">
             <option value="" disabled selected>Select Category</option>
-            <option value="Food">Food</option>
+            <option *ngFor="let category of categories" >{{category.name}}</option>
+            <!-- <option value="Food">Food</option>
             <option value="Gifts & donations">Gifts & donations</option>
             <option value="Groceries">Groceries</option>
             <option value="Health">Health</option>
@@ -17,7 +18,7 @@
             <option value="Salary">Salary</option>
             <option value="Subscription & services">Subscription & services</option>
             <option value="Transportation">Transportation</option>
-            <option value="Travel">Travel</option>
+            <option value="Travel">Travel</option> -->
           </select>
         </div>
         <div class="form-group">
@@ -37,7 +38,7 @@
             <option value="Snacks">Snacks</option>
             <option value="Travel">Travel</option>
             <option value="Vegetables and fruit">Vegetables and fruit</option>
-            <option value="Other">Company X</option>
+            <option value="Company">Company X</option>
             <option value="Other">Other</option>
           </select>
         </div>

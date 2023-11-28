@@ -5,6 +5,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
 import { Transaction } from '../models/transaction';
 import { User } from './user.model';
+import { Categories } from '../models/categories';
 
 const PROTOCOL = 'http';
 const PORT = 3000;
@@ -157,6 +158,11 @@ export class RestDataSource {
     this.loadToken();
     const url = `${this.baseUrl}transactions/editTransaction/${transactionId}`;
     return this.http.patch<any>(url, updatedTransaction , this.httpOptions);
+  }
+
+
+  getCategories(): Observable<Categories[]> {
+    return this.http.get<Categories[]>(this.baseUrl + 'transactions/getCategories', this.httpOptions);
   }
 }
 

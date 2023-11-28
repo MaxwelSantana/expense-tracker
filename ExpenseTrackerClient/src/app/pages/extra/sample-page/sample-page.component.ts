@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Transaction } from 'src/app/models/transaction';
 import { RestDataSource } from 'src/app/services/rest.datasource';
 import { Router } from '@angular/router';
-
+import { Categories } from 'src/app/models/categories';
 
 @Component({
   selector: 'app-sample-page',
@@ -14,7 +14,14 @@ export class AppSamplePageComponent {
 
   newTransaction : Transaction = new Transaction(); // Create a new instance of Transaction class
 
-  constructor(private restDataSource: RestDataSource, private router: Router) {}
+  categories ?: Categories[];
+
+  constructor(private restDataSource: RestDataSource, private router: Router) {
+    this.restDataSource.getCategories().subscribe(c=>{
+      this.categories = c;
+      console.log(this.categories);
+    })
+  }
 
 
   onAddTransaction(form:NgForm) {
@@ -35,4 +42,6 @@ export class AppSamplePageComponent {
         this.router.navigate(['/ui-components/lists']);
       })
   }}
+
+
 }
