@@ -61,7 +61,7 @@
         </div>
         <div class="form-group">
           <mat-form-field class="col-md-12">
-            <input matInput [matDatepicker]="picker" [(ngModel)]="newTransaction.dateCreated" name="dateCreated" placeholder="Choose a date">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="newTransaction.date" name="dateCreated" placeholder="Choose a date">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>

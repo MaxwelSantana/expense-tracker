@@ -49,7 +49,7 @@ router.get('/getTransactions',requireAuth,async (req, res, next) => {
 // POST process the Incident Details page and create a new Incident - CREATE
 router.post('/newTransaction', requireAuth, async (req, res, next) => {
  
-  console.log(req.body);
+  console.log("New Transaction",req.body);
   let newTransaction = new Transaction({
     "id": req.body._id,
     "category": req.body.category,
@@ -113,7 +113,7 @@ router.patch('/editTransaction/:id', requireAuth, async (req, res, next) => {
     transactionToUpdate.amount = req.body.amount;
     transactionToUpdate.description = req.body.description;
     transactionToUpdate.status = req.body.status;
-    transactionToUpdate.date = req.body.date;
+    transactionToUpdate.date = req.body.date
 
     await user.save(); // Save the updated user document
 

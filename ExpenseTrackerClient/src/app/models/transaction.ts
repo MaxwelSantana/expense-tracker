@@ -8,7 +8,7 @@ export class Transaction{
   amount!:number;
   description: string | undefined;
   status!:string;
-  dateCreated!:Date;
+  date!:Date;
 
   editable?: boolean;
 
@@ -21,6 +21,6 @@ export class Transaction{
     this.quantity = 0;
     this.amount = 0;
     this.status = '';
-    this.dateCreated;
+    this.date;
   }
 }

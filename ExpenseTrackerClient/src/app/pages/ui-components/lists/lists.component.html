@@ -18,10 +18,10 @@
           <tr class="transaction-item" [ngClass]="{ 'payment': transaction.status === 'Payment', 'received': transaction.status === 'Received' }">
             <td class="date-column">
               <ng-container *ngIf="!transaction.editable; else editableDateField">
-                {{ transaction.dateCreated | date: 'mediumDate' }}
+                {{ transaction.date | date: 'yyyy/MM/dd':"+0000" }}
               </ng-container>
               <ng-template #editableDateField>
-                <input type="text" [(ngModel)]="transaction.dateCreated">
+                <input type="date" [(ngModel)]="transaction.date">
               </ng-template>
             </td>
 

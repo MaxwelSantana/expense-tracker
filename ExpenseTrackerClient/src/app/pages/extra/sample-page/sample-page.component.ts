@@ -33,7 +33,7 @@ export class AppSamplePageComponent {
       //It sends the newTransaction data to the backend via the addTransaction method in the RestDataSource service.
 
       this.restDataSource.addTransaction(this.newTransaction).subscribe(t => {
-        form.resetForm;
+        form.resetForm;        
 
          // Reset the newTransaction object to prepare for the next transaction
          this.newTransaction = new Transaction();

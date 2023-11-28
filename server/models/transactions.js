@@ -12,7 +12,9 @@ let Transaction = mongoose.Schema({
     type: String,
     enum: ['Received','Payment']
   },
-  date: Date,
+  date: {
+    type: Date
+  },
   resolutionMessage: String
 }, {
   collection: "transactions"
