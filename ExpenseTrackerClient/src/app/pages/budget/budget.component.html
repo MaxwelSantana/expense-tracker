@@ -102,7 +102,7 @@
           <button class="btn btn-outline-secondary m-2 btn-sm float-end" style="--bs-btn-font-size: .5rem;">Remove Category</button>
           <h6>Target</h6>
           <form action="">
-            <div class="form-group">
+            <div class="form-group m-2">
               <label for="TargetSelected">Target Type</label>
               <select class="form-control" name="targetOptions" id="targetOptions">
                 <option value="NeededForSpending">Needed For Spending</option>
@@ -111,6 +111,14 @@
                 <option value="MonthlyDebtPayment">Monthly Debt Payment</option>
               </select>
             </div>
+            <div class="form-group m-2">
+              <label for="Amount">Amount</label>
+              <input type="text" id="transactionAmount" name="amount"  class="form-control" placeholder="Enter the amount.">
+            </div>
+            <button class="btn btn-outline-warning m-2">
+              Save
+            </button>
+            
           </form>
           
         </mat-card-content>
