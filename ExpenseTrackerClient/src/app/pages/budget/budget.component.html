@@ -69,9 +69,13 @@
                   <div fxFill fxLayoutAlign="center center">
                     <mat-icon *ngIf="!group.reduced">expand_less</mat-icon>
                     <mat-icon *ngIf="group.reduced">expand_more</mat-icon>
-                    <strong style="vertical-align: super">{{
+                    <strong style="vertical-align: super">
+                    {{
                       group.name
-                    }}</strong>
+                    }} 
+                    <button class="btn btn-outline-secondary m-2 btn-sm float-end" style="--bs-btn-font-size: .5rem;">Add Another Category</button>
+                    <button class="btn btn-outline-secondary m-2 btn-sm float-end" style="--bs-btn-font-size: .5rem;">Remove Category</button>
+                    </strong>
                   </div>
                 </td>
               </ng-container>

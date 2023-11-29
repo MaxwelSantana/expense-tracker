@@ -106,6 +106,7 @@ export class BudgetComponent {
       flattenList.push({ ...categoryGroup, isGroup: true });
       flattenList.push(...categoryGroup.categories);
     });
+    console.log("this flattlenList",flattenList);
     return flattenList;
   }
 
