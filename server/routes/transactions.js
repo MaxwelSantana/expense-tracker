@@ -76,7 +76,7 @@ router.post('/newTransaction', requireAuth, async (req, res, next) => {
   
     console.log('Transaction added to user:', savedTransaction);
     console.log('Updated User:', updatedUser);
-return res.status(200).json({success:true, message:"Transaction added successfully"})
+    return res.status(200).json({success:true, message:"Transaction added successfully"})
 
   } catch (error) {
     console.error('Error adding transaction to user:', error);

@@ -39,11 +39,11 @@ router.get('/:key', requireAuth, async function (req, res, next) {
       $lookup: {
         from: "categories",
         localField: "_id",
-        foreignField: "categoryGroupId",
+        foreignField: "categoryGroupId", 
         as: "categories"
       }
     }]).exec();
-
+  console.log(categoryGroupsWithCategories[0].categories)
   const categoryGroupIds = categoryGroupsWithCategories.map(({ _id }) => _id);
   const updatedCategories = await Categories.find({ categoryGroupId: { "$in": categoryGroupIds } }).lean();
   const budgetEntries = await BudgetEntries.find({ budgetId: budget._id }).lean();
@@ -80,6 +80,32 @@ router.put('/entry/:id', requireAuth, async function (req, res, next) {
   )
   res.json(updated);
 });
+
+router.post('/newCategory', requireAuth, async function (req,res,next){
+
+  try{
+    const catName = req.body.name;
+    catgroupID = req.body.catId
+    console.log(catgroupID);
+    const catGroup = await CategoryGroups.findById(catgroupID);
+    console.log(catGroup)
+
+    const catTarget = req.body.catTarget;
+    let newCategory = new Categories({
+      "categoryGroupId" : catGroup._id,
+      "name" : catName,
+      //"target" : catTarget
+    });    
+    console.log(newCategory);
+    
+    await Categories.create(newCategory);
+    return res.status(200).json({success:true, message:"Transaction added successfully"})
+    }
+    catch(error){
+      return res.status(500).json({error,success:false, message:"Category has not been added"})
+    }   
+  }
+)
 
 function createBudget(userId, key) {
   Budgets.create({ userId, key }, (err, result) => {
