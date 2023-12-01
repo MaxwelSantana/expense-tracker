@@ -18,7 +18,7 @@ export class BudgetRepository {
       this.budget.budgetEntries.forEach((entry) => {
         this.updateBudgetEntriesMap(entry);
       });
-      console.log(this.budget);
+      console.log("this cat",this.budget);
     });
   }
 

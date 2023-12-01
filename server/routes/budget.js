@@ -107,6 +107,32 @@ router.post('/newCategory', requireAuth, async function (req,res,next){
   }
 )
 
+router.delete('/deleteCategory', requireAuth, async function (req,res,next){
+
+  try{
+    const catName = req.body.name;
+    catgroupID = req.body.catId
+    console.log(catgroupID);
+    const catGroup = await CategoryGroups.findById(catgroupID);
+    console.log(catGroup)
+
+    // let newCategory = new Categories({
+    //   "categoryGroupId" : catGroup._id,
+    //   "name" : catName,
+    //   //"target" : catTarget
+    // });   
+    
+    
+    await Categories.deleteOne({"categoryGroupId" : catGroup._id,
+    "name" : catName,});
+    return res.status(200).json({success:true, message:"Category has been removed"})
+    }
+    catch(error){
+      return res.status(500).json({error,success:false, message:"Category has not been removed"})
+    }   
+  }
+)
+
 function createBudget(userId, key) {
   Budgets.create({ userId, key }, (err, result) => {
     if (err) {
