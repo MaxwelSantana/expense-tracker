@@ -42,6 +42,18 @@ export class BudgetRepository {
       });
   }
 
+  addCategory(entry: Categories) {
+    return this.dataSource.post("budget/newCategory",entry);
+  };
+
+  deleteCategory(entry: Categories) {
+    return this.dataSource.delete("budget/deleteCategory",entry);
+  };
+
+  editTarget(entry: Categories) {
+    return this.dataSource.post("budget/editCategory",entry);
+  };
+
   get budgetId(): string {
     return this.budget._id;
   }

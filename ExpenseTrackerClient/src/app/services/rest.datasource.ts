@@ -136,6 +136,10 @@ export class RestDataSource {
     return this.http.put<any>(this.baseUrl + path, data, this.httpOptions);
   }
 
+  delete(path: string, data: any): Observable<any> {
+    return this.http.put<any>(this.baseUrl + path, data, this.httpOptions);
+  }
+
   /**********************TRANSACTIONS**************************/
 
   addTransaction(newTransaction: Transaction): Observable<Transaction>
