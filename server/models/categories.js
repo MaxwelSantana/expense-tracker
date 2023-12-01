@@ -5,6 +5,8 @@ let Categories = mongoose.Schema({
   name: String,
   target: {
     type: {
+      targetType: String,
+      enum: ["NeededForSpending","SavingsBalance","MonthlySavingsBuilder","MonthlyDebtPayment"],
       amount: Number,
       frequency: {
         type: String,

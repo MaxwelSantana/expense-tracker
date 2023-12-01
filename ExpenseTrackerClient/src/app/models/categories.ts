@@ -3,6 +3,7 @@ export class Categories {
   categoryGroupId!: string;
   name: string;
   target:{
+    type:string
     amount:number;
     frequency: String[]    
   }  
