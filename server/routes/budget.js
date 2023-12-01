@@ -114,13 +114,7 @@ router.delete('/deleteCategory', requireAuth, async function (req,res,next){
     catgroupID = req.body.catId
     console.log(catgroupID);
     const catGroup = await CategoryGroups.findById(catgroupID);
-    console.log(catGroup)
-
-    // let newCategory = new Categories({
-    //   "categoryGroupId" : catGroup._id,
-    //   "name" : catName,
-    //   //"target" : catTarget
-    // });   
+    console.log(catGroup)     
     
     
     await Categories.deleteOne({"categoryGroupId" : catGroup._id,
@@ -132,6 +126,35 @@ router.delete('/deleteCategory', requireAuth, async function (req,res,next){
     }   
   }
 )
+
+router.post('/editTarget', requireAuth, async function (req, res, next) {
+  try{
+    const catName = req.body.name;
+    catgroupID = req.body.catId
+    console.log(catgroupID);
+    const catGroup = await CategoryGroups.findById(catgroupID);
+    console.log(catGroup)
+
+    const catTarget = req.body.catTarget;
+    let newCategory = new Categories({
+      "categoryGroupId" : catGroup._id,
+      "name" : catName,
+      "target" : catTarget
+    });    
+    console.log(newCategory);
+    
+    const editCategories = await Categories.findOne({"categoryGroupId" : catGroup._id,
+    "name" : catName});
+
+    editCategories.target = catTarget;
+    await editCategories.save()
+
+    return res.status(200).json({success:true, message:"Transaction has been edited successfully"})
+    }
+    catch(error){
+      return res.status(500).json({error,success:false, message:"Category has not been edited"})
+    }   
+  });
 
 function createBudget(userId, key) {
   Budgets.create({ userId, key }, (err, result) => {
