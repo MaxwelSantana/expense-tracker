@@ -75,8 +75,17 @@
                     <strong style="vertical-align: super">
                     {{
                       group.name
-                    }} 
-                    <button class="btn btn-outline-secondary m-2 btn-sm float-end" style="--bs-btn-font-size: .5rem;">Add Another Category</button>                    
+                    }}                    
+                    <button (click)="togglePopover()" class="btn btn-outline-secondary m-2 btn-sm float-end" style="--bs-btn-font-size: .5rem;">Add Another Category</button>
+                    <div *ngIf="showPopover" class="popover float-end">
+                      <form #categoryForm="ngForm" (ngSubmit)="addCategory(group.name, categoryForm.value.anotherCat)">
+                        <div>
+                          <input type="text" name="anotherCat" class="form-control input-md" placeholder="New Category">
+                          <button type="submit" class="btn btn-primary m-2">Save</button>
+                          <button class="btn btn-danger m-2">Cancel</button>
+                        </div>
+                      </form>
+                    </div>                                                             
                     </strong>
                   </div>
                 </td>

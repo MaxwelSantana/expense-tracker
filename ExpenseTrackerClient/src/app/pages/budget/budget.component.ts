@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 
 import {
   MatDatepicker,
@@ -15,7 +15,7 @@ import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { default as _rollupMoment, Moment } from 'moment';
 import { BudgetEntries } from 'src/app/models/budget-entries';
-import { Categories as Category } from 'src/app/models/categories';
+import { Categories, Categories as Category } from 'src/app/models/categories';
 import { BudgetRepository } from 'src/app/repository/budget.repository';
 
 const moment = _rollupMoment || _moment;
@@ -79,7 +79,9 @@ export class BudgetComponent {
 
   displayedColumns: string[] = ['name', 'assigned', 'activity', 'available'];
   currentEditCategory: Category | null;
-  balance: number = 1000;
+  balance: number = 1000;  
+  newCat : Categories | null;
+
 
   constructor(
     private repository: BudgetRepository,
@@ -87,7 +89,7 @@ export class BudgetComponent {
   ) {
     const key = this.activeRoute.snapshot.params['key'];
     this.repository.getBudget(key);
-  }
+  }  
 
   setMonthAndYear(
     normalizedMonthAndYear: Moment,
@@ -157,5 +159,31 @@ export class BudgetComponent {
       });
     }
     this.currentEditCategory = null;
+  }
+
+  showPopover = false;
+  inputValue = '';
+
+  togglePopover(): void {
+    this.showPopover = !this.showPopover;
+    console.log(this.showPopover);
+  }
+  
+  
+
+  addCategory(group:string, newCategory:string){
+    const catGroups = this.repository.categoryGroups;    
+    if(group === "Bills"){
+      console.log("Add Cat",catGroups[0]._id);
+      
+      this.newCat.categoryGroupId = catGroups[0]._id;
+      this.newCat.name = newCategory;
+
+      this.repository.addCategory(this.newCat);
+    }
+    else{
+      console.log(catGroups[1]._id)
+    }
+    
   }
 }
