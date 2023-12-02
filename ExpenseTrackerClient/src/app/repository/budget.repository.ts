@@ -57,7 +57,7 @@ export class BudgetRepository {
   };
 
   editTarget(entry: Categories) {
-    return this.dataSource.post("budget/editCategory",entry).subscribe((data) =>
+    return this.dataSource.post("budget/editTarget",entry).subscribe((data) =>
     {this.editTarget(data);
     console.log(data);
   });

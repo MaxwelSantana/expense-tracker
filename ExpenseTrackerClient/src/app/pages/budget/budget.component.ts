@@ -111,8 +111,7 @@ export class BudgetComponent {
     this.repository.categoryGroups?.forEach((categoryGroup) => {
       flattenList.push({ ...categoryGroup, isGroup: true });
       flattenList.push(...categoryGroup.categories);
-    });
-    console.log("this flattlenList",flattenList);
+    });    
     return flattenList;
   }
 
@@ -169,8 +168,7 @@ export class BudgetComponent {
   inputValue = '';
 
   togglePopover(): void {
-    this.showPopover = !this.showPopover;
-    console.log(this.showPopover);
+    this.showPopover = !this.showPopover;    ;
   } 
 
   addCategory(group:string, newCategory: string){
@@ -210,6 +208,24 @@ export class BudgetComponent {
   editTarget(){
     this.targetForm = !this.targetForm;
     console.log(this.targetForm);
+    
+  }
+
+  targetType: string;
+  targetAmount:number;
+  targetFrequency: string;
+
+  saveTarget(){
+    console.log(this.targetAmount,this.targetFrequency,this.targetType);    
+    if(this.currentEditCategory !== null){          
+      this.currentEditCategory.target = {targetType: '', amount: 0, frequency: ''}!;       
+      this.currentEditCategory.target.targetType = this.targetType!;
+      this.currentEditCategory.target.amount = this.targetAmount;
+      this.currentEditCategory.target.frequency = this.targetFrequency;
+      console.log(this.currentEditCategory);    
+      this.repository.editTarget(this.currentEditCategory);
+      window.location.reload();
+    }
   }
 
 }

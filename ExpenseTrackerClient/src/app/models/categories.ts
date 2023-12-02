@@ -3,8 +3,9 @@ export class Categories {
   categoryGroupId!: string;
   name: string;
   target:{
-    targetType:string
+    targetType:string;
     amount:number;
-    frequency: String    
+    frequency: string;  
   }  
+
 }

@@ -123,25 +123,16 @@ router.delete('/deleteCategory/:_id',requireAuth, async function (req,res,next){
 
 router.post('/editTarget', requireAuth, async function (req, res, next) {
   try{
-    const catName = req.body.name;
-    catgroupID = req.body.catId
-    console.log(catgroupID);
-    const catGroup = await CategoryGroups.findById(catgroupID);
-    console.log(catGroup)
-
-    const catTarget = req.body.catTarget;
-    let newCategory = new Categories({
-      "categoryGroupId" : catGroup._id,
-      "name" : catName,
-      "target" : catTarget
-    });    
-    console.log(newCategory);
     
-    const editCategories = await Categories.findOne({"categoryGroupId" : catGroup._id,
-    "name" : catName});
+    const catID = req.body._id
+    console.log("first",catID);
+    const newTarget = await Categories.findById(catID);
+    console.log(newTarget)
 
-    editCategories.target = catTarget;
-    await editCategories.save()
+    
+    newTarget.target = req.body.target;
+    console.log(newTarget);
+    await newTarget.save()
 
     return res.status(200).json({success:true, message:"Transaction has been edited successfully"})
     }

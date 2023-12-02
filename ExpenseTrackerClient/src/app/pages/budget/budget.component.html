@@ -110,10 +110,10 @@
           <h4>{{ currentEditCategory?.name }}</h4>                    
           <div *ngIf="targetForm" class="targetForm">
             <h6>Target</h6>
-            <form action="">
+            <form #formEditTarget="ngForm" (ngSubmit)="saveTarget()">
               <div class="form-group m-2">
                 <label for="TargetSelected">Target Type</label>
-                <select class="form-control" name="targetOptions" id="targetOptions">
+                <select class="form-control" name="targetOptions" id="targetOptions" [(ngModel)]="targetType">
                   <option value="NeededForSpending">Needed For Spending</option>
                   <option value="SavingsBalance">Savings Balance</option>
                   <option value="MonthlySavingsBuilder">Monthly Savings Builder</option>
@@ -122,18 +122,18 @@
               </div>
               <div class="form-group m-2">
                 <label for="Amount">Amount</label>
-                <input type="text" id="transactionAmount" name="amount"  class="form-control" placeholder="Enter the amount.">
+                <input type="text" id="transactionAmount" name="amount"  class="form-control" placeholder="Enter the amount." [(ngModel)]="targetAmount">
               </div>
               <div class="py-3">
                 <h6>Frequency</h6>
                 <select class="w-auto h-auto p-1" name="targetFrequency" id="targetFrequencyID" size="1" multiple
-                style="display:inline-block; border:none; appearance: none; overflow:hidden; height:auto">
+                style="display:inline-block; border:none; appearance: none; overflow:hidden; height:auto" [(ngModel)]="targetFrequency">
                   <option class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center" style="display:inline-block; width:80px; height: 40px;" value="Weekly">Weekly</option>
                   <option class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center" style="display:inline-block; width:80px; height: 40px;" value="Monthly">Monthly</option>
                   <option class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center" style="display:inline-block; width:80px; height: 40px;" value="Yearly">Yearly</option>
                 </select>
               </div>
-              <button class="btn btn-outline-warning m-2">
+              <button type="submit" class="btn btn-outline-warning m-2">
                 Save
               </button>
               <button (click)="editTarget()" class="btn btn-outline-danger m-2">
