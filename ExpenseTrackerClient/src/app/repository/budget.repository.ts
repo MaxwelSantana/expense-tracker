@@ -42,16 +42,24 @@ export class BudgetRepository {
       });
   }
 
-  addCategory(entry: Categories) {
-    return this.dataSource.post("budget/newCategory",entry);
+  addCategory(entry: Categories) {    
+    return this.dataSource.post("budget/newCategory",entry).subscribe((data) =>
+    {this.addCategory(data);
+    console.log(data);})
   };
 
   deleteCategory(entry: Categories) {
-    return this.dataSource.delete("budget/deleteCategory",entry);
+    return this.dataSource.delete("budget/deleteCategory",entry).subscribe((data) =>
+    {this.deleteCategory(data);
+    console.log(data);
+  });
   };
 
   editTarget(entry: Categories) {
-    return this.dataSource.post("budget/editCategory",entry);
+    return this.dataSource.post("budget/editCategory",entry).subscribe((data) =>
+    {this.editTarget(data);
+    console.log(data);
+  });
   };
 
   get budgetId(): string {

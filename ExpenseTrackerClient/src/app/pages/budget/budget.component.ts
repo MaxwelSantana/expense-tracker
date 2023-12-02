@@ -80,7 +80,9 @@ export class BudgetComponent {
   displayedColumns: string[] = ['name', 'assigned', 'activity', 'available'];
   currentEditCategory: Category | null;
   balance: number = 1000;  
-  newCat : Categories | null;
+  newCat : Categories = new Categories();
+  @ViewChild('newCategoryInput', { static: false }) newCategoryInput!: ElementRef;
+   
 
 
   constructor(
@@ -167,23 +169,32 @@ export class BudgetComponent {
   togglePopover(): void {
     this.showPopover = !this.showPopover;
     console.log(this.showPopover);
-  }
-  
-  
+  } 
 
-  addCategory(group:string, newCategory:string){
-    const catGroups = this.repository.categoryGroups;    
-    if(group === "Bills"){
-      console.log("Add Cat",catGroups[0]._id);
-      
+  addCategory(group:string, newCategory: string){
+    const catGroups = this.repository.categoryGroups;
+    const inputVal = this.newCategoryInput.nativeElement.value;  
+    const inputValue = newCategory;  
+    this.newCategoryInput.nativeElement.value = '';
+    if(group === "Bills"){      
       this.newCat.categoryGroupId = catGroups[0]._id;
       this.newCat.name = newCategory;
-
-      this.repository.addCategory(this.newCat);
+      console.log("newCat", this.newCat)
+      if(this.newCat.name !== ''){
+        this.repository.addCategory(this.newCat);
+        window.location.reload();
+      }
+      
     }
     else{
-      console.log(catGroups[1]._id)
-    }
-    
+      this.newCat.categoryGroupId = catGroups[1]._id;
+      this.newCat.name = newCategory;
+      console.log("newCat", this.newCat)
+      if(this.newCat.name !== ''){
+        this.repository.addCategory(this.newCat);
+        window.location.reload();
+      }
+    }    
   }
+
 }

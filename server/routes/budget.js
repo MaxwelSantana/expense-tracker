@@ -85,10 +85,10 @@ router.post('/newCategory', requireAuth, async function (req,res,next){
 
   try{
     const catName = req.body.name;
-    catgroupID = req.body.catId
-    console.log(catgroupID);
+    catgroupID = req.body.categoryGroupId
+    //console.log(catgroupID);
     const catGroup = await CategoryGroups.findById(catgroupID);
-    console.log(catGroup)
+    //console.log(catGroup)
 
     const catTarget = req.body.catTarget;
     let newCategory = new Categories({
