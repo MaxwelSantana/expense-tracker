@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AppDashboardComponent } from './dashboard/dashboard.component';
 import { BudgetComponent } from './budget/budget.component';
+import { IncomeComponent } from './income/income.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -23,6 +24,10 @@ export const PagesRoutes: Routes = [
   {
     path: 'budget/:key',
     component: BudgetComponent,
+  },
+  {
+    path: 'income',
+    component: IncomeComponent,
   },
 ];
 
