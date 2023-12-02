@@ -1,5 +1,8 @@
 <div class="row">
-  <div class="col-lg-4">
+  <mat-card class="cardWithShadow theme-card">
+    <app-budget-summary></app-budget-summary>
+  </mat-card>
+  <div class="col-lg-4">    
     <mat-form-field>
       <mat-label>Month and Year</mat-label>
       <input matInput [matDatepicker]="dp" [formControl]="date" />

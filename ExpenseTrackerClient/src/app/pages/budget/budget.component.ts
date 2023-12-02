@@ -83,16 +83,13 @@ export class BudgetComponent {
   Cat : Categories = new Categories();
   targetForm = false;
   @ViewChild('newCategoryInput', { static: false }) newCategoryInput!: ElementRef;
-  
-   
-
 
   constructor(
     private repository: BudgetRepository,
     private activeRoute: ActivatedRoute
   ) {
     const key = this.activeRoute.snapshot.params['key'];
-    this.repository.getBudget(key);
+    this.repository.getBudget(key);    
     }  
 
   setMonthAndYear(
