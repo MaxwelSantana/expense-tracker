@@ -15,6 +15,8 @@ import {
   ApexMarkers,
   ApexResponsive,
 } from 'ng-apexcharts';
+import { Transaction } from 'src/app/models/transaction';
+import { RestDataSource } from 'src/app/services/rest.datasource';
 
 interface month {
   value: string;
@@ -36,7 +38,7 @@ export interface salesOverviewChart {
   marker: ApexMarkers;
 }
 
-export interface yearlyChart {
+export interface spendingsChart {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   dataLabels: ApexDataLabels;
@@ -134,7 +136,7 @@ export class AppDashboardComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
 
   public salesOverviewChart!: Partial<salesOverviewChart> | any;
-  public yearlyChart!: Partial<yearlyChart> | any;
+  public spendingsChart!: Partial<spendingsChart> | any;
   public monthlyChart!: Partial<monthlyChart> | any;
 
   displayedColumns: string[] = ['assigned', 'name', 'priority', 'budget'];
@@ -146,76 +148,14 @@ export class AppDashboardComponent {
     { value: 'nov', viewValue: 'November 2023' },
   ]; //updated months
 
-  // recent transaction
-  stats: stats[] = [
-    {
-      id: 1,
-      time: '2.00 pm',
-      color: 'error',
-      subtext: 'Payment made for Freedom Mobile of $30.00',
-    },
-    {
-      id: 2,
-      time: '00.00 am',
-      color: 'success',
-      title: 'Weekly Salary of $385.75 from CompanyX',
-      //link: '#ML-3467',
-    },
-    {
-      id: 3,
-      time: '12.30 pm',
-      color: 'error',
-      subtext: 'TTC Student Monthly Pass of $128.30',
-    },
-    {
-      id: 4,
-      time: '4.20 pm',
-      color: 'error',
-      title: 'Payment made for Groceries of $11.24',
-      //link: '#ML-3467',
-    },
-    {
-      id: 5,
-      time: '00.00 am',
-      color: 'success',
-      title: 'Weekly Salary of $450.00 from CompanyX',
-      //link: '#ML-3467',
-    },
-  ];
+  transactions?: Transaction[] | null;
 
-  // ecommerce card
-  productcards: productcards[] = [
-    {
-      id: 1,
-      imgSrc: '/assets/images/products/s4.jpg',
-      title: 'Boat Headphone',
-      price: '285',
-      rprice: '375',
-    },
-    {
-      id: 2,
-      imgSrc: '/assets/images/products/s5.jpg',
-      title: 'MacBook Air Pro',
-      price: '285',
-      rprice: '375',
-    },
-    {
-      id: 3,
-      imgSrc: '/assets/images/products/s7.jpg',
-      title: 'Red Valvet Dress',
-      price: '285',
-      rprice: '375',
-    },
-    {
-      id: 4,
-      imgSrc: '/assets/images/products/s11.jpg',
-      title: 'Cute Soft Teddybear',
-      price: '285',
-      rprice: '375',
-    },
-  ];
+  constructor(private dataSource2: RestDataSource) {
+    this.dataSource2.getTransactions().subscribe((t) => {
+      this.transactions = t;
+      console.log(this.transactions);
+    });
 
-  constructor() {
     // sales overview chart
     this.salesOverviewChart = {
       series: [
@@ -304,8 +244,8 @@ export class AppDashboardComponent {
       ],
     };
 
-    // yearly breakup chart
-    this.yearlyChart = {
+    //Total Spendings this Month chart
+    this.spendingsChart = {
       series: [38, 40, 25],
 
       chart: {
@@ -394,5 +334,15 @@ export class AppDashboardComponent {
         },
       },
     };
+  }
+
+  getMessage() {
+    return 'More saving than last month';
+  }
+
+  getTotal() {
+    let total = 0;
+    this.transactions?.forEach((item) => (total += item.amount));
+    return `$${total}`;
   }
 }
