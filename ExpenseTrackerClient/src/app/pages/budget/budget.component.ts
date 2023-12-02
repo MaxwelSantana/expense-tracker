@@ -144,7 +144,13 @@ export class BudgetComponent {
 
   onChangeAssignedValue(event: Event, category: Category) {
     const value = (event.target as HTMLInputElement).value;
-    console.log({ value, category });
+    console.log({ value, category }); 
+    
+    const availableAmount = this.getAmountAvailable(category);
+    if (availableAmount - parseInt(value) <= 0) {
+      window.alert('Assigned value exceeds available amount or is equal to 0');      
+    }
+    
     const entry = this.getEntry(category);
     if (!entry || !entry._id) {
       this.repository.createBudgetEntry({
@@ -157,7 +163,7 @@ export class BudgetComponent {
         ...entry,
         assigned: parseInt(value),
       });
-    }
+    }    
     this.currentEditCategory = null;
   }
 
@@ -223,6 +229,16 @@ export class BudgetComponent {
       this.repository.editTarget(this.currentEditCategory);
       window.location.reload();
     }
+  }
+
+  alert(category:any){
+    const availableAmount = this.getAmountAvailable(category);
+    console.log("test",availableAmount);
+    if (availableAmount <= 0) {
+      window.alert('Available amount is insufficient or equal to 0');
+      return;
+    }
+    this.currentEditCategory = category;
   }
 
 }

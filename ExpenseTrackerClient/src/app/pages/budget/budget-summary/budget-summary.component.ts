@@ -47,8 +47,7 @@ export class BudgetSummaryComponent {
       
         entriesArray.forEach((element: any) => { // Use 'any' type here as the structure is not completely specified          
           sumAssigned += element.assigned;
-        });        
-        
+        });       
         return sumAssigned;
       }
 
@@ -63,8 +62,7 @@ export class BudgetSummaryComponent {
         let sumTarget = 0;
       
         entriesArray.forEach((element: Categories) => { 
-          sumTarget += +element.target.amount || 0;
-          console.log(sumTarget);
+          sumTarget += +element.target.amount || 0;          
         });
         
         this.cachedTarget = sumTarget;
