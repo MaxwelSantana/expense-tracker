@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Transaction } from '../models/transaction';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TransactionService {
   private apiUrl = 'http://localhost:3000/api/transactions';
@@ -23,7 +23,4 @@ export class TransactionService {
   deleteTransaction(transactionId: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${transactionId}`);
   }
-
-
 }
-
