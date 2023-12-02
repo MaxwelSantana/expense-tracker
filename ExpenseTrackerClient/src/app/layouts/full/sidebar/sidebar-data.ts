@@ -31,6 +31,14 @@ export const navItems: NavItem[] = [
     route: '/budget',
   },
   {
+    navCap: 'Income & Expense',
+  },
+  {
+    displayName: 'Income vs Expense',
+    iconName: 'chart-bar',
+    route: '/income',
+  },
+  {
     navCap: 'Settings',
   },
   {
