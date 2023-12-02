@@ -3,8 +3,8 @@ export class Categories {
   categoryGroupId!: string;
   name: string;
   target:{
-    type:string
+    targetType:string
     amount:number;
-    frequency: String[]    
+    frequency: String    
   }  
 }

@@ -49,9 +49,10 @@ export class BudgetRepository {
   };
 
   deleteCategory(entry: Categories) {
-    return this.dataSource.delete("budget/deleteCategory",entry).subscribe((data) =>
+    console.log(entry._id)
+    return this.dataSource.delete(`budget/deleteCategory/${entry._id}`).subscribe((data) =>
     {this.deleteCategory(data);
-    console.log(data);
+    console.log(data);    
   });
   };
 

@@ -107,18 +107,12 @@ router.post('/newCategory', requireAuth, async function (req,res,next){
   }
 )
 
-router.delete('/deleteCategory', requireAuth, async function (req,res,next){
+router.delete('/deleteCategory/:_id',requireAuth, async function (req,res,next){
 
-  try{
-    const catName = req.body.name;
-    catgroupID = req.body.catId
-    console.log(catgroupID);
-    const catGroup = await CategoryGroups.findById(catgroupID);
-    console.log(catGroup)     
-    
-    
-    await Categories.deleteOne({"categoryGroupId" : catGroup._id,
-    "name" : catName,});
+  try{    
+    catID = req.params._id    
+    await Categories.deleteOne({"_id" : catID});
+
     return res.status(200).json({success:true, message:"Category has been removed"})
     }
     catch(error){

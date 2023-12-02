@@ -136,8 +136,8 @@ export class RestDataSource {
     return this.http.put<any>(this.baseUrl + path, data, this.httpOptions);
   }
 
-  delete(path: string, data: any): Observable<any> {
-    return this.http.put<any>(this.baseUrl + path, data, this.httpOptions);
+  delete(path: string): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + path, this.httpOptions);
   }
 
   /**********************TRANSACTIONS**************************/

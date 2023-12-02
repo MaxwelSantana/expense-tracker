@@ -80,8 +80,10 @@ export class BudgetComponent {
   displayedColumns: string[] = ['name', 'assigned', 'activity', 'available'];
   currentEditCategory: Category | null;
   balance: number = 1000;  
-  newCat : Categories = new Categories();
+  Cat : Categories = new Categories();
+  targetForm = false;
   @ViewChild('newCategoryInput', { static: false }) newCategoryInput!: ElementRef;
+  
    
 
 
@@ -91,7 +93,7 @@ export class BudgetComponent {
   ) {
     const key = this.activeRoute.snapshot.params['key'];
     this.repository.getBudget(key);
-  }  
+    }  
 
   setMonthAndYear(
     normalizedMonthAndYear: Moment,
@@ -177,24 +179,37 @@ export class BudgetComponent {
     const inputValue = newCategory;  
     this.newCategoryInput.nativeElement.value = '';
     if(group === "Bills"){      
-      this.newCat.categoryGroupId = catGroups[0]._id;
-      this.newCat.name = newCategory;
-      console.log("newCat", this.newCat)
-      if(this.newCat.name !== ''){
-        this.repository.addCategory(this.newCat);
+      this.Cat.categoryGroupId = catGroups[0]._id;
+      this.Cat.name = newCategory;
+      console.log("newCat", this.Cat)
+      if(this.Cat.name !== ''){
+        this.repository.addCategory(this.Cat);
         window.location.reload();
       }
       
     }
     else{
-      this.newCat.categoryGroupId = catGroups[1]._id;
-      this.newCat.name = newCategory;
-      console.log("newCat", this.newCat)
-      if(this.newCat.name !== ''){
-        this.repository.addCategory(this.newCat);
+      this.Cat.categoryGroupId = catGroups[1]._id;
+      this.Cat.name = newCategory;
+      console.log("newCat", this.Cat)
+      if(this.Cat.name !== ''){
+        this.repository.addCategory(this.Cat);
         window.location.reload();
       }
     }    
+  }
+
+  removeCategory(){
+    console.log(this.currentEditCategory);
+    if(this.currentEditCategory !== null){      
+      this.repository.deleteCategory(this.currentEditCategory);
+      window.location.reload();
+    }
+  }
+
+  editTarget(){
+    this.targetForm = !this.targetForm;
+    console.log(this.targetForm);
   }
 
 }
