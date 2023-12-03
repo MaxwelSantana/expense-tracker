@@ -17,8 +17,7 @@ export class BudgetRepository {
       this.budget = data;
       this.budget.budgetEntries.forEach((entry) => {
         this.updateBudgetEntriesMap(entry);
-      });
-      console.log(this.budget);
+      });      
     });
   }
 
@@ -41,6 +40,27 @@ export class BudgetRepository {
         console.log({ data });
       });
   }
+
+  addCategory(entry: Categories) {    
+    return this.dataSource.post("budget/newCategory",entry).subscribe((data) =>
+    {this.addCategory(data);
+    console.log(data);})
+  };
+
+  deleteCategory(entry: Categories) {
+    console.log(entry._id)
+    return this.dataSource.delete(`budget/deleteCategory/${entry._id}`).subscribe((data) =>
+    {this.deleteCategory(data);
+    console.log(data);    
+  });
+  };
+
+  editTarget(entry: Categories) {
+    return this.dataSource.post("budget/editTarget",entry).subscribe((data) =>
+    {this.editTarget(data);
+    console.log(data);
+  });
+  };
 
   get budgetId(): string {
     return this.budget._id;

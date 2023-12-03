@@ -1,5 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { FormControl, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 
 import {
   MatDatepicker,
@@ -15,7 +15,7 @@ import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { default as _rollupMoment, Moment } from 'moment';
 import { BudgetEntries } from 'src/app/models/budget-entries';
-import { Categories as Category } from 'src/app/models/categories';
+import { Categories, Categories as Category } from 'src/app/models/categories';
 import { BudgetRepository } from 'src/app/repository/budget.repository';
 
 const moment = _rollupMoment || _moment;
@@ -79,15 +79,18 @@ export class BudgetComponent {
 
   displayedColumns: string[] = ['name', 'assigned', 'activity', 'available'];
   currentEditCategory: Category | null;
-  balance: number = 1000;
+  balance: number = 1000;  
+  Cat : Categories = new Categories();
+  targetForm = false;
+  @ViewChild('newCategoryInput', { static: false }) newCategoryInput!: ElementRef;
 
   constructor(
     private repository: BudgetRepository,
     private activeRoute: ActivatedRoute
   ) {
     const key = this.activeRoute.snapshot.params['key'];
-    this.repository.getBudget(key);
-  }
+    this.repository.getBudget(key);    
+    }  
 
   setMonthAndYear(
     normalizedMonthAndYear: Moment,
@@ -105,7 +108,7 @@ export class BudgetComponent {
     this.repository.categoryGroups?.forEach((categoryGroup) => {
       flattenList.push({ ...categoryGroup, isGroup: true });
       flattenList.push(...categoryGroup.categories);
-    });
+    });    
     return flattenList;
   }
 
@@ -141,7 +144,13 @@ export class BudgetComponent {
 
   onChangeAssignedValue(event: Event, category: Category) {
     const value = (event.target as HTMLInputElement).value;
-    console.log({ value, category });
+    console.log({ value, category }); 
+    
+    const availableAmount = this.getAmountAvailable(category);
+    if (availableAmount - parseInt(value) <= 0) {
+      window.alert('Assigned value exceeds available amount or is equal to 0');      
+    }
+    
     const entry = this.getEntry(category);
     if (!entry || !entry._id) {
       this.repository.createBudgetEntry({
@@ -154,7 +163,82 @@ export class BudgetComponent {
         ...entry,
         assigned: parseInt(value),
       });
-    }
+    }    
     this.currentEditCategory = null;
   }
+
+  showPopover = false;
+  inputValue = '';
+
+  togglePopover(): void {
+    this.showPopover = !this.showPopover;    ;
+  } 
+
+  addCategory(group:string, newCategory: string){
+    const catGroups = this.repository.categoryGroups;
+    const inputVal = this.newCategoryInput.nativeElement.value;  
+    const inputValue = newCategory;  
+    this.newCategoryInput.nativeElement.value = '';
+    if(group === "Bills"){      
+      this.Cat.categoryGroupId = catGroups[0]._id;
+      this.Cat.name = newCategory;
+      console.log("newCat", this.Cat)
+      if(this.Cat.name !== ''){
+        this.repository.addCategory(this.Cat);
+        window.location.reload();
+      }
+      
+    }
+    else{
+      this.Cat.categoryGroupId = catGroups[1]._id;
+      this.Cat.name = newCategory;
+      console.log("newCat", this.Cat)
+      if(this.Cat.name !== ''){
+        this.repository.addCategory(this.Cat);
+        window.location.reload();
+      }
+    }    
+  }
+
+  removeCategory(){
+    console.log(this.currentEditCategory);
+    if(this.currentEditCategory !== null){      
+      this.repository.deleteCategory(this.currentEditCategory);
+      window.location.reload();
+    }
+  }
+
+  editTarget(){
+    this.targetForm = !this.targetForm;
+    console.log(this.targetForm);
+    
+  }
+
+  targetType: string;
+  targetAmount:number;
+  targetFrequency: string;
+
+  saveTarget(){
+    console.log(this.targetAmount,this.targetFrequency,this.targetType);    
+    if(this.currentEditCategory !== null){          
+      this.currentEditCategory.target = {targetType: '', amount: 0, frequency: ''}!;       
+      this.currentEditCategory.target.targetType = this.targetType!;
+      this.currentEditCategory.target.amount = this.targetAmount;
+      this.currentEditCategory.target.frequency = this.targetFrequency;
+      console.log(this.currentEditCategory);    
+      this.repository.editTarget(this.currentEditCategory);
+      window.location.reload();
+    }
+  }
+
+  alert(category:any){
+    const availableAmount = this.getAmountAvailable(category);
+    console.log("test",availableAmount);
+    if (availableAmount <= 0) {
+      window.alert('Available amount is insufficient or equal to 0');
+      return;
+    }
+    this.currentEditCategory = category;
+  }
+
 }

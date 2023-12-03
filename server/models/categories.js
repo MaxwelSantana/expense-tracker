@@ -4,11 +4,14 @@ let Categories = mongoose.Schema({
   categoryGroupId: mongoose.ObjectId,
   name: String,
   target: {
-    type: String,
-    amount: Number,
-    frequency: {
-      type: String,
-      enum: ['Weekly', 'Monthly', 'Yearly'],
+    type: {
+      targetType: String,
+      enum: ["NeededForSpending","SavingsBalance","MonthlySavingsBuilder","MonthlyDebtPayment"],
+      amount: Number,
+      frequency: {
+        type: String,
+        enum: ['Weekly', 'Monthly', 'Yearly']
+      }
     }
   }
 }, {
