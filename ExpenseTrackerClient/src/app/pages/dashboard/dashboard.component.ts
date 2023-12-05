@@ -342,7 +342,14 @@ export class AppDashboardComponent {
 
   getTotal() {
     let total = 0;
-    this.transactions?.forEach((item) => (total += item.amount));
+    console.log('transactions:', this.transactions);
+
+    this.transactions?.forEach((item) => {
+      if (item.status === 'Payment') {
+        total += item.amount;
+      }
+    });
+
     return `$${total}`;
   }
 }
