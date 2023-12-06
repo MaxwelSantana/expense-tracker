@@ -49,6 +49,17 @@ export interface spendingsChart {
   responsive: ApexResponsive;
 }
 
+export interface incomesChart {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  tooltip: ApexTooltip;
+  stroke: ApexStroke;
+  legend: ApexLegend;
+  responsive: ApexResponsive;
+}
+
 export interface monthlyChart {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -137,6 +148,7 @@ export class AppDashboardComponent {
 
   public salesOverviewChart!: Partial<salesOverviewChart> | any;
   public spendingsChart!: Partial<spendingsChart> | any;
+  public incomesChart!: Partial<spendingsChart> | any;
   public monthlyChart!: Partial<monthlyChart> | any;
 
   displayedColumns: string[] = ['assigned', 'name', 'priority', 'budget'];
@@ -156,97 +168,9 @@ export class AppDashboardComponent {
       console.log(this.transactions);
     });
 
-    // sales overview chart
-    this.salesOverviewChart = {
-      series: [
-        {
-          name: 'Eanings this month',
-          data: [355, 390, 300, 350, 390, 180, 355, 390],
-          color: '#537D3D',
-        },
-        {
-          name: 'Expense this month',
-          data: [280, 250, 325, 215, 250, 310, 280, 250],
-          color: '#E96B46',
-        },
-      ],
-
-      grid: {
-        borderColor: 'rgba(0,0,0,0.1)',
-        strokeDashArray: 3,
-        xaxis: {
-          lines: {
-            show: false,
-          },
-        },
-      },
-      plotOptions: {
-        bar: { horizontal: false, columnWidth: '35%', borderRadius: [4] },
-      },
-      chart: {
-        type: 'bar',
-        height: 390,
-        offsetX: -15,
-        toolbar: { show: true },
-        foreColor: '#252525',
-        fontFamily: 'inherit',
-        sparkline: { enabled: false },
-      },
-      dataLabels: { enabled: false },
-      markers: { size: 0 },
-      legend: { show: false },
-      xaxis: {
-        type: 'category',
-        categories: [
-          '16/09',
-          '17/09',
-          '18/09',
-          '19/09',
-          '20/09',
-          '21/09',
-          '22/09',
-          '23/09',
-        ],
-        labels: {
-          style: { cssClass: 'grey--text lighten-2--text fill-color' },
-        },
-      },
-      yaxis: {
-        show: true,
-        min: 0,
-        max: 400,
-        tickAmount: 4,
-        labels: {
-          style: {
-            cssClass: 'grey--text lighten-2--text fill-color',
-          },
-        },
-      },
-      stroke: {
-        show: true,
-        width: 3,
-        lineCap: 'butt',
-        colors: ['transparent'],
-      },
-      tooltip: { theme: 'light' },
-
-      responsive: [
-        {
-          breakpoint: 600,
-          options: {
-            plotOptions: {
-              bar: {
-                borderRadius: 3,
-              },
-            },
-          },
-        },
-      ],
-    };
-
     //Total Spendings this Month chart
     this.spendingsChart = {
-      series: [38, 40, 25],
+      series: [38, 40],
 
       chart: {
         type: 'donut',
@@ -257,7 +181,7 @@ export class AppDashboardComponent {
         },
         height: 130,
       },
-      colors: ['#537D3D', '#ECF2FF', '#F9F9FD'],
+      colors: ['#d14b2a', '#ECF2FF'],
       plotOptions: {
         pie: {
           startAngle: 0,
@@ -292,7 +216,55 @@ export class AppDashboardComponent {
       },
     };
 
-    // mohtly earnings chart
+    //Total Spendings this Month chart
+    this.incomesChart = {
+      series: [38, 40],
+
+      chart: {
+        type: 'donut',
+        fontFamily: "'Plus Jakarta Sans', sans-serif;",
+        foreColor: '#adb0bb',
+        toolbar: {
+          show: false,
+        },
+        height: 130,
+      },
+      colors: ['#ECF2FF', '#537D3D'],
+      plotOptions: {
+        pie: {
+          startAngle: 0,
+          endAngle: 360,
+          donut: {
+            size: '75%',
+            background: 'transparent',
+          },
+        },
+      },
+      stroke: {
+        show: false,
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      legend: {
+        show: false,
+      },
+      responsive: [
+        {
+          breakpoint: 991,
+          options: {
+            chart: {
+              width: 120,
+            },
+          },
+        },
+      ],
+      tooltip: {
+        enabled: false,
+      },
+    };
+
+    // monthly earnings chart
     this.monthlyChart = {
       series: [
         {
@@ -336,11 +308,19 @@ export class AppDashboardComponent {
     };
   }
 
-  getMessage() {
+  getMessageSpendings() {
     return 'More saving than last month';
   }
 
-  getTotal() {
+  getMessageEarnings() {
+    return 'Less Earnings than last month';
+  }
+
+  getMessageBalance() {
+    return 'Less Earnings than last month';
+  }
+
+  getTotalSpendings() {
     let total = 0;
     console.log('transactions:', this.transactions);
 
@@ -349,7 +329,28 @@ export class AppDashboardComponent {
         total += item.amount;
       }
     });
+    return `$${total}`;
+  }
+
+  getTotalEarnings() {
+    let total = 0;
+    console.log('transactions:', this.transactions);
+
+    this.transactions?.forEach((item) => {
+      if (item.status === 'Received') {
+        total += item.amount;
+      }
+    });
 
     return `$${total}`;
+  }
+
+  getTotalBalance() {
+    const earnings = parseFloat(this.getTotalEarnings().substring(1)); // Remove the "$" and convert to float
+    const spendings = parseFloat(this.getTotalSpendings().substring(1)); // Remove the "$" and convert to float
+
+    const totalBalance = earnings - spendings;
+
+    return `$${totalBalance}`;
   }
 }

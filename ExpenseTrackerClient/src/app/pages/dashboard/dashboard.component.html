@@ -1,44 +1,8 @@
 <div class="row">
-  <!-- --------------------------------------------------------------------------- -->
-  <!-- Sales Overview -->
-  <!-- --------------------------------------------------------------------------- -->
-  <div class="col-lg-8">
-    <mat-card class="cardWithShadow">
-      <mat-card-content class="p-24">
-        <div class="d-flex w-100">
-          <mat-card-title>Expense Tracker Overview</mat-card-title>
-          <div class="m-l-auto">
-            <mat-form-field class="theme-select" appearance="outline">
-              <mat-select value="mar">
-                <mat-option *ngFor="let month of months" [value]="month.value">
-                  {{ month.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-        <apx-chart
-          [series]="salesOverviewChart.series"
-          [dataLabels]="salesOverviewChart.dataLabels"
-          [chart]="salesOverviewChart.chart"
-          [legend]="salesOverviewChart.legend"
-          [xaxis]="salesOverviewChart.xaxis"
-          [yaxis]="salesOverviewChart.yaxis"
-          [grid]="salesOverviewChart.grid"
-          [stroke]="salesOverviewChart.stroke"
-          [tooltip]="salesOverviewChart.tooltip"
-          [plotOptions]="salesOverviewChart.plotOptions"
-        ></apx-chart>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <!-- --------------------------------------------------------------------------- -->
-  <!-- end Sales overview -->
-  <!-- --------------------------------------------------------------------------- -->
   <div class="col-lg-4">
     <div class="row">
       <!-- --------------------------------------------------------------------------- -->
-      <!-- PIE CHART -->
+      <!-- SPENDINGS - PIE CHART -->
       <!-- --------------------------------------------------------------------------- -->
       <div class="col-lg-12 col-sm-6">
         <mat-card class="cardWithShadow">
@@ -46,7 +10,7 @@
             <mat-card-title>Total Spendings this Month</mat-card-title>
             <div class="row m-t-24">
               <div class="col-7">
-                <h4 class="mat-headline-5">{{ getTotal() }}</h4>
+                <h4 class="mat-headline-5">{{ getTotalSpendings() }}</h4>
                 <div class="d-flex align-items-center m-t-16">
                   <button
                     mat-mini-fab
@@ -55,7 +19,7 @@
                     <i-tabler name="arrow-up-right" class="icon-20"></i-tabler>
                   </button>
                   <div *ngIf="true" class="mat-body-1 f-w-600 m-l-12">
-                    {{ getMessage() }}
+                    {{ getMessageSpendings() }}
                   </div>
                   <div class="mat-body-1 m-l-4"><!--removed--></div>
                 </div>
@@ -79,8 +43,81 @@
       </div>
 
       <!-- --------------------------------------------------------------------------- -->
-      <!-- Monthly Earnings -->
+      <!-- INCOMES - PIE CHART -->
       <!-- --------------------------------------------------------------------------- -->
+
+      <div class="col-lg-12 col-sm-6">
+        <mat-card class="cardWithShadow">
+          <mat-card-content class="p-24">
+            <mat-card-title>Total Earnings this Month</mat-card-title>
+            <div class="row m-t-24">
+              <div class="col-7">
+                <h4 class="mat-headline-5">{{ getTotalEarnings() }}</h4>
+                <div class="d-flex align-items-center m-t-16">
+                  <button
+                    mat-mini-fab
+                    class="bg-light-error text-error shadow-none icon-27"
+                  >
+                    <i-tabler
+                      name="arrow-down-right"
+                      class="icon-20"
+                    ></i-tabler>
+                  </button>
+                  <div *ngIf="true" class="mat-body-1 f-w-600 m-l-12">
+                    {{ getMessageEarnings() }}
+                  </div>
+                  <div class="mat-body-1 m-l-4"><!--removed--></div>
+                </div>
+              </div>
+              <div class="col-5 d-flex align-items-start">
+                <apx-chart
+                  [series]="incomesChart.series"
+                  [dataLabels]="incomesChart.dataLabels"
+                  [chart]="incomesChart.chart"
+                  [legend]="incomesChart.legend"
+                  [colors]="incomesChart.colors"
+                  [stroke]="incomesChart.stroke"
+                  [tooltip]="incomesChart.tooltip"
+                  [plotOptions]="incomesChart.plotOptions"
+                  [responsive]="incomesChart.responsive"
+                ></apx-chart>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <!-- --------------------------------------------------------------------------- -->
+      <!-- BALANCE -->
+      <!-- --------------------------------------------------------------------------- -->
+
+      <div class="col-lg-12 col-sm-6">
+        <mat-card class="cardWithShadow">
+          <mat-card-content class="p-24">
+            <mat-card-title>Balance this Month</mat-card-title>
+            <div class="row m-t-24">
+              <div class="col-7">
+                <h4 class="mat-headline-5">{{ getTotalBalance() }}</h4>
+                <div class="d-flex align-items-center m-t-16">
+                  <button
+                    mat-mini-fab
+                    class="bg-light-error text-error shadow-none icon-27"
+                  >
+                    <i-tabler
+                      name="arrow-down-right"
+                      class="icon-20"
+                    ></i-tabler>
+                  </button>
+                  <div *ngIf="true" class="mat-body-1 f-w-600 m-l-12">
+                    {{ getMessageBalance() }}
+                  </div>
+                  <div class="mat-body-1 m-l-4"><!--removed--></div>
+                </div>
+              </div>
+              <div class="col-5 d-flex align-items-start"></div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>
