@@ -1,0 +1,22 @@
+  <body>
+    <div class="container mt-5">
+      <h1>Budget Summary</h1>
+      <div class="row mt-4">
+        <div class="col-md-6 assigned income" >
+          <h3>Assigned </h3>
+          <p>{{ getcalculateEntries() | currency }}</p>
+        </div>
+        <div class="col-md-6 activity payments" >
+          <h3>Activity </h3>
+          <!-- <p>{{ sumPayment(transactions) | currency}}</p> -->
+        </div>
+        <div class="col-md-6 available my-balance">
+          <h3>Available</h3>
+          <p>{{ getcalculateTarget() | currency }}</p>          
+        </div>
+      </div>
+    </div>
+  </body>
+  
+  
+  
