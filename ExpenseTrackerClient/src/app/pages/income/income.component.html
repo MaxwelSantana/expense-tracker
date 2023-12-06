@@ -1,78 +1,64 @@
-<head>
-    <!-- Placeholder table made -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense and Income Tables</title>
+<body>
+    <div class="table-container">
+        <h1>Income and Expenses</h1>
+        <button (click)="exportExcel()" class="btn btn-primary mb-3">Download File</button>
+        <table class="table table-bordered" id="table-data">
+            <thead>
+                <tr>
+                    <th>
+                        Category
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Display Income (Received) -->
+                <ng-container *ngFor="let item of transactions">
+                    <tr *ngIf="item.status === 'Received'; else expenseRow">
+                        <td [ngStyle]="{'background-color': '#D8FFD8'}">
+                            {{ item.category }}
+                        </td>
+                        <td [ngStyle]="{'background-color': '#D8FFD8'}">
+                            {{ item.amount | currency }}
+                        </td>
+                        <td [ngStyle]="{'background-color': '#D8FFD8'}">
+                            Income
+                        </td>
+                    </tr>
+                    <ng-template #expenseRow>
+                        <!-- Display Expenses (Payment) -->
+                        <tr *ngIf="item.status === 'Payment'">
+                            <td [ngStyle]="{'background-color': '#FFD8D8'}">
+                                {{ item.category }}
+                            </td>
+                            <td [ngStyle]="{'background-color': '#FFD8D8'}">
+                                {{ item.amount | currency }}
+                            </td>
+                            <td [ngStyle]="{'background-color': '#FFD8D8'}">
+                                Expense
+                            </td>
+                        </tr>
+                    </ng-template>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+    
+
     <style>
-        table {
-            width: 70%;
-            border-collapse: collapse;
-            margin: 20px;
+        .table-container {
+            position: relative;
         }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        /* Styles for the Expense Table */
-        table.expense {
-            background-color: #ffebeb; /* Light red background color */
-        }
-
-        /* Styles for the Income Table */
-        table.income {
-            background-color: #e6f7e6; /* Light green background color */
+        .btn-primary {
+            position: absolute;
+            top: 0;
+            right: 0;
         }
     </style>
-</head>
-<body>
-
-    <h2>Expense Table</h2>
-
-    <table class="expense">
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Expense</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Rent</td>
-                <td>$1,000</td>
-            </tr>
-            <tr>
-                <td>Utilities</td>
-                <td>$200</td>
-            </tr>
-            <tr>
-                <td>Groceries</td>
-                <td>$150</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2>Income Table</h2>
-
-    <table class="income">
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Income</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Salary</td>
-                <td>$3,000</td>
-            </tr>
-        </tbody>
-    </table>
-
 </body>
