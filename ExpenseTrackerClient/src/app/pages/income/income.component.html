@@ -2,6 +2,7 @@
     <div class="table-container">
         <h1>Income and Expenses</h1>
         <button (click)="exportExcel()" class="btn btn-primary mb-3">Download File</button>
+        
         <table class="table table-bordered" id="table-data">
             <thead>
                 <tr>
@@ -49,6 +50,21 @@
         </table>
     </div>
     
+    <div class="col-lg-4">    
+        <mat-form-field>
+          <mat-label>Month and Year</mat-label>
+          <input matInput [matDatepicker]="dp" [formControl]="date" />
+          <mat-hint>MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker
+            #dp
+            startView="month"
+            (monthSelected)="setMonthAndYear($event, dp)"
+            panelClass="example-month-picker"
+          >
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
 
     <style>
         .table-container {

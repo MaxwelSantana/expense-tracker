@@ -4,6 +4,18 @@ import { Transaction } from 'src/app/models/transaction';
 import { RestDataSource } from 'src/app/services/rest.datasource';
 import * as XLSX from 'xlsx';
 
+import {
+  MatDatepicker,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import * as _moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+import { default as _rollupMoment, Moment } from 'moment';
+
+const moment = _rollupMoment || _moment;
+
 @Component({
   selector: 'app-income',
   templateUrl: './income.component.html'
@@ -11,6 +23,7 @@ import * as XLSX from 'xlsx';
 export class IncomeComponent {
 
   transactions ?: Transaction[] | null ;
+  date: any;
   
   constructor(private dataSource: RestDataSource) {
     this.dataSource.getTransactions().subscribe(t=> {
@@ -45,6 +58,16 @@ export class IncomeComponent {
     return sumPayment;
   }
 
+  setMonthAndYear(
+    normalizedMonthAndYear: Moment,
+    datepicker: MatDatepicker<Moment>
+  ) {
+    const ctrlValue = this.date.value!;
+    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.year(normalizedMonthAndYear.year());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
+  }
   /** Default name for excel file when downloaded */
   fileName= "ExcelSheet.xlsx"
   exportExcel(){
