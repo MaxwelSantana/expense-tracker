@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { CommonModule } from '@angular/common';
+
 // icons
 import { TablerIconsModule } from 'angular-tabler-icons';
 import * as TablerIcons from 'angular-tabler-icons/icons';
@@ -17,6 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //Import Layouts
 import { FullComponent } from './layouts/full/full.component';
 import { BlankComponent } from './layouts/blank/blank.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
 
 // Vertical Layout
 import { SidebarComponent } from './layouts/full/sidebar/sidebar.component';
@@ -54,6 +58,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     AuthenticationModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatCardModule,
+    MatTableModule,
+    CommonModule,
   ],
   exports: [TablerIconsModule],
   bootstrap: [AppComponent],
