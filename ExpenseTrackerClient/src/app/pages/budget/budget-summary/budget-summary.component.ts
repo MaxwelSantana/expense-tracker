@@ -56,13 +56,14 @@ export class BudgetSummaryComponent {
       getcalculateTarget(): number {  
         if (this.cachedTarget !== undefined) {
           return this.cachedTarget;
-        }
+        }        
         
-        const entriesArray = Object.values(this.budgetRepository.categories);
         let sumTarget = 0;
       
-        entriesArray.forEach((element: Categories) => { 
-          sumTarget += +element.target.amount || 0;          
+        this.budgetRepository.categories.forEach((element: Categories) => {
+          if (element.target && element.target.amount !== undefined) { // Add a null/undefined check for element.target
+            sumTarget += +element.target.amount || 0;
+          }
         });
         
         this.cachedTarget = sumTarget;
