@@ -19,7 +19,8 @@ export class BudgetSummaryComponent {
 
   constructor(
     private budgetRepository: BudgetRepository,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private budgetComponent:BudgetComponent
   ) {
       const key = this.activeRoute.snapshot.params['key'];
       this.budgetRepository.getBudget(key);  
@@ -54,20 +55,29 @@ export class BudgetSummaryComponent {
       
 
       getcalculateTarget(): number {  
-        if (this.cachedTarget !== undefined) {
-          return this.cachedTarget;
-        }        
+        // if (this.cachedTarget !== undefined) {
+        //   return this.cachedTarget;
+        // }        
         
-        let sumTarget = 0;
+        // let sumTarget = 0;
       
-        this.budgetRepository.categories.forEach((element: Categories) => {
-          if (element.target && element.target.amount !== undefined) { // Add a null/undefined check for element.target
-            sumTarget += +element.target.amount || 0;
-          }
-        });
+        // this.budgetRepository.categories.forEach((element: Categories) => {          
+        //   if (element.target && element.target.amount !== undefined) { 
+        //     //Add a null/undefined check for element.target
+        //     console.log(element.name,element.target.amount)
+        //     sumTarget += +element.target.amount || 0;
+        //   }
+        // });
         
-        this.cachedTarget = sumTarget;
-        return sumTarget;
+        // this.cachedTarget = sumTarget;
+        // return sumTarget;
+        let availableAmount = 0;
+        this.budgetRepository.categories.forEach((element: Categories) => {
+          console.log(availableAmount)
+          availableAmount += this.budgetComponent.getAmountAvailable(element)
+         })
+         return availableAmount;  
+        
       }
       
       
