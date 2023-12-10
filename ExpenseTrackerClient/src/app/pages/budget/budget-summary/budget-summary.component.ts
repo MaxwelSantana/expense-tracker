@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Categories } from 'src/app/models/categories';
 import { BudgetRepository } from 'src/app/repository/budget.repository';
@@ -9,79 +9,51 @@ import { BudgetEntries } from 'src/app/models/budget-entries';
 @Component({
   selector: 'app-budget-summary',
   templateUrl: './budget-summary.component.html',
-  styleUrls: ['./budget-summary.component.scss']
+  styleUrls: ['./budget-summary.component.scss'],
 })
 export class BudgetSummaryComponent {
-  budget ?: Categories[] | null ;
+  budget?: Categories[] | null;
   entries: BudgetEntries;
-  
-
 
   constructor(
     private budgetRepository: BudgetRepository,
     private activeRoute: ActivatedRoute,
-    private budgetComponent:BudgetComponent
+    private budgetComponent: BudgetComponent
   ) {
-      const key = this.activeRoute.snapshot.params['key'];
-      this.budgetRepository.getBudget(key);  
-      console.log(this.budgetRepository)         
-    } 
-    
-    
-    get categoriesDataSource(): Array<any> {
-      const flattenList: any = [];
-      this.budgetRepository.categoryGroups?.forEach((categoryGroup) => {
-        flattenList.push({ ...categoryGroup, isGroup: true });
-        flattenList.push(...categoryGroup.categories);
-      });     
-      return flattenList;
-       }
+    const key = this.activeRoute.snapshot.params['key'];
+    this.budgetRepository.getBudget(key);
+  }
 
-       private cachedEntries: number | undefined;
-       private cachedTarget: number | undefined;
+  get categoriesDataSource(): Array<any> {
+    const flattenList: any = [];
+    this.budgetRepository.categoryGroups?.forEach((categoryGroup) => {
+      flattenList.push({ ...categoryGroup, isGroup: true });
+      flattenList.push(...categoryGroup.categories);
+    });
+    return flattenList;
+  }
 
-       getcalculateEntries(): number {        
-      
-        
-        const entriesArray = Object.values(this.budgetRepository.budgetEntries);
-        let sumAssigned = 0;
-      
-        entriesArray.forEach((element: any) => { // Use 'any' type here as the structure is not completely specified          
-          sumAssigned += element.assigned;
-        });       
-        return sumAssigned;
-      }
+  private cachedEntries: number | undefined;
+  private cachedTarget: number | undefined;
 
-      
+  getcalculateEntries(): number {
+    const entriesArray = Object.values(
+      this.budgetRepository.getBudgetEntries()
+    );
+    let sumAssigned = 0;
 
-      getcalculateTarget(): number {  
-        // if (this.cachedTarget !== undefined) {
-        //   return this.cachedTarget;
-        // }        
-        
-        // let sumTarget = 0;
-      
-        // this.budgetRepository.categories.forEach((element: Categories) => {          
-        //   if (element.target && element.target.amount !== undefined) { 
-        //     //Add a null/undefined check for element.target
-        //     console.log(element.name,element.target.amount)
-        //     sumTarget += +element.target.amount || 0;
-        //   }
-        // });
-        
-        // this.cachedTarget = sumTarget;
-        // return sumTarget;
-        let availableAmount = 0;
-        this.budgetRepository.categories.forEach((element: Categories) => {
-          console.log(availableAmount)
-          availableAmount += this.budgetComponent.getAmountAvailable(element)
-         })
-         return availableAmount;  
-        
-      }
-      
-      
-      
-    
+    entriesArray.forEach((element: any) => {
+      // Use 'any' type here as the structure is not completely specified
+      sumAssigned += element.assigned;
+    });
+    return sumAssigned;
+  }
 
+  getcalculateTarget(): number {
+    let availableAmount = 0;
+    this.budgetRepository.categories?.forEach((element: Categories) => {
+      availableAmount += this.budgetComponent.getAmountAvailable(element);
+    });
+    return availableAmount;
+  }
 }

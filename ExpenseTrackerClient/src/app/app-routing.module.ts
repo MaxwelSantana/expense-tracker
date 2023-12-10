@@ -28,9 +28,12 @@ const routes: Routes = [
           import('./pages/extra/extra.module').then((m) => m.ExtraModule),
       },
       {
-        path:'myAccount',
-        loadChildren: () => import('./pages/my-account/my-account-routing.module').then((m) => m.MyAccountRoutingModule)
-      }
+        path: 'myAccount',
+        loadChildren: () =>
+          import('./pages/my-account/my-account-routing.module').then(
+            (m) => m.MyAccountRoutingModule
+          ),
+      },
     ],
     canActivate: [AuthGuard],
   },
@@ -50,7 +53,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

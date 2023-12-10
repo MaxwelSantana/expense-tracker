@@ -16,42 +16,53 @@ function requireAuth(req, res, next) {
 
     if (err) return res.sendStatus(403);
 
-    req.user = user;    
+    req.user = user;
     next();
   });
 }
 
 
-router.post('/changePassword',requireAuth, async (req, res, next) => {
+router.post('/changePassword', requireAuth, async (req, res, next) => {
   try {
 
     console.log('Request Body: ', req.body); // Add this line to check the content of req.body
-    
+
     const userJson = req.user;
     console.log("user" + userJson);
     const userEmail = userJson.email // Log to check if the user ID is retrieved correctly
     console.log('User ID:', userEmail);
 
     const user = await User.findOne({ email: userEmail });
-    console.log('Retrieved User:', user);
-    
+    console.log('Retrieved User:', user, user.changePassword);
 
-    const oldPassword = req.body.currentPassword;
-    const newPassword = req.body.newPassword;
-    const newPassword2 = req.body.newPassword2;
+    console.log("req.body.currentPassword", req.body.currentPassword)
+    console.log("req.body.newPassword", req.body.newPassword)
 
-    if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
-    }
+    user.changePassword(req.body.currentPassword,
+      req.body.newPassword, function (err) {
+        if (err) {
+          return res.send(err);
+        } else {
+          return res.status(200).json({ success: true, message: 'Password updated successfully' });
+        }
+      });
 
-    return res.status(200).json({ success: true, message: 'Password updated successfully' });
+    // const oldPassword = req.body.currentPassword;
+    // const newPassword = req.body.newPassword;
+    // const newPassword2 = req.body.newPassword2;
+
+    // if (!user) {
+    //   return res.status(404).json({ success: false, message: 'User not found' });
+    // }
+
+    // return res.status(200).json({ success: true, message: 'Password updated successfully' });
   } catch (error) {
     console.error('Error in changing password:', error); // Log the specific error
     return res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
   }
 });
 
-  
+
 router.delete('/deleteMyAccount', requireAuth, async (req, res, next) => {
   try {
     const userJson = req.user;
@@ -67,18 +78,18 @@ router.delete('/deleteMyAccount', requireAuth, async (req, res, next) => {
   }
 });
 
-router.get('/logout',(req, res, next) => {  
-  if (req.session) {    
-    req.session.destroy();    
+router.get('/logout', (req, res, next) => {
+  if (req.session) {
+    req.session.destroy();
     res.clearCookie('session-id');
-    return res.status(200).json({ success: true, message: 'Logged out successfully' });      
+    return res.status(200).json({ success: true, message: 'Logged out successfully' });
   }
   else {
     var err = new Error('You are not logged in!');
     err.status = 403;
     next(err);
   }
- });
+});
 
 
 module.exports = router;

@@ -6,6 +6,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Transaction } from '../models/transaction';
 import { User } from './user.model';
 import { Categories } from '../models/categories';
+import { CategoryGroup } from '../models/category-groups';
 
 const PROTOCOL = 'http';
 const PORT = 3000;
@@ -39,7 +40,6 @@ export class RestDataSource {
       })
       .pipe(
         map((response) => {
-          console.log('authenticate', { response });
           return response;
         })
       );
@@ -58,7 +58,7 @@ export class RestDataSource {
       })
       .pipe(
         map((response) => {
-          console.log('auth/register', { response });
+
           return response;
         })
       );
@@ -69,7 +69,6 @@ export class RestDataSource {
     newPassword2: string | null
   ): Observable<boolean> {
     this.loadToken();
-    console.log(this.authToken);
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
@@ -89,7 +88,6 @@ export class RestDataSource {
   }
   deleteMyAccount(): Observable<boolean> {
     this.loadToken();
-    console.log(this.authToken);
     if (!this.authToken) {
       return throwError('Authentication token missing');
     }
@@ -102,7 +100,6 @@ export class RestDataSource {
   logout(): Observable<any> {
     this.authToken = null!;
     localStorage.clear();
-    console.log('working from datasource');
     return this.http.get<any>(
       this.baseUrl + 'myaccount/logout',
       this.httpOptions
@@ -110,13 +107,11 @@ export class RestDataSource {
   }
 
   storeUserData(token: any): void {
-    console.log('StoreUserData: ' + token);
     localStorage.setItem('id_token', 'Bearer ' + token);
   }
 
   loadToken(): void {
     const token = localStorage.getItem('id_token');
-    console.log('loadToken: ' + token);
     this.authToken = token ? `${token}` : ''; // Include the "Bearer " prefix if the token exists
     this.httpOptions.headers = this.httpOptions.headers.set(
       'Authorization',
@@ -128,7 +123,7 @@ export class RestDataSource {
     return this.http.get<any>(this.baseUrl + path, this.httpOptions);
   }
 
-  post(path: string, data: any): Observable<any> {    
+  post(path: string, data: any): Observable<any> {
     return this.http.post<any>(this.baseUrl + path, data, this.httpOptions);
   }
 
@@ -167,6 +162,10 @@ export class RestDataSource {
 
   getCategories(): Observable<Categories[]> {
     return this.http.get<Categories[]>(this.baseUrl + 'transactions/getCategories', this.httpOptions);
+  }
+
+  getCategoryGroups(): Observable<CategoryGroup[]> {
+    return this.http.get<CategoryGroup[]>(this.baseUrl + 'transactions/categorygroups', this.httpOptions);
   }
 }
 

@@ -1,5 +1,15 @@
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  FormControl,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 import {
   MatDatepicker,
@@ -76,21 +86,39 @@ const ELEMENT_DATA: productsData[] = [
 })
 export class BudgetComponent {
   date = new FormControl(moment());
+  monthName: string;
 
   displayedColumns: string[] = ['name', 'assigned', 'activity', 'available'];
   currentEditCategory: Category | null;
-  balance: number = 1000;  
-  Cat : Categories = new Categories();
+  balance: number = 1000;
+  Cat: Categories = new Categories();
   targetForm = false;
-  @ViewChild('newCategoryInput', { static: false }) newCategoryInput!: ElementRef;
+  @ViewChild('newCategoryInput', { static: false })
+  newCategoryInput!: ElementRef;
+  categoriesDataSource: Array<any>;
+  budgetEntries: any;
 
   constructor(
     private repository: BudgetRepository,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private route: Router
   ) {
-    const key = this.activeRoute.snapshot.params['key'];
-    this.repository.getBudget(key);    
-    }  
+    this.activeRoute.params.subscribe((routeParams) => {
+      const localDate = moment(routeParams['key'], 'YYYYMM');
+      this.monthName = localDate.format('MMMM');
+      this.date = new FormControl(localDate);
+      this.repository.getBudget(routeParams['key']).subscribe(() => {
+        this.budgetEntries = this.repository.getBudgetEntries();
+        this.categoriesDataSource = this.repository.getCategoriesDataSource();
+      });
+    });
+  }
+
+  redirectTo(uri: string) {
+    this.route.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.route.navigate([uri]).then();
+    });
+  }
 
   setMonthAndYear(
     normalizedMonthAndYear: Moment,
@@ -100,17 +128,11 @@ export class BudgetComponent {
     ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
     this.date.setValue(ctrlValue);
+    const dateKey = moment(ctrlValue).format('YYYYMM');
+    this.route.navigate([`budget/${dateKey}`]);
+    // this.route.navigate([`budget/${dateKey}`]).then(() => location.reload());
+    // this.redirectTo(`/${dateKey}`);
     datepicker.close();
-  }
-
-  get categoriesDataSource(): Array<any> {
-    const flattenList: any = [];
-    this.repository.categoryGroups?.forEach((categoryGroup) => {
-      flattenList.push({ ...categoryGroup, isGroup: true });
-      flattenList.push(...categoryGroup.categories);
-    });    
-    console.log("test");
-    return flattenList;
   }
 
   isGroup(index: any, item: any): boolean {
@@ -118,7 +140,7 @@ export class BudgetComponent {
   }
 
   getEntry(category: Category): BudgetEntries {
-    return this.repository.budgetEntries[category._id];
+    return this.budgetEntries[category._id];
   }
 
   getAssignedAmount(category: Category) {
@@ -139,19 +161,17 @@ export class BudgetComponent {
   }
 
   edit(category: any) {
-    console.log('passou');
     this.currentEditCategory = category;
   }
 
   onChangeAssignedValue(event: Event, category: Category) {
     const value = (event.target as HTMLInputElement).value;
-    console.log({ value, category }); 
-    
+
     const availableAmount = this.getAmountAvailable(category);
     if (availableAmount - parseInt(value) <= 0) {
-      window.alert('Assigned value exceeds available amount or is equal to 0');      
+      window.alert('Assigned value exceeds available amount or is equal to 0');
     }
-    
+
     const entry = this.getEntry(category);
     if (!entry || !entry._id) {
       this.repository.createBudgetEntry({
@@ -164,7 +184,7 @@ export class BudgetComponent {
         ...entry,
         assigned: parseInt(value),
       });
-    }    
+    }
     this.currentEditCategory = null;
   }
 
@@ -172,74 +192,67 @@ export class BudgetComponent {
   inputValue = '';
 
   togglePopover(): void {
-    this.showPopover = !this.showPopover;    ;
-  } 
-
-  addCategory(group:string, newCategory: string){
-    const catGroups = this.repository.categoryGroups;
-    const inputVal = this.newCategoryInput.nativeElement.value;  
-    const inputValue = newCategory;  
-    this.newCategoryInput.nativeElement.value = '';
-    if(group === "Bills"){      
-      this.Cat.categoryGroupId = catGroups[0]._id;
-      this.Cat.name = newCategory;
-      console.log("newCat", this.Cat)
-      if(this.Cat.name !== ''){
-        this.repository.addCategory(this.Cat);
-        window.location.reload();
-      }
-      
-    }
-    else{
-      this.Cat.categoryGroupId = catGroups[1]._id;
-      this.Cat.name = newCategory;
-      console.log("newCat", this.Cat)
-      if(this.Cat.name !== ''){
-        this.repository.addCategory(this.Cat);
-        window.location.reload();
-      }
-    }    
+    this.showPopover = !this.showPopover;
   }
 
-  removeCategory(){
-    console.log(this.currentEditCategory);
-    if(this.currentEditCategory !== null){      
+  addCategory(group: string, newCategory: string) {
+    const catGroups = this.repository.categoryGroups;
+    const inputVal = this.newCategoryInput.nativeElement.value;
+    const inputValue = newCategory;
+    this.newCategoryInput.nativeElement.value = '';
+    if (group === 'Bills') {
+      this.Cat.categoryGroupId = catGroups[0]._id;
+      this.Cat.name = newCategory;
+      if (this.Cat.name !== '') {
+        this.repository.addCategory(this.Cat);
+        window.location.reload();
+      }
+    } else {
+      this.Cat.categoryGroupId = catGroups[1]._id;
+      this.Cat.name = newCategory;
+      if (this.Cat.name !== '') {
+        this.repository.addCategory(this.Cat);
+        window.location.reload();
+      }
+    }
+  }
+
+  removeCategory() {
+    if (this.currentEditCategory !== null) {
       this.repository.deleteCategory(this.currentEditCategory);
       window.location.reload();
     }
   }
 
-  editTarget(){
+  editTarget() {
     this.targetForm = !this.targetForm;
-    console.log(this.targetForm);
-    
   }
 
   targetType: string;
-  targetAmount:number;
+  targetAmount: number;
   targetFrequency: string;
 
-  saveTarget(){
-    console.log(this.targetAmount,this.targetFrequency,this.targetType);    
-    if(this.currentEditCategory !== null){          
-      this.currentEditCategory.target = {targetType: '', amount: 0, frequency: ''}!;       
+  saveTarget() {
+    if (this.currentEditCategory !== null) {
+      this.currentEditCategory.target = {
+        targetType: '',
+        amount: 0,
+        frequency: '',
+      }!;
       this.currentEditCategory.target.targetType = this.targetType!;
       this.currentEditCategory.target.amount = this.targetAmount;
       this.currentEditCategory.target.frequency = this.targetFrequency;
-      console.log(this.currentEditCategory);    
       this.repository.editTarget(this.currentEditCategory);
       window.location.reload();
     }
   }
 
-  alert(category:any){
+  alert(category: any) {
     const availableAmount = this.getAmountAvailable(category);
-    console.log("test",availableAmount);
     if (availableAmount <= 0) {
       window.alert('Available amount is insufficient or equal to 0');
       return;
     }
     this.currentEditCategory = category;
   }
-
 }

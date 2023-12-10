@@ -24,7 +24,6 @@ export class AppSideRegisterComponent {
   }
 
   submit() {
-    console.log(this.form, this.form.valid);
     if (this.form.valid) {
       const { uname, email, password } = this.f;
       this.auth

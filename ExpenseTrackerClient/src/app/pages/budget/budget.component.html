@@ -2,15 +2,14 @@
   <mat-card class="cardWithShadow theme-card">
     <app-budget-summary></app-budget-summary>
   </mat-card>
-  <div class="col-lg-4">    
+  <div class="col-lg-4">
     <mat-form-field>
       <mat-label>Month and Year</mat-label>
       <input matInput [matDatepicker]="dp" [formControl]="date" />
-      <mat-hint>MM/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker
         #dp
-        startView="multi-year"
+        startView="year"
         (monthSelected)="setMonthAndYear($event, dp)"
         panelClass="example-month-picker"
       >
@@ -21,15 +20,15 @@
     <div class="col-lg-8">
       <mat-card class="cardWithShadow">
         <mat-card-content class="p-24">
-          <mat-card-title>Budget for November</mat-card-title>
+          <mat-card-title>Budget for {{ monthName }}</mat-card-title>
           <div class="table-responsive m-t-16">
             <table mat-table [dataSource]="categoriesDataSource" class="w-100">
               <!-- Default Table lines -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>CATEGORY</th>
                 <td mat-cell *matCellDef="let element">
-                  {{ element.name }}                  
-                </td>                
+                  {{ element.name }}
+                </td>
               </ng-container>
 
               <ng-container matColumnDef="assigned">
@@ -56,10 +55,9 @@
               <ng-container matColumnDef="available">
                 <th mat-header-cell *matHeaderCellDef>AVAILABLE</th>
                 <td mat-cell *matCellDef="let element">
-                  {{ getAmountAvailable(element) }}                  
+                  {{ getAmountAvailable(element) }}
                 </td>
-              </ng-container>              
-              
+              </ng-container>
 
               <!-- Default Table lines -->
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -76,19 +74,42 @@
                     <mat-icon *ngIf="!group.reduced">expand_less</mat-icon>
                     <mat-icon *ngIf="group.reduced">expand_more</mat-icon>
                     <strong style="vertical-align: super">
-                    {{
-                      group.name
-                    }}                    
-                    <button (click)="togglePopover()" class="btn btn-outline-secondary m-2 btn-sm float-end" style="--bs-btn-font-size: .5rem;">Add Another Category</button>
-                    <div *ngIf="showPopover" class="popover float-end">
-                      <form #categoryForm="ngForm" (ngSubmit)="addCategory(group.name, newCategoryInput.value); false">
-                        <div>
-                          <input type="text" name="anotherCat" class="form-control input-md" placeholder="New Category" #newCategoryInput>
-                          <button type="submit" class="btn btn-primary m-2">Save</button>
-                          <button class="btn btn-danger m-2" (click)="togglePopover()">Cancel</button>
-                        </div>
-                      </form>
-                    </div>                                                             
+                      {{ group.name }}
+                      <button
+                        (click)="togglePopover()"
+                        class="btn btn-outline-secondary m-2 btn-sm float-end"
+                        style="--bs-btn-font-size: 0.5rem"
+                      >
+                        Add Another Category
+                      </button>
+                      <div *ngIf="showPopover" class="popover float-end">
+                        <form
+                          #categoryForm="ngForm"
+                          (ngSubmit)="
+                            addCategory(group.name, newCategoryInput.value);
+                            (false)
+                          "
+                        >
+                          <div>
+                            <input
+                              type="text"
+                              name="anotherCat"
+                              class="form-control input-md"
+                              placeholder="New Category"
+                              #newCategoryInput
+                            />
+                            <button type="submit" class="btn btn-primary m-2">
+                              Save
+                            </button>
+                            <button
+                              class="btn btn-danger m-2"
+                              (click)="togglePopover()"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </form>
+                      </div>
                     </strong>
                   </div>
                 </td>
@@ -110,30 +131,77 @@
       <mat-card class="cardWithShadow">
         <mat-card-content class="p-24">
           <mat-card-title>Details</mat-card-title>
-          <h4>{{ currentEditCategory?.name }}</h4>                    
+          <h4>{{ currentEditCategory?.name }}</h4>
           <div *ngIf="targetForm" class="targetForm">
             <h6>Target</h6>
             <form #formEditTarget="ngForm" (ngSubmit)="saveTarget()">
               <div class="form-group m-2">
                 <label for="TargetSelected">Target Type</label>
-                <select class="form-control" name="targetOptions" id="targetOptions" [(ngModel)]="targetType">
+                <select
+                  class="form-control"
+                  name="targetOptions"
+                  id="targetOptions"
+                  [(ngModel)]="targetType"
+                >
                   <option value="NeededForSpending">Needed For Spending</option>
                   <option value="SavingsBalance">Savings Balance</option>
-                  <option value="MonthlySavingsBuilder">Monthly Savings Builder</option>
-                  <option value="MonthlyDebtPayment">Monthly Debt Payment</option>
+                  <option value="MonthlySavingsBuilder">
+                    Monthly Savings Builder
+                  </option>
+                  <option value="MonthlyDebtPayment">
+                    Monthly Debt Payment
+                  </option>
                 </select>
               </div>
               <div class="form-group m-2">
                 <label for="Amount">Amount</label>
-                <input type="text" id="transactionAmount" name="amount"  class="form-control" placeholder="Enter the amount." [(ngModel)]="targetAmount">
+                <input
+                  type="text"
+                  id="transactionAmount"
+                  name="amount"
+                  class="form-control"
+                  placeholder="Enter the amount."
+                  [(ngModel)]="targetAmount"
+                />
               </div>
               <div class="py-3">
                 <h6>Frequency</h6>
-                <select class="w-auto h-auto p-1" name="targetFrequency" id="targetFrequencyID" size="1" multiple
-                style="display:inline-block; border:none; appearance: none; overflow:hidden; height:auto" [(ngModel)]="targetFrequency">
-                  <option class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center" style="display:inline-block; width:80px; height: 40px;" value="Weekly">Weekly</option>
-                  <option class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center" style="display:inline-block; width:80px; height: 40px;" value="Monthly">Monthly</option>
-                  <option class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center" style="display:inline-block; width:80px; height: 40px;" value="Yearly">Yearly</option>
+                <select
+                  class="w-auto h-auto p-1"
+                  name="targetFrequency"
+                  id="targetFrequencyID"
+                  size="1"
+                  multiple
+                  style="
+                    display: inline-block;
+                    border: none;
+                    appearance: none;
+                    overflow: hidden;
+                    height: auto;
+                  "
+                  [(ngModel)]="targetFrequency"
+                >
+                  <option
+                    class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center"
+                    style="display: inline-block; width: 80px; height: 40px"
+                    value="Weekly"
+                  >
+                    Weekly
+                  </option>
+                  <option
+                    class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center"
+                    style="display: inline-block; width: 80px; height: 40px"
+                    value="Monthly"
+                  >
+                    Monthly
+                  </option>
+                  <option
+                    class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center"
+                    style="display: inline-block; width: 80px; height: 40px"
+                    value="Yearly"
+                  >
+                    Yearly
+                  </option>
                 </select>
               </div>
               <button type="submit" class="btn btn-outline-warning m-2">
@@ -141,34 +209,98 @@
               </button>
               <button (click)="editTarget()" class="btn btn-outline-danger m-2">
                 Cancel
-              </button>               
+              </button>
             </form>
           </div>
 
-
           <div *ngIf="!targetForm" class="formValues">
-            <button class="btn btn-outline-secondary m-2 btn-sm float-end" style="--bs-btn-font-size: .5rem;" (click)="removeCategory()" >Remove Category</button>
-          <button class="btn btn-outline-success m-2 btn-sm float-end" style="--bs-btn-font-size: .5rem;"(click)="editTarget()">Edit</button>
-            <h6>Target</h6>            
-              <div class="form-group m-2">
-                <label for="TargetSelected">Target Type</label>
-                <textarea class="form-control" name="targetSelect" id="" rows="1" disabled>{{this.currentEditCategory?.target?.targetType}}</textarea>
-              </div>
-              <div class="form-group m-2">
-                <label for="Amount">Amount</label>                
-                <textarea class="form-control" name="AmountText" id="" cols="30" rows="1" disabled>{{this.currentEditCategory?.target?.amount}}</textarea>
-              </div>
-              <div class="py-3">
-                <h6>Frequency</h6>
-                <select class="w-auto h-auto p-1" name="targetFrequency" id="targetFrequencyID" size="1" multiple
-                style="display:inline-block; border:none; appearance: none; overflow:hidden; height:auto">
-                  <option class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center" style="display:inline-block; width:80px; height: 40px;" value="Weekly" [selected]="this.currentEditCategory?.target?.frequency === 'Weekly'">Weekly</option>
-                  <option class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center" style="display:inline-block; width:80px; height: 40px;" value="Monthly" [selected]="this.currentEditCategory?.target?.frequency === 'Monthly'">Monthly</option>
-                  <option class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center" style="display:inline-block; width:80px; height: 40px;" value="Yearly" [selected]="this.currentEditCategory?.target?.frequency === 'Yearly'">Yearly</option>
-                </select>
-              </div>           
+            <button
+              class="btn btn-outline-secondary m-2 btn-sm float-end"
+              style="--bs-btn-font-size: 0.5rem"
+              (click)="removeCategory()"
+            >
+              Remove Category
+            </button>
+            <button
+              class="btn btn-outline-success m-2 btn-sm float-end"
+              style="--bs-btn-font-size: 0.5rem"
+              (click)="editTarget()"
+            >
+              Edit
+            </button>
+            <h6>Target</h6>
+            <div class="form-group m-2">
+              <label for="TargetSelected">Target Type</label>
+              <textarea
+                class="form-control"
+                name="targetSelect"
+                id=""
+                rows="1"
+                disabled
+                >{{ this.currentEditCategory?.target?.targetType }}</textarea
+              >
+            </div>
+            <div class="form-group m-2">
+              <label for="Amount">Amount</label>
+              <textarea
+                class="form-control"
+                name="AmountText"
+                id=""
+                cols="30"
+                rows="1"
+                disabled
+                >{{ this.currentEditCategory?.target?.amount }}</textarea
+              >
+            </div>
+            <div class="py-3">
+              <h6>Frequency</h6>
+              <select
+                class="w-auto h-auto p-1"
+                name="targetFrequency"
+                id="targetFrequencyID"
+                size="1"
+                multiple
+                style="
+                  display: inline-block;
+                  border: none;
+                  appearance: none;
+                  overflow: hidden;
+                  height: auto;
+                "
+              >
+                <option
+                  class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center"
+                  style="display: inline-block; width: 80px; height: 40px"
+                  value="Weekly"
+                  [selected]="
+                    this.currentEditCategory?.target?.frequency === 'Weekly'
+                  "
+                >
+                  Weekly
+                </option>
+                <option
+                  class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center"
+                  style="display: inline-block; width: 80px; height: 40px"
+                  value="Monthly"
+                  [selected]="
+                    this.currentEditCategory?.target?.frequency === 'Monthly'
+                  "
+                >
+                  Monthly
+                </option>
+                <option
+                  class="border rounded m-1 p-2 d-inline-flex align-items-center justify-content-center"
+                  style="display: inline-block; width: 80px; height: 40px"
+                  value="Yearly"
+                  [selected]="
+                    this.currentEditCategory?.target?.frequency === 'Yearly'
+                  "
+                >
+                  Yearly
+                </option>
+              </select>
+            </div>
           </div>
-          
         </mat-card-content>
       </mat-card>
     </div>

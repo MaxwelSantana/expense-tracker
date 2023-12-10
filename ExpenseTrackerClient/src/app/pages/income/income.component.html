@@ -1,80 +1,72 @@
 <body>
-    <div class="table-container">
-        <h1>Income vs. Expenses</h1>
-        <button (click)="exportExcel()" class="btn btn-primary mb-3">Download File</button>
-        
-        <table class="table table-bordered" id="table-data">
-            <thead>
-                <tr>
-                    <th>
-                        Category
-                    </th>
-                    <th>
-                        Amount
-                    </th>
-                    <th>
-                        Type
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Display Income (Received) -->
-                <ng-container *ngFor="let item of transactions">
-                    <tr *ngIf="item.status === 'Received'; else expenseRow">
-                        <td [ngStyle]="{'background-color': '#D8FFD8'}">
-                            {{ item.category }}
-                        </td>
-                        <td [ngStyle]="{'background-color': '#D8FFD8'}">
-                            {{ item.amount | currency }}
-                        </td>
-                        <td [ngStyle]="{'background-color': '#D8FFD8'}">
-                            Income
-                        </td>
-                    </tr>
-                    <ng-template #expenseRow>
-                        <!-- Display Expenses (Payment) -->
-                        <tr *ngIf="item.status === 'Payment'">
-                            <td [ngStyle]="{'background-color': '#FFD8D8'}">
-                                {{ item.category }}
-                            </td>
-                            <td [ngStyle]="{'background-color': '#FFD8D8'}">
-                                {{ item.amount | currency }}
-                            </td>
-                            <td [ngStyle]="{'background-color': '#FFD8D8'}">
-                                Expense
-                            </td>
-                        </tr>
-                    </ng-template>
-                </ng-container>
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="col-lg-4">    
-        <mat-form-field>
-          <mat-label>Month and Year</mat-label>
-          <input matInput [matDatepicker]="dp" [formControl]="date" />
-          <mat-hint>MM/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
-          <mat-datepicker
-            #dp
-            startView="month"
-            (monthSelected)="setMonthAndYear($event, dp)"
-            panelClass="example-month-picker"
-          >
-          </mat-datepicker>
-        </mat-form-field>
-      </div>
+  <div class="table-container">
+    <h1>Income vs. Expenses</h1>
+    <button (click)="exportExcel()" class="btn btn-primary mb-3">
+      Download File
+    </button>
 
-    <style>
-        .table-container {
-            position: relative;
-        }
+    <table class="table table-bordered" id="table-data">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Display Income (Received) -->
+        <ng-container *ngFor="let item of transactions">
+          <tr *ngIf="item.status === 'Received'; else expenseRow">
+            <td [ngStyle]="{ 'background-color': '#D8FFD8' }">
+              {{ item.subcategory }}
+            </td>
+            <td [ngStyle]="{ 'background-color': '#D8FFD8' }">
+              {{ item.amount | currency }}
+            </td>
+            <td [ngStyle]="{ 'background-color': '#D8FFD8' }">Income</td>
+          </tr>
+          <ng-template #expenseRow>
+            <!-- Display Expenses (Payment) -->
+            <tr *ngIf="item.status === 'Payment'">
+              <td [ngStyle]="{ 'background-color': '#FFD8D8' }">
+                {{ item.subcategory }}
+              </td>
+              <td [ngStyle]="{ 'background-color': '#FFD8D8' }">
+                {{ item.amount | currency }}
+              </td>
+              <td [ngStyle]="{ 'background-color': '#FFD8D8' }">Expense</td>
+            </tr>
+          </ng-template>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
 
-        .btn-primary {
-            position: absolute;
-            top: 0;
-            right: 0;
-        }
-    </style>
+  <div class="col-lg-4">
+    <mat-form-field>
+      <mat-label>Month and Year</mat-label>
+      <input matInput [matDatepicker]="dp" [formControl]="date" />
+      <mat-hint>MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker
+        #dp
+        startView="month"
+        (monthSelected)="setMonthAndYear($event, dp)"
+        panelClass="example-month-picker"
+      >
+      </mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <style>
+    .table-container {
+      position: relative;
+    }
+
+    .btn-primary {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  </style>
 </body>
