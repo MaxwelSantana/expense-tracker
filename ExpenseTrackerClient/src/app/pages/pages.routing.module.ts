@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AppDashboardComponent } from './dashboard/dashboard.component';
 import { BudgetComponent } from './budget/budget.component';
 import { IncomeComponent } from './income/income.component';
+import moment from 'moment';
 
 export const PagesRoutes: Routes = [
   {
@@ -32,5 +33,5 @@ export const PagesRoutes: Routes = [
 ];
 
 function getCurrentMonthKey() {
-  return '202311';
+  return moment().format('YYYYMM');
 }

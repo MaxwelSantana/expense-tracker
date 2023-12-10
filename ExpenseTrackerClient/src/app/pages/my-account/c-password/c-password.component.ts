@@ -10,7 +10,7 @@ import { SettingsService } from 'src/app/services/settings.service';
   styleUrls: ['./c-password.component.scss']
 })
 export class CPasswordComponent {
-  
+
   errorMessage:string = "Form Data Invalid"
   form = new FormGroup({
     currentPassword: new FormControl('',[Validators.required]),
@@ -25,27 +25,24 @@ export class CPasswordComponent {
   constructor(private router: Router, private settings: SettingsService) {}
 
   cPassword() {
-    console.log('form submit');
     if (this.form.valid) {
       const { currentPassword, newPassword, newPassword2 } = this.f;
-          
-      if (        
+
+      if (
         currentPassword.value !== null &&
         newPassword.value !== null &&
         newPassword2.value !== null
-      ) {           
+      ) {
         this.settings
-          .cPassword(            
+          .cPassword(
             currentPassword.value,
             newPassword.value,
             newPassword2.value
           )
           .subscribe((response) => {
-            console.log(response);
             if (response) {
               this.router.navigateByUrl('/dashboard');
             }
-            console.log(response);
           });
       } else {
         this.errorMessage = 'Form Data Invalid';
@@ -54,5 +51,5 @@ export class CPasswordComponent {
       this.errorMessage = 'Form Data Invalid';
     }
   }
-  
+
 }

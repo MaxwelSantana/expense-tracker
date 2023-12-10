@@ -29,7 +29,6 @@ export class AppListsComponent implements OnInit{
   }
 
   onDeleteTransaction(transactionId: string) {
-    console.log('Deleting transaction with ID:', transactionId);
 
     this.dataSource.deleteTransaction(transactionId).subscribe(
 

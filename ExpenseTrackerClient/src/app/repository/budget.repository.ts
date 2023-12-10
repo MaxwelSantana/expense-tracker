@@ -4,6 +4,7 @@ import { RestDataSource } from '../services/rest.datasource';
 import { Categories } from '../models/categories';
 import { CategoryGroup } from '../models/category-groups';
 import { BudgetEntries } from '../models/budget-entries';
+import { Observable, Observer } from 'rxjs';
 
 @Injectable()
 export class BudgetRepository {
@@ -12,13 +13,31 @@ export class BudgetRepository {
 
   constructor(private dataSource: RestDataSource) {}
 
-  getBudget(key: string) {
-    this.dataSource.get(`budget/${key}`).subscribe((data) => {
-      this.budget = data;
-      this.budget.budgetEntries.forEach((entry) => {
-        this.updateBudgetEntriesMap(entry);
-      });      
+  getBudget(key: string): Observable<any> {
+    return new Observable((observer) => {
+      this.dataSource.get(`budget/${key}`).subscribe((data) => {
+        this.budget = data;
+        this.budgetEntriesByCategoryId = {};
+        this.budget.budgetEntries.forEach((entry) => {
+          this.updateBudgetEntriesMap(entry);
+        });
+        observer.next();
+        observer.complete();
+      });
     });
+  }
+
+  getCategoriesDataSource(): Array<any> {
+    const flattenList: any = [];
+    this.categoryGroups?.forEach((categoryGroup) => {
+      flattenList.push({ ...categoryGroup, isGroup: true });
+      flattenList.push(...categoryGroup.categories);
+    });
+    return flattenList;
+  }
+
+  getBudgetEntries(): any {
+    return this.budgetEntriesByCategoryId;
   }
 
   updateBudgetEntriesMap(entry: BudgetEntries) {
@@ -28,7 +47,6 @@ export class BudgetRepository {
   createBudgetEntry(entry: BudgetEntries) {
     return this.dataSource.post('budget/entry', entry).subscribe((data) => {
       this.updateBudgetEntriesMap(data);
-      console.log({ data });
     });
   }
 
@@ -37,30 +55,32 @@ export class BudgetRepository {
       .put(`budget/entry/${entry._id}`, entry)
       .subscribe((data) => {
         this.updateBudgetEntriesMap(data);
-        console.log({ data });
       });
   }
 
-  addCategory(entry: Categories) {    
-    return this.dataSource.post("budget/newCategory",entry).subscribe((data) =>
-    {this.addCategory(data);
-    console.log(data);})
-  };
+  addCategory(entry: Categories) {
+    return this.dataSource
+      .post('budget/newCategory', entry)
+      .subscribe((data) => {
+        this.addCategory(data);
+      });
+  }
 
   deleteCategory(entry: Categories) {
-    console.log(entry._id)
-    return this.dataSource.delete(`budget/deleteCategory/${entry._id}`).subscribe((data) =>
-    {this.deleteCategory(data);
-    console.log(data);    
-  });
-  };
+    return this.dataSource
+      .delete(`budget/deleteCategory/${entry._id}`)
+      .subscribe((data) => {
+        this.deleteCategory(data);
+      });
+  }
 
   editTarget(entry: Categories) {
-    return this.dataSource.post("budget/editTarget",entry).subscribe((data) =>
-    {this.editTarget(data);
-    console.log(data);
-  });
-  };
+    return this.dataSource
+      .post('budget/editTarget', entry)
+      .subscribe((data) => {
+        this.editTarget(data);
+      });
+  }
 
   get budgetId(): string {
     return this.budget._id;
@@ -72,9 +92,5 @@ export class BudgetRepository {
 
   get categories(): Array<Categories> {
     return this.budget?.categories;
-  }
-
-  get budgetEntries(): any {
-    return this.budgetEntriesByCategoryId;
   }
 }

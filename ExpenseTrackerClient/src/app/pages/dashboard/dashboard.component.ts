@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { fail } from 'assert';
 import {
   ApexChart,
   ChartComponent,
@@ -154,6 +155,16 @@ export class AppDashboardComponent {
     this.dataSource2.getTransactions().subscribe((t) => {
       this.transactions = t;
       console.log(this.transactions);
+      const series: number[] = [];
+      const labels: (string | undefined)[] = [];
+      this.transactions.forEach((item) => {
+        if (item.status != 'Payment') return;
+
+        series.push(item.amount);
+        labels.push(item.subcategory);
+      });
+      this.spendingsChart.series = series;
+      this.spendingsChart.labels = labels;
     });
 
     // sales overview chart
@@ -247,7 +258,7 @@ export class AppDashboardComponent {
     //Total Spendings this Month chart
     this.spendingsChart = {
       series: [38, 40, 25],
-
+      labels: [],
       chart: {
         type: 'donut',
         fontFamily: "'Plus Jakarta Sans', sans-serif;",
@@ -257,13 +268,14 @@ export class AppDashboardComponent {
         },
         height: 130,
       },
-      colors: ['#537D3D', '#ECF2FF', '#F9F9FD'],
+
+      colors: ['#537D3D', '#58BDFF', '#FF4560'],
       plotOptions: {
         pie: {
           startAngle: 0,
           endAngle: 360,
           donut: {
-            size: '75%',
+            size: '65%',
             background: 'transparent',
           },
         },
@@ -272,7 +284,7 @@ export class AppDashboardComponent {
         show: false,
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
       },
       legend: {
         show: false,
@@ -282,13 +294,13 @@ export class AppDashboardComponent {
           breakpoint: 991,
           options: {
             chart: {
-              width: 120,
+              width: 200,
             },
           },
         },
       ],
       tooltip: {
-        enabled: false,
+        enabled: true,
       },
     };
 
@@ -342,7 +354,10 @@ export class AppDashboardComponent {
 
   getTotal() {
     let total = 0;
-    this.transactions?.forEach((item) => (total += item.amount));
+    this.transactions?.forEach((item) => {
+      if (item.status != 'Payment') return;
+      total += item.amount;
+    });
     return `$${total}`;
   }
 }

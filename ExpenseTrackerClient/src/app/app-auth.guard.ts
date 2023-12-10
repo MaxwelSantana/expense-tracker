@@ -14,11 +14,6 @@ export class AuthGuard {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    console.log(
-      'canActivate',
-      'this.auth.authenticated: ',
-      this.auth.authenticated
-    );
     if (!this.auth.authenticated) {
       this.router.navigateByUrl('/login');
       return false;
