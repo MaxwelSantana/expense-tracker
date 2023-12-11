@@ -12,7 +12,7 @@ describe('TransactionsSummaryComponent', () => {
   beforeEach(async () => {
     mockDataSource = {
       getTransactions: () => of([
-        // Mock transactions here if needed for tests
+
       ])
     };
 
@@ -47,7 +47,7 @@ describe('TransactionsSummaryComponent', () => {
       }
     };
     const subtotal = component.calculateSubtotal(transaction);
-    expect(subtotal).toEqual(50); // Modify the expectation based on your calculation logic
+    expect(subtotal).toEqual(50);
   });
 
   // Test sumIncome method
@@ -83,7 +83,7 @@ describe('TransactionsSummaryComponent', () => {
     ];
 
     const sumIncome = component.sumIncome(mockTransactions);
-    expect(sumIncome).toEqual(40); // Modify the expectation based on your calculation logic
+    expect(sumIncome).toEqual(40);
   });
 
   // Test sumPayment method
@@ -119,7 +119,7 @@ describe('TransactionsSummaryComponent', () => {
     ];
 
     const sumPayment = component.sumPayment(mockTransactions);
-    expect(sumPayment).toEqual(45); // Modify the expectation based on your calculation logic
+    expect(sumPayment).toEqual(45);
   });
 
   // Test myBalance method
@@ -155,6 +155,6 @@ describe('TransactionsSummaryComponent', () => {
     ];
 
     const balance = component.myBalance(mockTransactions);
-    expect(balance).toEqual(-5); // Modify the expectation based on your calculation logic
+    expect(balance).toEqual(-5);
   });
 });
